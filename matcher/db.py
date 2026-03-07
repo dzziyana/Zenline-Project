@@ -132,9 +132,22 @@ def log_pipeline_run(conn: sqlite3.Connection, category: str, source_count: int,
 def search_products(conn: sqlite3.Connection, query: str, limit: int = 20,
                     brand: str | None = None, retailer: str | None = None,
                     source_only: bool = False) -> list[dict]:
-    """Full-text search across product names, brands, and EANs."""
-    sql = "SELECT * FROM products WHERE (name LIKE ? OR ean LIKE ? OR brand LIKE ?)"
-    params: list = [f"%{query}%", f"%{query}%", f"%{query}%"]
+    """Full-text search across product names, brands, and EANs.
+
+    Splits multi-word queries into terms and requires each term to match
+    somewhere in name, ean, or brand.
+    """
+    terms = query.strip().split()
+    if not terms:
+        return []
+
+    clauses = []
+    params: list = []
+    for term in terms:
+        clauses.append("(name LIKE ? OR ean LIKE ? OR brand LIKE ?)")
+        params.extend([f"%{term}%", f"%{term}%", f"%{term}%"])
+
+    sql = "SELECT * FROM products WHERE " + " AND ".join(clauses)
 
     if brand:
         sql += " AND brand LIKE ?"
