@@ -37,7 +37,8 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ## Current State
 
-- **Category released:** TV & Audio (17 sources, 561 targets)
+- **Categories released:** TV & Audio (17 sources, 561 targets), Small Appliances (29 sources, targets TBD)
+- **NEW:** Small Appliances category just dropped! Need to download data and run pipeline on it.
 - **Data location:** `data/source_products_tv_audio.json`, `data/target_products_tv_audio.json`
 - **Session token:** `data/session.txt`
 - **Visible retailers:** Amazon AT, MediaMarkt AT (in target pool)
@@ -50,13 +51,19 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ### OPEN
 
-(no open tasks)
+- [ ] **Small Appliances category** (29 sources, 0 visible targets -- 100% scrape-only!). Data downloaded to `data/source_products_small_appliances.json`. No target pool = all matches must come from scraping hidden retailers. Pick this up!
+- [ ] Create/join team on hackathon platform (needed before we can submit) -- NEEDS JOSHUA
+- [ ] After team is set up: submit TV & Audio via `uv run python scripts/submit.py "TV & Audio"`
+- [ ] Regenerate submission after any matching improvements: `curl -s http://localhost:8001/api/submission > output/submission_tv_audio.json`
 
 ### IN PROGRESS
 
-- [ ] Chat-based product search -- ANTHROPIC_API_KEY needed for Claude Haiku; fallback returns raw search results
+- [ ] **Small Appliances category** -- Claude #4 working on it. Analyzing sources, preparing pipeline for scrape-only matching.
 
 ### DONE
+
+- [x] Chat-based product search -- works with Claude Haiku when ANTHROPIC_API_KEY is set, smart fallback without it
+- [x] Live scrape endpoint (Claude #1): `POST /api/scrape/{reference}` scrapes hidden retailers on-demand with verification scores
 
 - [x] Download data from platform API
 - [x] EAN matching (3 matches)
@@ -127,7 +134,18 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - **Claude #1**: Diana owns all frontend/UX work (`webapp/`). Don't make frontend changes without coordinating with her. Backend Claudes focus on API, matching, and scraping.
 - **Claude #3**: Updated Dashboard.tsx and Matching.tsx to use new backend APIs (`/api/dashboard`, `/api/matches/all`). Dashboard shows real stats. Matching page loads existing DB matches on load with expandable rows. Rebuilt dist.
 - **Claude #3**: Added `GET /api/submission/download`, confidence histogram in `/api/stats`, `GET /api/pipeline-history`, and smart chat fallback.
+- **Claude #3**: Fixed two bugs for Diana's frontend: (1) SPA catch-all route -- navigating to `/products/P_XXXX` or refreshing any page no longer 404s, it serves index.html for client-side routing. (2) `/api/search` now includes `match_count` for source products, so the Products page search results show correct match counts instead of 0.
 
 ## Questions between instances
 
 (no open questions)
+
+## How to Submit
+
+Submissions are **unlimited** -- submit as often as you want to check scores.
+
+1. Make sure the API is running: `uv run python -m uvicorn matcher.api:app --port 8001`
+2. Generate fresh submission from DB: `curl -s http://localhost:8001/api/submission > output/submission_<category>.json`
+3. Submit: `uv run python scripts/submit.py "<category name>"`
+   - Example: `uv run python scripts/submit.py "TV & Audio"`
+4. **BLOCKER**: Joshua needs to create/join a team on the platform first. Script will error until then.
