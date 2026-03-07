@@ -45,8 +45,33 @@ export default function Matching() {
   const { t } = useI18n();
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [useLlm, setUseLlm] = useState(false);
   const [threshold, setThreshold] = useState(75);
+
+  const ALL_STRATEGIES = [
+    { id: "ean", implemented: true },
+    { id: "model_number", implemented: true },
+    { id: "model_series", implemented: true },
+    { id: "product_line", implemented: true },
+    { id: "product_type", implemented: true },
+    { id: "screen_size", implemented: true },
+    { id: "fuzzy", implemented: true },
+    { id: "scrape", implemented: true },
+    { id: "embedding", implemented: false },
+    { id: "vision", implemented: false },
+    { id: "llm", implemented: false },
+  ] as const;
+  const [enabledStrategies, setEnabledStrategies] = useState<Set<string>>(
+    () => new Set(ALL_STRATEGIES.filter((s) => s.implemented).map((s) => s.id)),
+  );
+
+  const toggleStrategy = (id: string) => {
+    setEnabledStrategies((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<MatchResult | null>(null);
   const [existing, setExisting] = useState<ExistingMatch[] | null>(null);
@@ -100,7 +125,13 @@ export default function Matching() {
     setLoading(true);
     setResult(null);
     try {
-      const res = await runMatching(selectedCategory, useLlm, threshold);
+      const activeStrategies = Array.from(enabledStrategies);
+      const res = await runMatching(
+        selectedCategory,
+        false,
+        threshold,
+        activeStrategies,
+      );
       setResult(res);
       await refreshMatches();
     } catch {
@@ -226,7 +257,10 @@ export default function Matching() {
         {tab === "run" && (
           <>
             <div className="card" style={{ marginBottom: "24px" }}>
-              <div className="toolbar" style={{ marginBottom: 0 }}>
+              <div
+                className="toolbar"
+                style={{ marginBottom: 0, flexWrap: "wrap", gap: "12px" }}
+              >
                 <select
                   className="select-field"
                   value={selectedCategory}
@@ -254,17 +288,6 @@ export default function Matching() {
                   <span className="range-value">{threshold}%</span>
                 </div>
 
-                <div className="divider" />
-
-                <label className="checkbox-group">
-                  <input
-                    type="checkbox"
-                    checked={useLlm}
-                    onChange={(e) => setUseLlm(e.target.checked)}
-                  />
-                  {t("matching.llm_fallback")}
-                </label>
-
                 <div style={{ flex: 1 }} />
 
                 <button
@@ -275,6 +298,81 @@ export default function Matching() {
                   {loading && <span className="spinner" />}
                   {loading ? t("matching.running") : t("matching.run_btn")}
                 </button>
+              </div>
+
+              <div style={{ marginTop: "16px" }}>
+                <div
+                  style={{
+                    fontSize: "0.78rem",
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                    color: "var(--stone-500)",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {t("matching.strategies")}
+                  <span
+                    style={{
+                      fontWeight: 400,
+                      marginLeft: "8px",
+                      textTransform: "none",
+                      letterSpacing: "0",
+                    }}
+                  >
+                    {enabledStrategies.size}/
+                    {ALL_STRATEGIES.filter((s) => s.implemented).length} active
+                  </span>
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                  {ALL_STRATEGIES.map((s) => {
+                    const active = enabledStrategies.has(s.id);
+                    const comingSoon = !s.implemented;
+                    return (
+                      <button
+                        key={s.id}
+                        onClick={() => !comingSoon && toggleStrategy(s.id)}
+                        style={{
+                          padding: "5px 12px",
+                          fontSize: "0.8rem",
+                          fontWeight: 500,
+                          borderRadius: "var(--radius-sm)",
+                          border: comingSoon
+                            ? "1px dashed var(--cream-400)"
+                            : active
+                              ? "1px solid var(--accent)"
+                              : "1px solid var(--cream-300)",
+                          background: comingSoon
+                            ? "transparent"
+                            : active
+                              ? "var(--accent)"
+                              : "var(--cream-100)",
+                          color: comingSoon
+                            ? "var(--stone-400)"
+                            : active
+                              ? "#fff"
+                              : "var(--stone-600)",
+                          cursor: comingSoon ? "default" : "pointer",
+                          opacity: comingSoon ? 0.6 : 1,
+                          transition: "all 0.15s ease",
+                        }}
+                      >
+                        {t(`matching.strategy.${s.id}`)}
+                        {comingSoon && (
+                          <span
+                            style={{
+                              fontSize: "0.68rem",
+                              marginLeft: "4px",
+                              fontStyle: "italic",
+                            }}
+                          >
+                            ({t("matching.coming_soon")})
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 

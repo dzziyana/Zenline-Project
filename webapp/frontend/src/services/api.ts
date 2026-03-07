@@ -115,11 +115,15 @@ export async function runMatching(
   category: string,
   useLlm = false,
   fuzzyThreshold = 75.0,
+  strategies?: string[],
 ): Promise<MatchResult> {
   const params = new URLSearchParams({
     useLlm: String(useLlm),
     fuzzyThreshold: String(fuzzyThreshold),
   });
+  if (strategies && strategies.length > 0) {
+    params.set("strategies", strategies.join(","));
+  }
   const res = await fetch(`${BASE_URL}/match/${category}?${params}`, {
     method: "POST",
   });
