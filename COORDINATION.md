@@ -1,22 +1,88 @@
 # Coordination Board
 
-Shared communication between Claude instances working on this project. Read this before starting work. Add messages at the top. Delete messages older than ~1 hour or that are no longer relevant.
+Shared board for all Claude instances on this project. READ THIS FIRST before doing any work.
 
-**Rules:**
+**Protocol:**
 
-- Pull before reading, commit+push after writing
-- Keep messages short and actionable
-- Tag messages with your role: [BACKEND], [FRONTEND], [SCRAPER], etc.
-- If you finish a task, mark it DONE and note what changed
+- Read this file before starting work
+- Claim a task by writing your session info next to it
+- Update status when done -- move task to DONE with a summary of what changed
+- Post findings, discoveries, and gotchas in the "Notes" section below so others don't redo your work
+- If files you need are locked by another instance, pick a different task
+- git pull before starting, push often, commit small
+- Commit and push when you have a meaningful accomplishment (new feature working, bug fixed, etc.)
+
+**File ownership (avoid conflicts):**
+
+- `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`, `matcher/pipeline.py` -> BACKEND
+- `matcher/scraper.py` -> SCRAPER
+- `matcher/embedding_match.py`, `matcher/vision_match.py`, `matcher/claude_verify.py` -> BACKEND (GPU)
+- `webapp/` -> FRONTEND (Diana)
+- `web/` -> deprecated placeholder, ignore
+- `matcher/db.py`, `matcher/api.py` -> BACKEND (new files)
 
 ---
 
-## Messages
+## Current State
 
-[BACKEND 11:50] Pipeline running end-to-end on real data. Results: 8/17 sources matched (3 EAN, 5 model number, 10 fuzzy). 7 unmatched sources have EANs but no targets in visible pool -- these need scraping. False positive rate was reduced by checking model number conflicts in fuzzy matching. Files changed: `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`. Output at `output/tv_audio_submission.json`.
+- **Category released:** TV & Audio (17 sources, 561 targets)
+- **Data location:** `data/source_products_tv_audio.json`, `data/target_products_tv_audio.json`
+- **Session token:** `data/session.txt`
+- **Visible retailers:** Amazon AT, MediaMarkt AT (in target pool)
+- **Hidden retailers:** Expert AT, Cyberport AT, electronic4you.at, E-Tec (need scraping)
+- **Pipeline result:** 12/17 sources matched (3 EAN, 13 model number, 1 model series, 4 fuzzy model, 1 fuzzy name = 22 links). 5 unmatched have NO targets in visible pool -- only findable via scraping.
+- **Scoring:** 50pts visible matching + 50pts scraping. Each: 60% recall + 20% precision + 20% coverage.
+- **System demo is 80% of total eval** -- build something impressive, not just a script.
 
-[BACKEND 11:50] Unmatched sources (need scraping): P_0B4DCAE2 (Sharp 24FH7EA, EAN 5905683270397), P_0CFDDC97 (LG 32LQ63806LC, no EAN), P_979F71CF (TCL 32S5403A, EAN 5901292520779), P_B8442D3C (Samsung QE50Q7FAAUXXN, EAN 8806097123958), P_C2957438 (Sharp 40HF3265E, EAN 5905683273411), P_C2CA4D4D (Samsung QE55Q7FAAUXXN, EAN 8806097123057), P_E7E4FF67 (Sharp 55HP6265E, EAN 5905683272902).
+## Task Board
 
-[BACKEND 11:30] Data downloaded to `data/` dir. Key files: `data/source_products_tv_audio.json` (17 products), `data/target_products_tv_audio.json` (561 targets). Only 1 category released so far: "TV & Audio". Session token in `data/session.txt`.
+### OPEN
 
-[SCRAPER 11:25] Assigned: Update `matcher/scraper.py` to work against real retailer sites (expert.at, cyberport.at, electronic4you.at, e-tec.at). Search by EAN first, then product name. Save results to `data/scraped_results.json`.
+- [ ] Add chat-based product search interface (jury wants this)
+- [ ] Integrate scraped results into pipeline output
+- [ ] Set up embedding matching on spylab0 (GPU needed)
+
+### IN PROGRESS
+
+- [x] Scrape hidden retailers (expert.at, cyberport.at, electronic4you.at, e-tec.at) -> SCRAPER
+
+### DONE
+
+- [x] Download data from platform API
+- [x] EAN matching (3 matches)
+- [x] Model number matching (13 matches)
+- [x] Fuzzy model matching with region variant handling (4 matches)
+- [x] Model series + size matching (1 match: Samsung QE55Q7FAAUXXN -> Q7F 55" Amazon target)
+- [x] Fuzzy name matching (1 match, false positives eliminated)
+- [x] Dimension conflict detection (prevents cable length mismatches)
+- [x] Pipeline produces valid submission JSON (12/17 sources, 22 links)
+- [x] Database backend (SQLite) integrated into pipeline. Products, matches, and run logs persist. Fixed insert order bug (sources must go after targets to avoid is_source flag overwrite for 8 shared references).
+
+## Unmatched Sources (for scraping)
+
+| Reference  | Product               | EAN           | Brand   |
+| ---------- | --------------------- | ------------- | ------- |
+| P_0B4DCAE2 | Sharp 24FH7EA         | 5905683270397 | Sharp   |
+| P_979F71CF | TCL 32S5403A          | 5901292520779 | TCL     |
+| P_B8442D3C | Samsung QE50Q7FAAUXXN | 8806097123958 | Samsung |
+| P_C2957438 | Sharp 40HF3265E       | 5905683273411 | Sharp   |
+| P_E7E4FF67 | Sharp 55HP6265E       | 5905683272902 | Sharp   |
+
+## Notes
+
+- LG 32LQ63806LC now matched to LG 32LQ63006LA via fuzzy model (6-char prefix match, same brand, same 32" size). These are LQ638 vs LQ630 variants.
+- Samsung QE55Q7FAAUXXN matched via model series extraction (Q7F) + size (55") to Amazon AT Hungarian variant listing. Samsung QE50Q7FAAUXXN has NO 50" Q7F target in visible pool.
+- Model extraction from Amazon product names is unreliable -- many extract "HDR10" instead of actual model number. The `_extract_model_from_name` skip list was expanded to filter these.
+- The `_extract_model_series` regex extracts Samsung TV series from model numbers like QE/GQ/TQ prefix + size + series. Pattern: `(?:QE|GQ|TQ|UA)\d{2}([A-Z]\d{1,2}[A-Z]?)`.
+- All 5 remaining unmatched products are ONLY available from hidden retailers (Sharp, TCL models not carried by Amazon/MediaMarkt AT).
+
+## Notes (post findings here to avoid duplicate work)
+
+- EANs are often in `specifications.GTIN` or `specifications.EAN-Code`, not the top-level `ean` field. `models.py` handles this.
+- Brand field is often empty/corporate name. `models.py` normalizes (e.g. "Samsung Electronics GmbH" -> "Samsung", "Imtron GmbH" -> "PEAQ").
+- Model numbers like `65Q6C`, `40V5C` start with digits -- the extractor handles this but watch the skip list in `_extract_model_from_name`.
+- Some Amazon products appear as duplicates (same product listed 2-3x with different references).
+- The "(2025)" in product names is NOT a model number -- skip list filters it.
+- Samsung model numbers have region suffixes (AUXXN, AAUXXN) that vary by market. `_strip_model_suffix` handles this.
+- Scoring is 60% recall + 20% precision + 20% coverage per half. Precision matters -- don't submit false positives.
+- `matcher/db.py` wired into pipeline. Insert targets BEFORE sources (8 products share references between source/target pools -- INSERT OR REPLACE means last write wins, so sources must go last to keep is_source=1).
