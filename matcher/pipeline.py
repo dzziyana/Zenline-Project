@@ -11,7 +11,7 @@ from rich.table import Table
 
 from .db import get_connection, init_db, insert_matches, insert_products, insert_scrape_results, log_pipeline_run
 from .ean_match import match_by_ean
-from .fuzzy_match import match_by_fuzzy_model, match_by_fuzzy_name, match_by_model_number, match_by_model_series, match_by_product_line, match_by_screen_size, verify_scraped_match
+from .fuzzy_match import match_by_fuzzy_model, match_by_fuzzy_name, match_by_model_number, match_by_model_series, match_by_product_line, match_by_product_type, match_by_screen_size, verify_scraped_match
 from .models import Match, Product, SubmissionEntry
 from .scraper import scrape_all, results_to_matches
 
@@ -95,16 +95,23 @@ def run_matching(
         sources = [s for s in sources if s.brand and s.brand.lower() == brand_filter.lower()]
         console.print(f"[dim]Brand filter: {brand_filter} ({len(sources)} sources)[/]")
 
-    enabled = strategies or {"ean", "model_number", "model_series", "product_line", "fuzzy_model", "fuzzy", "screen_size", "scrape", "embedding", "vision", "llm"}
+    enabled = strategies or {"ean", "model_number", "model_series", "product_line", "product_type", "fuzzy_model", "fuzzy", "screen_size", "scrape", "embedding", "vision", "llm"}
     if strategies:
         console.print(f"[dim]Strategies: {', '.join(sorted(enabled))}[/]")
 
     # Load valid target refs if available (discovered via platform testing)
     valid_target_refs: set[str] | None = None
-    valid_refs_path = Path(__file__).parent.parent / "data" / "valid_target_refs.json"
-    if valid_refs_path.exists():
-        with open(valid_refs_path) as f:
-            valid_target_refs = set(json.load(f))
+    data_dir = Path(__file__).parent.parent / "data"
+    for refs_filename in ["valid_target_refs.json", "valid_target_refs_small_appliances.json", "valid_target_refs_large_appliances.json"]:
+        refs_path = data_dir / refs_filename
+        if refs_path.exists():
+            with open(refs_path) as f:
+                refs = set(json.load(f))
+            if valid_target_refs is None:
+                valid_target_refs = refs
+            else:
+                valid_target_refs |= refs
+    if valid_target_refs:
         console.print(f"[dim]Loaded {len(valid_target_refs)} valid target refs[/]")
 
     all_matches: list[Match] = []
@@ -146,6 +153,14 @@ def run_matching(
         size_matches = match_by_screen_size(sources, targets, valid_target_refs=valid_target_refs, already_matched=already)
         console.print(f"  Found {len(size_matches)} screen size matches")
         all_matches.extend(size_matches)
+
+    # Stage 3d: Product type matching (appliances)
+    if "product_type" in enabled:
+        console.print("[bold cyan]Stage 3d:[/] Product type matching...")
+        already = {(m.source_reference, m.target_reference) for m in all_matches}
+        type_matches = match_by_product_type(sources, targets, already_matched=already)
+        console.print(f"  Found {len(type_matches)} product type matches")
+        all_matches.extend(type_matches)
 
     # Stage 4: Fuzzy model matching
     if "fuzzy" in enabled or "fuzzy_model" in enabled:

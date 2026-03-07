@@ -777,3 +777,154 @@ def verify_scraped_match(source: Product, scraped_name: str) -> float:
             score = min(score, 0.55)
 
     return min(score, 1.0)
+
+
+# Product type taxonomy for category-based matching.
+# Order matters: more specific types MUST come before generic ones.
+PRODUCT_TYPES: dict[str, list[str]] = {
+    # --- Small Appliances ---
+    "vacuum_wet_dry": ["nass-trockensauger", "nass trockensauger", "nass- und trockensauger",
+                       "nass-/trockensauger", "nass- und trockenstaubsauger",
+                       "wischsauger", "saugwischer", "nass trocken"],
+    "vacuum_cordless": ["akku staubsauger", "akku-staubsauger", "akkustaubsauger",
+                        "kabelloser staubsauger", "kabellos staubsauger",
+                        "cordless vacuum"],
+    "vacuum_bagged": ["staubsauger mit beutel", "bodenstaubsauger mit beutel"],
+    "vacuum_bagless": ["staubsauger ohne beutel", "beutellos", "beutelloser",
+                       "zyklon", "cyclone", "bagless"],
+    "vacuum_robot": ["saugroboter", "robot vacuum", "roborock s", "roomba"],
+    "vacuum_generic": ["staubsauger", "vacuum cleaner", "sauger"],
+    "meat_grinder": ["fleischwolf", "meat grinder"],
+    "sandwich_grill": ["sandwichmaker", "sandwich maker", "sandwichtoaster",
+                       "sandwich-toaster", "kontaktgrill", "waffeleisen und sandwichmaker",
+                       "3-in-1", "3 in 1"],
+    "toaster": ["toaster", "2-schlitz", "doppelschlitz", "2 scheiben", "langschlitz"],
+    "hand_mixer": ["handmixer", "handrührer", "handruehrer", "hand mixer"],
+    "stand_mixer": ["standmixer", "stand mixer", "smoothie maker", "blender"],
+    "stick_mixer": ["stabmixer", "pürierstab", "puerierstab", "immersion blender"],
+    "mixer_generic": ["mixer", "rührgerät"],
+    "heating_blanket": ["heizdecke", "heating blanket", "electric blanket",
+                        "wärmedecke", "waermedecke"],
+    "heating_pad": ["heizkissen", "heating pad", "wärmekissen", "waermekissen"],
+    "egg_cooker": ["eierkocher", "egg cooker", "egg boiler"],
+    "kettle": ["wasserkocher", "water kettle", "electric kettle"],
+    "iron": ["dampfbügeleisen", "bügeleisen", "buegeleisen", "steam iron",
+             "dampfbügelstation", "bügelstation"],
+    "coffee_machine": ["kaffeemaschine", "kaffeevollautomat", "espressomaschine",
+                       "coffee machine", "coffee maker"],
+    "food_processor": ["küchenmaschine", "kuechenmaschine", "food processor",
+                       "kompakt-küchenmaschine"],
+    # --- Large Appliances (accessories BEFORE main appliances to avoid false classification) ---
+    # Accessories and small parts first
+    "glass_scraper": ["glasschaber", "glass scraper", "ceranfeldschaber",
+                      "kochfeld reiniger", "kochfeldreiniger", "herdplattenreinig"],
+    "drain_hose": ["ablaufschlauch", "drain hose", "waschmaschinenschlauch"],
+    "aquastop_hose": ["aquastop verlängerungsschlauch", "aquastop-schlauch",
+                      "zulaufschlauch"],
+    "stacking_kit": ["zwischenbaurahmen", "stacking kit", "verbindungsrahmen"],
+    "thermometer": ["bratenthermometer", "kühlschrankthermometer",
+                    "gefrierschrankthermometer", "kühl-/gefrierschrankther"],
+    "range_hood_filter": ["dunstabzug", "aktivkohlefilter", "fettfilter",
+                          "range hood filter", "dunstfilter", "filter-set universal"],
+    "washing_accessory": ["waschbälle", "waschbaelle", "trocknerbälle",
+                          "trocknerbaelle", "dryer balls",
+                          "waschmaschinen komplett-pflege", "waschmaschinen pflege"],
+    "plumbing_fitting": ["winkelstück", "winkelstueck", "siphon", "kondensatablauf"],
+    # Herd set before cooktops (contains "kochfeld" in name)
+    "herd_set": ["herdset", "herd-set", "einbau-herdset", "backofen set",
+                 "einbauherd", "einbau-herd"],
+    # Microwaves (grill variant before generic)
+    "microwave_grill": ["mikrowelle mit grill", "microwave with grill",
+                        "mikrowelle grill", "mit grill und heißluft",
+                        "mit grill & heißluft", "mit grill und heissluft",
+                        "2 in 1 mikrowelle", "4 in 1 mikrowelle",
+                        "grill und heißluftfritteuse"],
+    "microwave": ["mikrowelle", "microwave"],
+    # Air fryer AFTER microwave (some microwaves have "Heißluftfritteusenfunktion")
+    "air_fryer": ["heissluftfritteuse", "heißluftfritteuse", "airfryer", "air fryer",
+                  "fritteuse", "friteuse", "easy fry", "dual easy"],
+    # Washing machines (toplader before generic)
+    "washing_machine_toplader": ["toplader waschmaschine", "toplader", "top loader",
+                                  "top-loader"],
+    "washing_machine": ["waschmaschine", "washing machine", "frontlader"],
+    "tumble_dryer": ["wärmepumpentrockner", "waermepumpentrockner", "trockner",
+                     "tumble dryer", "dryer"],
+    "dishwasher": ["geschirrspüler", "geschirrspueler", "dishwasher",
+                   "spülmaschine", "spuelmaschine"],
+    "fridge_freezer": ["kühl- gefrierkombination", "kuehl- gefrierkombination",
+                       "kühl-gefrierkombination", "kuehl-gefrierkombination",
+                       "kühlgefrierkombination",
+                       "fridge freezer", "combi fridge"],
+    "freezer": ["gefrierschrank", "stand-gefrierschrank", "gefriertruhe", "freezer"],
+    "fridge": ["kühlschrank", "kuehlschrank", "glastürkühlschrank",
+               "glastuerkuehlschrank", "fridge", "refrigerator"],
+    # Cooktops (induction before ceramic before electric)
+    "cooktop_induction": ["induktionskochfeld", "induktionskochplatte",
+                          "induktionsdoppelkochplatte", "induction cooktop",
+                          "induktion"],
+    "cooktop_ceramic": ["glaskeramik-kochfeld", "glaskeramikkochfeld",
+                        "ceranfeld", "ceramic cooktop", "glaskeramik kochfeld",
+                        "glaskeramik"],
+    "cooktop_electric": ["kochplatte", "einzelkochplatte", "doppelkochplatte",
+                         "elektrokochzone", "hot plate", "massekochfeld"],
+}
+
+
+def _classify_product_type(name: str) -> str | None:
+    """Classify a product into a type based on keyword matching."""
+    nl = name.lower()
+    for ptype, keywords in PRODUCT_TYPES.items():
+        for kw in keywords:
+            if kw in nl:
+                # "ohne Induktion" means NOT induction
+                if ptype == "cooktop_induction" and "ohne induktion" in nl:
+                    continue
+                return ptype
+    return None
+
+
+def match_by_product_type(
+    sources: list[Product],
+    targets: list[Product],
+    valid_target_refs: set[str] | None = None,
+    already_matched: set[tuple[str, str]] | None = None,
+) -> list[Match]:
+    """Match products that share the same product type classification.
+
+    Used for categories like Small Appliances and Large Appliances where
+    the ground truth considers all products of the same sub-type as matches.
+    """
+    already_matched = already_matched or set()
+    matches = []
+
+    # Build index: product_type -> [targets]
+    type_index: dict[str, list[Product]] = {}
+    for t in targets:
+        if valid_target_refs and t.reference not in valid_target_refs:
+            continue
+        ptype = _classify_product_type(t.name)
+        if ptype:
+            type_index.setdefault(ptype, []).append(t)
+
+    for source in sources:
+        src_type = _classify_product_type(source.name)
+        if not src_type:
+            continue
+
+        for target in type_index.get(src_type, []):
+            if source.reference == target.reference:
+                continue
+            if (source.reference, target.reference) in already_matched:
+                continue
+            matches.append(Match(
+                source_reference=source.reference,
+                target_reference=target.reference,
+                target_name=target.name,
+                target_retailer=target.retailer or "",
+                target_url=target.url or "",
+                target_price=target.price_eur,
+                confidence=0.80,
+                method="product_type",
+            ))
+
+    return matches
