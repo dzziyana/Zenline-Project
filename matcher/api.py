@@ -375,6 +375,25 @@ def matches_by_brand(brand: str):
         conn.close()
 
 
+@app.get("/api/scrape-results")
+def get_scrape_results(source_reference: str | None = Query(None)):
+    """View raw scrape results, optionally filtered by source."""
+    conn = _get_db()
+    try:
+        if source_reference:
+            rows = conn.execute(
+                "SELECT * FROM scrape_results WHERE source_reference = ? ORDER BY created_at DESC",
+                (source_reference,)
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT * FROM scrape_results ORDER BY created_at DESC LIMIT 100"
+            ).fetchall()
+        return {"results": [dict(r) for r in rows], "total": len(rows)}
+    finally:
+        conn.close()
+
+
 _CHAT_HTML = """<!DOCTYPE html>
 <html lang="en">
 <head>

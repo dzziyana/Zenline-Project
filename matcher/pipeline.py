@@ -9,11 +9,11 @@ from pathlib import Path
 from rich.console import Console
 from rich.table import Table
 
-from .db import get_connection, init_db, insert_matches, insert_products, log_pipeline_run
+from .db import get_connection, init_db, insert_matches, insert_products, insert_scrape_results, log_pipeline_run
 from .ean_match import match_by_ean
-from .fuzzy_match import match_by_fuzzy_model, match_by_fuzzy_name, match_by_model_number, match_by_model_series
+from .fuzzy_match import match_by_fuzzy_model, match_by_fuzzy_name, match_by_model_number, match_by_model_series, verify_scraped_match
 from .models import Match, Product, SubmissionEntry
-from .scraper import scrape_all
+from .scraper import scrape_all, results_to_matches
 
 console = Console()
 
@@ -115,12 +115,34 @@ def run_matching(
     console.print(f"  Found {len(fuzzy_matches)} fuzzy matches")
     all_matches.extend(fuzzy_matches)
 
-    # Stage 6: Web scraping
+    # Stage 6: Web scraping with verification
     if do_scrape:
         console.print("[bold cyan]Stage 6:[/] Scraping hidden retailers...")
-        scrape_matches = asyncio.run(scrape_all(sources))
-        console.print(f"  Found {len(scrape_matches)} scraped matches")
-        all_matches.extend(scrape_matches)
+        source_by_ref = {s.reference: s for s in sources}
+        scrape_results = scrape_all(sources)
+        scrape_matches = results_to_matches(scrape_results)
+
+        # Verify scraped matches and update confidence
+        verified = []
+        for m in scrape_matches:
+            src = source_by_ref.get(m.source_reference)
+            if src:
+                score = verify_scraped_match(src, m.target_name)
+                if score >= 0.5:
+                    m.confidence = score
+                    verified.append(m)
+
+        console.print(f"  Found {len(scrape_matches)} scraped, {len(verified)} verified (>= 0.5)")
+        all_matches.extend(verified)
+
+        # Store raw scrape results in DB for auditing
+        try:
+            conn = get_connection()
+            init_db(conn)
+            insert_scrape_results(conn, scrape_results)
+            conn.close()
+        except Exception:
+            pass
 
     # Deduplicate
     all_matches = dedupe_matches(all_matches)
