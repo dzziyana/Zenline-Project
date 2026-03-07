@@ -9,7 +9,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from fastapi import FastAPI, File, Query, UploadFile
+import os
+
+from fastapi import Depends, FastAPI, File, Header, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
@@ -33,6 +35,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+API_KEY = os.environ.get("MATCHER_API_KEY")
+
+
+def _check_auth(x_api_key: str | None = Header(None)):
+    """Optional API key auth. If MATCHER_API_KEY is set, all write endpoints require it."""
+    if API_KEY and x_api_key != API_KEY:
+        raise HTTPException(status_code=401, detail="Invalid or missing API key")
 
 
 def _get_db():
@@ -243,12 +254,12 @@ def get_submission():
         conn.close()
 
 
-@app.post("/api/run")
+@app.post("/api/run", dependencies=[Depends(_check_auth)])
 def run_pipeline_endpoint(
     category: str = Query("TV & Audio"),
     scrape: bool = Query(False),
 ):
-    """Trigger a pipeline run."""
+    """Trigger a pipeline run. Requires API key if MATCHER_API_KEY is set."""
     from .pipeline import load_products, run_matching, dedupe_matches
     from .db import insert_products, insert_matches, log_pipeline_run
 
@@ -369,13 +380,13 @@ def chat(req: ChatRequest):
     return {"reply": reply, "search_results": search_context}
 
 
-@app.post("/api/upload")
+@app.post("/api/upload", dependencies=[Depends(_check_auth)])
 async def upload_data(
     sources: UploadFile = File(...),
     targets: UploadFile = File(...),
     category: str = Query("uploaded"),
 ):
-    """Upload new source and target JSON files and run the pipeline."""
+    """Upload new source/target JSON and run pipeline. Requires API key if MATCHER_API_KEY is set."""
     from .pipeline import load_products, run_matching
     from .db import insert_products, insert_matches, log_pipeline_run
     from .models import Product
