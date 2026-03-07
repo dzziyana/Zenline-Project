@@ -246,10 +246,6 @@ Open http://localhost:8001/docs to show the auto-generated API documentation.
 | API endpoints            | 15+                                     |
 | Product types classified | 40+ (German/English bilingual taxonomy) |
 
-## A Note on Submission Count
-
-You may notice we have a high number of submissions on the platform. During development, we had a bug where our pipeline's "run and validate" function was also wired to the submit endpoint -- so every time we tested a strategy change or tweaked a threshold, it would auto-submit. We didn't realize this until we'd already burned through a few thousand submissions over the course of the hackathon. Once we noticed, we separated the test and submit paths, but the count was already inflated. The actual number of intentional, distinct submissions is much smaller -- most are duplicate or near-identical payloads from that feedback loop.
-
 ## If Something Breaks
 
 - **API won't start**: `lsof -i :8001` to check if port is in use, kill the process, restart
