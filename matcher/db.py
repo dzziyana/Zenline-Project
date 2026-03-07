@@ -217,6 +217,17 @@ def get_stats(conn: sqlite3.Connection) -> dict:
         "SELECT DISTINCT retailer FROM products WHERE retailer IS NOT NULL ORDER BY retailer"
     ).fetchall()
 
+    # Confidence histogram (10 buckets: 0-10%, 10-20%, ..., 90-100%)
+    hist_rows = conn.execute("""
+        SELECT CAST(confidence * 10 AS INTEGER) as bucket, COUNT(*) as cnt
+        FROM matches GROUP BY bucket ORDER BY bucket
+    """).fetchall()
+    histogram = {i: 0 for i in range(11)}
+    for r in hist_rows:
+        bucket = min(r["bucket"], 10)
+        histogram[bucket] = r["cnt"]
+    confidence_histogram = [histogram[i] for i in range(11)]
+
     return {
         "source_count": source_count,
         "target_count": target_count,
@@ -224,6 +235,7 @@ def get_stats(conn: sqlite3.Connection) -> dict:
         "sources_matched": sources_matched,
         "methods": {r["method"]: r["cnt"] for r in methods},
         "retailers": [r["retailer"] for r in retailers],
+        "confidence_histogram": confidence_histogram,
     }
 
 

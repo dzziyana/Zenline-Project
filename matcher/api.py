@@ -774,6 +774,24 @@ def get_all_matches():
         conn.close()
 
 
+@app.get("/api/pipeline-history")
+def pipeline_history():
+    """Return history of pipeline runs."""
+    conn = _get_db()
+    try:
+        rows = conn.execute(
+            "SELECT * FROM pipeline_runs ORDER BY created_at DESC LIMIT 20"
+        ).fetchall()
+        runs = []
+        for r in rows:
+            run = dict(r)
+            run["methods"] = json.loads(run.get("methods", "{}"))
+            runs.append(run)
+        return {"runs": runs, "total": len(runs)}
+    finally:
+        conn.close()
+
+
 @app.get("/api/scrape-results")
 def get_scrape_results(source_reference: str | None = Query(None)):
     """View raw scrape results, optionally filtered by source."""
