@@ -2,5 +2,7 @@ __pycache__/
 *.pyc
 .env
 data/
+!data/source_products_*.json
+!data/target_products_*.json
 *.db
 .venv/
