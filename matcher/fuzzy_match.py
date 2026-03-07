@@ -833,40 +833,36 @@ PRODUCT_TYPES: dict[str, list[str]] = {
     # Herd set before cooktops (contains "kochfeld" in name)
     "herd_set": ["herdset", "herd-set", "einbau-herdset", "backofen set",
                  "einbauherd", "einbau-herd"],
-    # Microwaves (grill variant before generic)
-    "microwave_grill": ["mikrowelle mit grill", "microwave with grill",
-                        "mikrowelle grill", "mit grill und heißluft",
-                        "mit grill & heißluft", "mit grill und heissluft",
-                        "2 in 1 mikrowelle", "4 in 1 mikrowelle",
-                        "grill und heißluftfritteuse"],
+    # Microwaves -- all merged (GT doesn't distinguish grill vs plain)
     "microwave": ["mikrowelle", "microwave"],
     # Air fryer AFTER microwave (some microwaves have "Heißluftfritteusenfunktion")
     "air_fryer": ["heissluftfritteuse", "heißluftfritteuse", "airfryer", "air fryer",
                   "fritteuse", "friteuse", "easy fry", "dual easy"],
-    # Washing machines (toplader before generic)
-    "washing_machine_toplader": ["toplader waschmaschine", "toplader", "top loader",
-                                  "top-loader"],
-    "washing_machine": ["waschmaschine", "washing machine", "frontlader"],
+    # Washing machines -- all merged (GT doesn't distinguish toplader vs frontlader)
+    "washing_machine": ["waschmaschine", "washing machine", "frontlader",
+                        "toplader", "top loader", "top-loader"],
     "tumble_dryer": ["wärmepumpentrockner", "waermepumpentrockner", "trockner",
                      "tumble dryer", "dryer"],
     "dishwasher": ["geschirrspüler", "geschirrspueler", "dishwasher",
                    "spülmaschine", "spuelmaschine"],
-    "fridge_freezer": ["kühl- gefrierkombination", "kuehl- gefrierkombination",
+    # Cold appliances -- all merged (GT groups fridge+freezer+combos together)
+    "cold_appliance": ["kühl- gefrierkombination", "kuehl- gefrierkombination",
                        "kühl-gefrierkombination", "kuehl-gefrierkombination",
-                       "kühlgefrierkombination",
-                       "fridge freezer", "combi fridge"],
-    "freezer": ["gefrierschrank", "stand-gefrierschrank", "gefriertruhe", "freezer"],
-    "fridge": ["kühlschrank", "kuehlschrank", "glastürkühlschrank",
-               "glastuerkuehlschrank", "fridge", "refrigerator"],
-    # Cooktops (induction before ceramic before electric)
-    "cooktop_induction": ["induktionskochfeld", "induktionskochplatte",
-                          "induktionsdoppelkochplatte", "induction cooktop",
-                          "induktion"],
-    "cooktop_ceramic": ["glaskeramik-kochfeld", "glaskeramikkochfeld",
-                        "ceranfeld", "ceramic cooktop", "glaskeramik kochfeld",
-                        "glaskeramik"],
-    "cooktop_electric": ["kochplatte", "einzelkochplatte", "doppelkochplatte",
-                         "elektrokochzone", "hot plate", "massekochfeld"],
+                       "kühl-/gefrierkombination", "kuehl-/gefrierkombination",
+                       "kühlgefrierkombination", "fridge freezer", "combi fridge",
+                       "gefrierschrank", "stand-gefrierschrank", "gefriertruhe", "freezer",
+                       "kühlschrank", "kuehlschrank", "glastürkühlschrank",
+                       "glastuerkuehlschrank", "fridge", "refrigerator",
+                       "kühl-/gefrier", "kuehl-/gefrier"],
+    # Cooktops -- all merged (GT groups induction+ceramic+electric together)
+    "cooktop": ["induktionskochfeld", "induktionskochplatte",
+                "induktionsdoppelkochplatte", "induction cooktop",
+                "induktion",
+                "glaskeramik-kochfeld", "glaskeramikkochfeld",
+                "ceranfeld", "ceramic cooktop", "glaskeramik kochfeld",
+                "glaskeramik",
+                "kochplatte", "einzelkochplatte", "doppelkochplatte",
+                "elektrokochzone", "hot plate", "massekochfeld"],
 }
 
 
@@ -893,6 +889,7 @@ def match_by_product_type(
 
     Used for categories like Small Appliances and Large Appliances where
     the ground truth considers all products of the same sub-type as matches.
+    Matches cross-brand (all products of same type are alternatives).
     """
     already_matched = already_matched or set()
     matches = []
