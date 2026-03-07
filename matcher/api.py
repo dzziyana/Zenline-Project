@@ -61,6 +61,19 @@ def _get_db():
     return conn
 
 
+# Map URL slugs to display category names used in the DB
+_CATEGORY_MAP = {
+    "tv_audio": "TV & Audio",
+    "small_appliances": "Small Appliances",
+    "large_appliances": "Large Appliances",
+}
+
+
+def _normalize_category(slug: str) -> str:
+    """Convert a URL slug like 'tv_audio' to the DB category name 'TV & Audio'."""
+    return _CATEGORY_MAP.get(slug, slug.replace("_", " ").title())
+
+
 _WEBAPP_DIST = Path(__file__).parent.parent / "webapp" / "frontend" / "dist"
 
 
@@ -173,6 +186,25 @@ def explain_match(source_ref: str, target_ref: str):
     try:
         source = get_product(conn, source_ref)
         target = get_product(conn, target_ref)
+
+        # Fallback to JSON data files if not in DB
+        if not source or not target:
+            from .models import Product as _Product
+            data_dir = Path("data")
+            for f in data_dir.glob("*_products_*.json"):
+                with open(f) as fh:
+                    data = json.load(fh)
+                for d in data:
+                    ref = d.get("reference")
+                    if ref == source_ref and not source:
+                        p = _Product.from_dict(d)
+                        source = {"reference": p.reference, "name": p.name, "brand": p.brand, "ean": p.ean, "category": p.category, "specifications": d.get("specifications", {})}
+                    elif ref == target_ref and not target:
+                        p = _Product.from_dict(d)
+                        target = {"reference": p.reference, "name": p.name, "brand": p.brand, "ean": p.ean, "category": p.category, "specifications": d.get("specifications", {})}
+                if source and target:
+                    break
+
         if not source or not target:
             return JSONResponse(status_code=404, content={"error": "Product not found"})
 
@@ -188,9 +220,14 @@ def explain_match(source_ref: str, target_ref: str):
         tgt_name = normalize_name(tgt.name)
 
         explanation = {
-            "source": {"ref": source_ref, "name": src.name, "brand": src.brand, "model": src_model, "eans": src_eans},
-            "target": {"ref": target_ref, "name": tgt.name, "brand": tgt.brand, "model": tgt_model, "eans": tgt_eans},
-            "signals": {},
+            "source": {"reference": source_ref, "name": src.name, "brand": src.brand, "model": src_model, "eans": src_eans},
+            "target": {"reference": target_ref, "name": tgt.name, "brand": tgt.brand, "model": tgt_model, "eans": tgt_eans},
+            "signals": {
+                "ean_match": False, "ean_shared": [], "brand_match": False,
+                "model_exact": False, "model_prefix_match": 0, "series_match": False,
+                "screen_size": {"source": None, "target": None, "match": None},
+                "fuzzy_token_sort": 0, "fuzzy_token_set": 0,
+            },
         }
 
         # EAN match
@@ -237,6 +274,8 @@ def explain_match(source_ref: str, target_ref: str):
             explanation["confidence"] = match_row["confidence"]
         else:
             explanation["matched"] = False
+            explanation["method"] = ""
+            explanation["confidence"] = 0
 
         return explanation
     finally:
@@ -266,11 +305,18 @@ def search(
 
 
 @app.get("/api/matches/all")
-def get_all_matches():
-    """Return all existing matches from DB without re-running the pipeline."""
+def get_all_matches(category: str | None = None):
+    """Return all existing matches from DB without re-running the pipeline.
+
+    Optional category filter (e.g. ?category=large_appliances or ?category=TV+%26+Audio).
+    """
     conn = _get_db()
     try:
         sources = get_all_sources(conn)
+        if category:
+            # Normalize URL slug to DB category name
+            cat_display = _normalize_category(category)
+            sources = [s for s in sources if s.get("category", "") == cat_display]
         result = []
         for s in sources:
             matches = get_matches_for_source(conn, s["reference"])
