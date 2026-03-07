@@ -1,12 +1,56 @@
-import { useEffect, useState } from 'react'
-import { getCategories } from '../services/api'
+import { useEffect, useState } from "react";
+import { getDashboard } from "../services/api";
+import type { DashboardStats } from "../types/product";
 
 export default function Dashboard() {
-  const [categories, setCategories] = useState<string[]>([])
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getCategories().then(setCategories).catch(() => setCategories([]))
-  }, [])
+    getDashboard()
+      .then(setStats)
+      .catch(() => setStats(null))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <>
+        <div className="page-header">
+          <h1>Dashboard</h1>
+          <p>Loading stats...</p>
+        </div>
+      </>
+    );
+  }
+
+  if (!stats || stats.source_count === 0) {
+    return (
+      <>
+        <div className="page-header">
+          <h1>Dashboard</h1>
+          <p>Overview of your product matching workspace</p>
+        </div>
+        <div className="page-body">
+          <div className="card">
+            <div className="empty-state">
+              <h3>No data loaded</h3>
+              <p>
+                Run the pipeline first to populate the database, then refresh.
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  const confDist = stats.confidence_distribution;
+  const confTotal =
+    (confDist.excellent || 0) +
+    (confDist.high || 0) +
+    (confDist.medium || 0) +
+    (confDist.low || 0);
 
   return (
     <>
@@ -17,78 +61,208 @@ export default function Dashboard() {
       <div className="page-body">
         <div className="stats-grid">
           <div className="stat-card">
-            <div className="stat-label">Categories</div>
-            <div className="stat-value">{categories.length}</div>
-            <div className="stat-note">Available to match</div>
+            <div className="stat-label">Sources Matched</div>
+            <div className="stat-value">
+              {stats.sources_matched}/{stats.source_count}
+            </div>
+            <div className="stat-note">{stats.coverage_pct}% coverage</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Total Matches</div>
+            <div className="stat-value">{stats.match_count}</div>
+            <div className="stat-note">Across all strategies</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Target Pool</div>
+            <div className="stat-value">{stats.target_count}</div>
+            <div className="stat-note">{stats.retailers.length} retailers</div>
           </div>
           <div className="stat-card">
             <div className="stat-label">Strategies</div>
-            <div className="stat-value">7</div>
-            <div className="stat-note">EAN, fuzzy, embedding, vision, LLM, scrape, model#</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-label">Retailers</div>
-            <div className="stat-value">6+</div>
-            <div className="stat-note">Austrian electronics retailers</div>
+            <div className="stat-value">{stats.methods.length}</div>
+            <div className="stat-note">
+              {stats.methods.map((m) => m.label).join(", ")}
+            </div>
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "16px",
+          }}
+        >
           <div className="card">
             <div className="card-header">
-              <span className="card-title">Categories</span>
+              <span className="card-title">Matching Methods</span>
             </div>
-            {categories.length === 0 ? (
-              <div className="empty-state">
-                <div className="empty-icon">
-                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3">
-                    <rect x="4" y="4" width="32" height="32" rx="4"/>
-                    <line x1="12" y1="16" x2="28" y2="16"/>
-                    <line x1="12" y1="22" x2="24" y2="22"/>
-                    <line x1="12" y1="28" x2="20" y2="28"/>
-                  </svg>
+            <div style={{ padding: "12px 0" }}>
+              {stats.methods.map((m) => (
+                <div
+                  key={m.method}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    padding: "8px 0",
+                    borderBottom: "1px solid var(--cream-200)",
+                  }}
+                >
+                  <span
+                    style={{
+                      flex: "0 0 120px",
+                      fontSize: "0.85rem",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {m.label}
+                  </span>
+                  <div
+                    style={{
+                      flex: 1,
+                      height: "8px",
+                      background: "var(--cream-200)",
+                      borderRadius: "4px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: `${Math.min((m.count / stats.match_count) * 100, 100)}%`,
+                        height: "100%",
+                        background: "var(--accent)",
+                        borderRadius: "4px",
+                      }}
+                    />
+                  </div>
+                  <span
+                    className="mono"
+                    style={{
+                      flex: "0 0 36px",
+                      textAlign: "right",
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    {m.count}
+                  </span>
                 </div>
-                <h3>No categories loaded</h3>
-                <p>Upload source and target data via the API or place JSON files in the data directory.</p>
-              </div>
-            ) : (
-              <ul style={{ listStyle: 'none' }}>
-                {categories.map((c) => (
-                  <li key={c} style={{
-                    padding: '10px 0',
-                    borderBottom: '1px solid var(--cream-200)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    fontSize: '0.9rem',
-                    color: 'var(--stone-700)',
-                  }}>
-                    <span className="badge badge-accent">{c}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
+              ))}
+            </div>
           </div>
 
           <div className="card">
             <div className="card-header">
-              <span className="card-title">Quick Start</span>
+              <span className="card-title">Confidence Distribution</span>
             </div>
-            <ol className="steps-list">
-              <li>Download source products and target pool JSON from the hackathon platform</li>
-              <li>Place them in <code style={{
-                background: 'var(--cream-200)',
-                padding: '2px 6px',
-                borderRadius: '4px',
-                fontSize: '0.84rem',
-                fontFamily: 'monospace',
-              }}>data/</code> or upload via the API</li>
-              <li>Go to <strong>Products</strong> to browse and search the catalog</li>
-              <li>Go to <strong>Matching</strong> to run the pipeline and generate submissions</li>
-            </ol>
+            <div style={{ padding: "12px 0" }}>
+              {[
+                {
+                  label: "Excellent (95%+)",
+                  count: confDist.excellent || 0,
+                  color: "#16a34a",
+                },
+                {
+                  label: "High (85-95%)",
+                  count: confDist.high || 0,
+                  color: "#2563eb",
+                },
+                {
+                  label: "Medium (70-85%)",
+                  count: confDist.medium || 0,
+                  color: "#d97706",
+                },
+                {
+                  label: "Low (<70%)",
+                  count: confDist.low || 0,
+                  color: "#dc2626",
+                },
+              ].map((tier) => (
+                <div
+                  key={tier.label}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    padding: "8px 0",
+                    borderBottom: "1px solid var(--cream-200)",
+                  }}
+                >
+                  <span
+                    style={{
+                      flex: "0 0 120px",
+                      fontSize: "0.85rem",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {tier.label}
+                  </span>
+                  <div
+                    style={{
+                      flex: 1,
+                      height: "8px",
+                      background: "var(--cream-200)",
+                      borderRadius: "4px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: confTotal
+                          ? `${(tier.count / confTotal) * 100}%`
+                          : "0%",
+                        height: "100%",
+                        background: tier.color,
+                        borderRadius: "4px",
+                      }}
+                    />
+                  </div>
+                  <span
+                    className="mono"
+                    style={{
+                      flex: "0 0 36px",
+                      textAlign: "right",
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    {tier.count}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+
+        {stats.brands.length > 0 && (
+          <div className="card" style={{ marginTop: "16px" }}>
+            <div className="card-header">
+              <span className="card-title">Brands</span>
+            </div>
+            <div className="table-wrapper">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Brand</th>
+                    <th>Sources Matched</th>
+                    <th>Total Matches</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats.brands.map((b) => (
+                    <tr key={b.brand}>
+                      <td>
+                        <strong>{b.brand}</strong>
+                      </td>
+                      <td>{b.matched_sources}</td>
+                      <td>{b.total_matches}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </>
-  )
+  );
 }
