@@ -110,6 +110,168 @@ def match_by_model_number(sources: list[Product], targets: list[Product]) -> lis
     return matches
 
 
+def _extract_screen_size(text: str) -> int | None:
+    """Extract screen size in inches from product text."""
+    for m in re.finditer(r'(\d{2,3})\s*(?:"|zoll|inch)', text.lower()):
+        val = int(m.group(1))
+        if 20 <= val <= 100:
+            return val
+    for m in re.finditer(r'(\d{2,3})\s*cm', text.lower()):
+        cm = int(m.group(1))
+        inches = round(cm / 2.54)
+        if 20 <= inches <= 100:
+            return inches
+    return None
+
+
+def _extract_model_series(model: str) -> str | None:
+    """Extract core series identifier from a full TV model number.
+
+    E.g. QE55Q7FAAUXXN -> Q7F, TQ65Q7FAAU -> Q7F
+    """
+    m = re.match(r'(?:QE|GQ|TQ|UA)\d{2}([A-Z]\d{1,2}[A-Z]?)', model.upper())
+    if m:
+        return m.group(1)
+    return None
+
+
+def _strip_model_suffix(model: str) -> str:
+    """Strip region/variant suffix from model number.
+
+    E.g. 32LQ63006LA.AEU -> 32LQ63006, QE55Q7FAAUXXN -> QE55Q7F
+    """
+    model = model.split(".")[0]
+    model = re.sub(r'[A-Z]{2,}$', '', model)
+    return model
+
+
+def match_by_model_series(
+    sources: list[Product],
+    targets: list[Product],
+    already_matched: set[tuple[str, str]] | None = None,
+) -> list[Match]:
+    """Match by brand + model series + screen size.
+
+    Catches cases where the target listing doesn't have a clean model number
+    but mentions the series name (e.g. 'Q7F') and size in the product name.
+    """
+    already_matched = already_matched or set()
+    matches = []
+
+    for source in sources:
+        src_model = extract_model_number(source)
+        if not src_model:
+            continue
+        src_series = _extract_model_series(src_model)
+        if not src_series:
+            continue
+        src_size = _extract_screen_size(source.name)
+        if not src_size:
+            continue
+
+        for target in targets:
+            if (source.reference, target.reference) in already_matched:
+                continue
+            if source.brand and target.brand:
+                if source.brand.lower() != target.brand.lower():
+                    continue
+
+            tgt_model = extract_model_number(target)
+            tgt_series = _extract_model_series(tgt_model) if tgt_model else None
+
+            series_match = False
+            if tgt_series and tgt_series == src_series:
+                series_match = True
+            elif src_series in target.name.upper():
+                series_match = True
+
+            if not series_match:
+                continue
+
+            tgt_size = _extract_screen_size(target.name)
+            if not tgt_size or src_size != tgt_size:
+                continue
+
+            matches.append(Match(
+                source_reference=source.reference,
+                target_reference=target.reference,
+                target_name=target.name,
+                target_retailer=target.retailer or "",
+                target_url=target.url or "",
+                target_price=target.price_eur,
+                confidence=0.90,
+                method="model_series",
+            ))
+
+    return matches
+
+
+def match_by_fuzzy_model(
+    sources: list[Product],
+    targets: list[Product],
+    already_matched: set[tuple[str, str]] | None = None,
+) -> list[Match]:
+    """Match by fuzzy model number comparison within same brand + screen size.
+
+    Catches regional variants like 32LQ63806LC vs 32LQ63006LA where model
+    numbers share a common prefix but differ in suffix.
+    """
+    already_matched = already_matched or set()
+    matches = []
+
+    for source in sources:
+        src_model = extract_model_number(source)
+        if not src_model:
+            continue
+        src_stripped = _strip_model_suffix(src_model)
+        if len(src_stripped) < 6:
+            continue
+        src_size = _extract_screen_size(source.name)
+
+        for target in targets:
+            if (source.reference, target.reference) in already_matched:
+                continue
+            if source.brand and target.brand:
+                if source.brand.lower() != target.brand.lower():
+                    continue
+
+            tgt_model = extract_model_number(target)
+            if not tgt_model:
+                continue
+            if src_model == tgt_model:
+                continue
+
+            tgt_stripped = _strip_model_suffix(tgt_model)
+            if len(tgt_stripped) < 6:
+                continue
+
+            prefix_len = 0
+            for a, b in zip(src_stripped, tgt_stripped):
+                if a == b:
+                    prefix_len += 1
+                else:
+                    break
+            if prefix_len < 6:
+                continue
+
+            tgt_size = _extract_screen_size(target.name)
+            if src_size and tgt_size and src_size != tgt_size:
+                continue
+
+            matches.append(Match(
+                source_reference=source.reference,
+                target_reference=target.reference,
+                target_name=target.name,
+                target_retailer=target.retailer or "",
+                target_url=target.url or "",
+                target_price=target.price_eur,
+                confidence=0.88,
+                method="fuzzy_model",
+            ))
+
+    return matches
+
+
 def match_by_fuzzy_name(
     sources: list[Product],
     targets: list[Product],
@@ -165,3 +327,39 @@ def match_by_fuzzy_name(
                 ))
 
     return matches
+
+
+def verify_scraped_match(source: Product, scraped_name: str) -> float:
+    """Score how well a scraped product name matches a source product.
+
+    Returns a confidence score 0.0-1.0. Used to filter bad scrape results.
+    """
+    src_model = extract_model_number(source)
+    src_name = normalize_name(source.name)
+    scraped_norm = normalize_name(scraped_name)
+
+    # Check if model number appears in scraped name
+    if src_model and src_model.upper() in scraped_name.upper():
+        return 0.95
+
+    # Check brand presence
+    brand_present = source.brand and source.brand.lower() in scraped_name.lower()
+
+    # Check screen size match
+    src_size = _extract_screen_size(source.name)
+    scraped_size = _extract_screen_size(scraped_name)
+    size_match = src_size and scraped_size and src_size == scraped_size
+
+    # Fuzzy name score
+    fuzzy_score = fuzz.token_sort_ratio(src_name, scraped_norm) / 100.0
+
+    # Combine signals
+    score = fuzzy_score
+    if brand_present:
+        score = min(score + 0.1, 1.0)
+    if size_match:
+        score = min(score + 0.05, 1.0)
+    if brand_present and size_match and fuzzy_score >= 0.5:
+        score = max(score, 0.85)
+
+    return min(score, 1.0)
