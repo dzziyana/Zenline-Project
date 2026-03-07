@@ -608,17 +608,29 @@ def scrape_all(sources: list[Product], use_cache: bool = True) -> list[dict]:
     return all_results
 
 
+def _url_to_reference(url: str) -> str:
+    """Convert a URL to a platform-compatible P_ reference (MD5 hash)."""
+    import hashlib
+    return "P_" + hashlib.md5(url.encode()).hexdigest()[:8].upper()
+
+
 def results_to_matches(results: list[dict]) -> list[Match]:
     """Convert scraper results to Match objects."""
     matches = []
     for r in results:
-        ref = f"SCRAPED_{r['retailer'].replace(' ', '_')}_{hash(r.get('url', r['name'])) % 10**8:08d}"
+        url = r.get('url', '')
+        if url and not url.startswith('https://geizhals.at/redir/'):
+            # Real retailer URL - compute platform-compatible reference
+            ref = _url_to_reference(url)
+        else:
+            # Geizhals redirect or no URL - use generated reference
+            ref = f"SCRAPED_{r['retailer'].replace(' ', '_')}_{hash(r.get('url', r['name'])) % 10**8:08d}"
         matches.append(Match(
             source_reference=r['source_reference'],
             target_reference=ref,
             target_name=r['name'],
             target_retailer=r['retailer'],
-            target_url=r.get('url', ''),
+            target_url=url,
             target_price=r.get('price'),
             confidence=0.7,
             method='scrape',
