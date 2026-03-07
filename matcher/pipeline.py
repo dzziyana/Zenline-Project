@@ -36,9 +36,12 @@ def dedupe_matches(matches: list[Match]) -> list[Match]:
 
 
 def build_submission(matches: list[Match]) -> list[dict]:
-    """Convert matches to submission format."""
+    """Convert matches to submission format, excluding self-matches."""
     by_source: dict[str, SubmissionEntry] = {}
     for m in matches:
+        # Skip self-matches (source ref == target ref, not scored by platform)
+        if m.source_reference == m.target_reference:
+            continue
         if m.source_reference not in by_source:
             by_source[m.source_reference] = SubmissionEntry(source_reference=m.source_reference)
         by_source[m.source_reference].add_match(m)

@@ -16,6 +16,12 @@ def extract_model_number(product: Product) -> str | None:
         if key in specs and specs[key]:
             val = specs[key].strip()
             if len(val) >= 4 and any(c.isdigit() for c in val):
+                # Skip pure-digit strings >= 8 chars (likely EAN/GTIN, not model)
+                if val.isdigit() and len(val) >= 8:
+                    continue
+                # Skip pure-digit internal SKUs (5-6 digit numbers from specs)
+                if val.isdigit() and len(val) <= 6:
+                    continue
                 return val.upper()
 
     # Fall back to extracting from product name
@@ -30,7 +36,9 @@ def _extract_model_from_name(name: str) -> str | None:
     skip = {"smart", "full", "google", "android", "qled", "oled", "ultra",
             "zoll", "inch", "2024", "2025", "2026", "direct", "dolby",
             "vision", "premium", "fernseher", "audio", "mini", "hdr10",
-            "hdr10+", "bluetooth", "tizen", "webos", "wifi"}
+            "hdr10+", "bluetooth", "tizen", "webos", "wifi", "triple",
+            "tuner", "metal", "design", "120hz", "144hz", "60hz", "100hz",
+            "flat"}
     # Pattern for number+unit (e.g. 500ml, 1300W, 15bar, 1.7l)
     unit_pattern = re.compile(
         r'^\d+[.,]?\d*(?:ml|l|w|watt|bar|cm|mm|kg|g|v|min|liter|gramm)$',
@@ -41,6 +49,9 @@ def _extract_model_from_name(name: str) -> str | None:
         if c_lower in skip:
             continue
         if unit_pattern.match(c):
+            continue
+        # Skip DVB tuner strings (DVB-C/S/S2/T/T2)
+        if c_lower.startswith("dvb"):
             continue
         has_digit = any(ch.isdigit() for ch in c)
         has_letter = any(ch.isalpha() for ch in c)
