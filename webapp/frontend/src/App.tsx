@@ -1,7 +1,8 @@
 import { Routes, Route, NavLink } from "react-router-dom";
-import { Component, type ReactNode } from "react";
+import { Component, useState, type ReactNode } from "react";
 import { useI18n } from "./i18n";
 import { useCurrency, type Currency } from "./CurrencyContext";
+import { useAuth } from "./AuthContext";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -40,9 +41,95 @@ class ErrorBoundary extends Component<
   }
 }
 
+function LoginModal({ onClose }: { onClose: () => void }) {
+  const { login } = useAuth();
+  const [key, setKey] = useState("");
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(false);
+    const ok = await login(key);
+    setLoading(false);
+    if (ok) onClose();
+    else setError(true);
+  };
+
+  return (
+    <div className="login-overlay" onClick={onClose}>
+      <div className="login-modal" onClick={(e) => e.stopPropagation()}>
+        <h3>Sign In</h3>
+        <p
+          style={{
+            fontSize: "0.82rem",
+            color: "var(--stone-400)",
+            margin: "0 0 16px",
+          }}
+        >
+          Enter your API key to access write operations.
+        </p>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="password"
+            placeholder="API key"
+            value={key}
+            onChange={(e) => setKey(e.target.value)}
+            autoFocus
+            style={{
+              width: "100%",
+              padding: "10px 12px",
+              border: error
+                ? "1px solid var(--red-400, #ef4444)"
+                : "1px solid var(--cream-400)",
+              borderRadius: "var(--radius-sm)",
+              background: "var(--cream-50)",
+              fontSize: "0.88rem",
+              outline: "none",
+            }}
+          />
+          {error && (
+            <p
+              style={{
+                color: "var(--red-400, #ef4444)",
+                fontSize: "0.78rem",
+                margin: "6px 0 0",
+              }}
+            >
+              Invalid API key. Please try again.
+            </p>
+          )}
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              marginTop: 16,
+              justifyContent: "flex-end",
+            }}
+          >
+            <button type="button" onClick={onClose} className="btn-secondary">
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="btn-primary"
+              disabled={loading || !key}
+            >
+              {loading ? "Verifying..." : "Sign In"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const { lang, setLang, t } = useI18n();
   const { currency, setCurrency } = useCurrency();
+  const { isAuthenticated, user, logout } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
   const currencies: Currency[] = ["EUR", "USD", "GBP", "CHF"];
 
   return (
@@ -177,8 +264,65 @@ export default function App() {
             ))}
           </div>
         </div>
+        <div className="sidebar-auth">
+          {isAuthenticated ? (
+            <div className="auth-info">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="var(--green-500, #22c55e)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="8" cy="5" r="3" />
+                <path d="M2 14c0-3.3 2.7-5 6-5s6 1.7 6 5" />
+              </svg>
+              <span className="auth-user">{user}</span>
+              <button className="auth-logout" onClick={logout} title="Sign out">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 1H3a2 2 0 00-2 2v8a2 2 0 002 2h2" />
+                  <polyline points="8 10 12 7 8 4" />
+                  <line x1="12" y1="7" x2="5" y2="7" />
+                </svg>
+              </button>
+            </div>
+          ) : (
+            <button
+              className="auth-login-btn"
+              onClick={() => setShowLogin(true)}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect x="3" y="7" width="10" height="7" rx="1.5" />
+                <path d="M5 7V5a3 3 0 016 0v2" />
+              </svg>
+              Sign In
+            </button>
+          )}
+        </div>
         <div className="sidebar-footer">{t("sidebar.footer")}</div>
       </aside>
+      {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
       <main className="main-content">
         <ErrorBoundary>
           <Routes>

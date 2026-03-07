@@ -55,6 +55,16 @@ def _check_auth(x_api_key: str | None = Header(None)):
         raise HTTPException(status_code=401, detail="Invalid or missing API key")
 
 
+@app.get("/api/auth/check")
+def auth_check(x_api_key: str | None = Header(None)):
+    """Validate an API key. Returns 200 if valid, 401 if not."""
+    if not API_KEY:
+        return {"authenticated": True, "user": "admin", "role": "admin"}
+    if x_api_key == API_KEY:
+        return {"authenticated": True, "user": "admin", "role": "admin"}
+    raise HTTPException(status_code=401, detail="Invalid API key")
+
+
 def _get_db():
     conn = get_connection()
     init_db(conn)
@@ -603,15 +613,31 @@ def _chat_search(query: str) -> str:
 _trends_cache: dict = {}
 _trends_cache_time: float = 0
 
+_TRENDS_CACHE_FILE = Path("data") / "trends_cache.json"
+_TRENDS_CACHE_TTL = 3600  # 1 hour
+
+
 @app.get("/api/trends")
 def get_trends(refresh: bool = Query(False)):
     """Get trending products from tech journals and social media."""
     global _trends_cache, _trends_cache_time
     import time as _time
 
-    # Cache for 10 minutes unless refresh requested
-    if not refresh and _trends_cache and (_time.time() - _trends_cache_time) < 600:
+    # In-memory cache
+    if not refresh and _trends_cache and (_time.time() - _trends_cache_time) < _TRENDS_CACHE_TTL:
         return _trends_cache
+
+    # Disk cache (survives server restarts)
+    if not refresh and _TRENDS_CACHE_FILE.exists():
+        try:
+            disk = json.loads(_TRENDS_CACHE_FILE.read_text())
+            if (_time.time() - disk.get("_cached_at", 0)) < _TRENDS_CACHE_TTL:
+                result = {k: v for k, v in disk.items() if k != "_cached_at"}
+                _trends_cache = result
+                _trends_cache_time = disk["_cached_at"]
+                return result
+        except Exception:
+            pass
 
     from .trends import scrape_trends
 
@@ -627,6 +653,14 @@ def get_trends(refresh: bool = Query(False)):
     result = scrape_trends(sorted(brands) if brands else None)
     _trends_cache = result
     _trends_cache_time = _time.time()
+
+    # Persist to disk
+    try:
+        disk = dict(result, _cached_at=_trends_cache_time)
+        _TRENDS_CACHE_FILE.write_text(json.dumps(disk))
+    except Exception:
+        pass
+
     return result
 
 

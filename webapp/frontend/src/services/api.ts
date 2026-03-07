@@ -15,6 +15,11 @@ import type {
 
 const BASE_URL = "/api";
 
+function authHeaders(): Record<string, string> {
+  const key = localStorage.getItem("zenline_api_key");
+  return key ? { "X-Api-Key": key } : {};
+}
+
 // ---- Dashboard & Stats ----
 
 export async function getDashboard(): Promise<DashboardStats> {
@@ -126,6 +131,7 @@ export async function runMatching(
   }
   const res = await fetch(`${BASE_URL}/match/${category}?${params}`, {
     method: "POST",
+    headers: authHeaders(),
   });
   return res.json();
 }
@@ -142,7 +148,10 @@ export async function runPipeline(
   sources_matched: number;
 }> {
   const params = new URLSearchParams({ category, scrape: String(scrape) });
-  const res = await fetch(`${BASE_URL}/run?${params}`, { method: "POST" });
+  const res = await fetch(`${BASE_URL}/run?${params}`, {
+    method: "POST",
+    headers: authHeaders(),
+  });
   return res.json();
 }
 
@@ -163,6 +172,7 @@ export async function uploadAndRun(
   form.append("targets", targetsFile);
   const res = await fetch(`${BASE_URL}/upload?category=${category}`, {
     method: "POST",
+    headers: authHeaders(),
     body: form,
   });
   return res.json();
@@ -243,7 +253,7 @@ export async function sendChat(
 ): Promise<ChatResponse> {
   const res = await fetch(`${BASE_URL}/chat`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify({ message, history }),
   });
   return res.json();
