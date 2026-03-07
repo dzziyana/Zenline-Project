@@ -7,10 +7,8 @@ running the pipeline, chat-based search, and exporting submissions.
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 
-import anthropic
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -178,8 +176,8 @@ def run_pipeline_endpoint(
 
     conn = _get_db()
     try:
-        insert_products(conn, sources, is_source=True)
         insert_products(conn, targets, is_source=False)
+        insert_products(conn, sources, is_source=True)
         insert_matches(conn, matches)
         log_pipeline_run(conn, category, len(sources), len(targets), matches)
     finally:
@@ -194,3 +192,88 @@ def run_pipeline_endpoint(
         "matches": len(matches),
         "sources_matched": matched_sources,
     }
+
+
+class ChatRequest(BaseModel):
+    message: str
+    history: list[dict] = []
+
+
+CHAT_SYSTEM_PROMPT = """You are a product matching assistant for an Austrian electronics retail comparison tool.
+You help users search for products, find matches, and understand matching results.
+
+You have access to a database of source products (the products we want to find matches for) and target products (from competitor retailers like Amazon AT and MediaMarkt AT).
+
+When the user asks about products, you receive search results as context. Use them to answer.
+Be concise and format product info clearly. Use markdown for formatting.
+
+Available data:
+- Brands: Samsung, LG, Sharp, TCL, CHIQ, PEAQ, Xiaomi, Sony, Philips, Hisense, Sonos, JBL, Bose
+- Retailers: Amazon AT, MediaMarkt AT
+- Category: TV & Audio (TVs, soundbars, audio cables)
+
+Respond in the same language the user writes in (German or English)."""
+
+
+def _chat_search(query: str) -> str:
+    """Search the DB and format results for the chat context."""
+    conn = _get_db()
+    try:
+        results = search_products(conn, query, limit=10)
+        if not results:
+            return f"No products found for '{query}'."
+
+        lines = []
+        for r in results:
+            source_tag = " [SOURCE]" if r.get("is_source") else ""
+            price = f" - EUR {r['price_eur']:.2f}" if r.get("price_eur") else ""
+            lines.append(f"- {r['name']}{price} ({r['retailer'] or 'unknown'}){source_tag} [ref: {r['reference']}]")
+
+            if r.get("is_source"):
+                matches = get_matches_for_source(conn, r["reference"])
+                if matches:
+                    for m in matches[:3]:
+                        lines.append(f"  -> Match: {m['target_name'][:60]} ({m['target_retailer']}, method={m['method']}, confidence={m['confidence']:.2f})")
+                else:
+                    lines.append("  -> No matches found yet")
+        return "\n".join(lines)
+    finally:
+        conn.close()
+
+
+@app.post("/api/chat")
+def chat(req: ChatRequest):
+    """Chat-based product search using Claude Haiku."""
+    conn = _get_db()
+    try:
+        stats = get_stats(conn)
+    finally:
+        conn.close()
+
+    context = f"Database: {stats['source_count']} sources, {stats['target_count']} targets, {stats['match_count']} matches ({stats['sources_matched']} sources matched)."
+
+    search_context = _chat_search(req.message)
+
+    messages = []
+    for h in req.history[-10:]:
+        messages.append({"role": h["role"], "content": h["content"]})
+
+    messages.append({
+        "role": "user",
+        "content": f"{req.message}\n\n[Search results]\n{search_context}\n\n[Stats]\n{context}",
+    })
+
+    try:
+        import anthropic
+        client = anthropic.Anthropic()
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1024,
+            system=CHAT_SYSTEM_PROMPT,
+            messages=messages,
+        )
+        reply = response.content[0].text
+    except Exception as e:
+        reply = f"AI chat unavailable ({type(e).__name__}). Here are the raw search results:\n\n{search_context}"
+
+    return {"reply": reply, "search_results": search_context}
