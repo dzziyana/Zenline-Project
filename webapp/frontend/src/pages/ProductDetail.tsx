@@ -1,22 +1,80 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { getProduct, getSimilar } from '../services/api'
 import { useI18n } from '../i18n'
-import { Price } from '../CurrencyContext'
+import { Price, useCurrency } from '../CurrencyContext'
 import type { SourceProduct, MatchEntry, SimilarProduct } from '../types/product'
+
+const RETAILER_COLORS: Record<string, string> = {
+  'mediamarkt': '#df0000',
+  'saturn': '#004f9f',
+  'expert.at': '#e85e0c',
+  'cyberport.at': '#003c7e',
+  'electronic4you.at': '#00a651',
+  'e-tec.at': '#ff6600',
+}
+
+function retailerColor(retailer: string): string {
+  const key = retailer.toLowerCase().replace(/\s+/g, '')
+  for (const [k, v] of Object.entries(RETAILER_COLORS)) {
+    if (key.includes(k.replace(/[.\s]/g, ''))) return v
+  }
+  return 'var(--info)'
+}
+
+function verdictText(method: string, confidence: number): string {
+  const conf = confidence >= 0.9 ? 'Very high' : confidence >= 0.75 ? 'High' : confidence >= 0.6 ? 'Moderate' : 'Low'
+  const methodLabels: Record<string, string> = {
+    ean: 'Identical EAN barcode',
+    model_number: 'Exact model number match',
+    model_series: 'Same model series',
+    fuzzy_model: 'Fuzzy model match',
+    fuzzy_name: 'Fuzzy name similarity',
+    fuzzy: 'Fuzzy name similarity',
+    embedding: 'Semantic embedding match',
+    vision: 'Visual image similarity',
+    llm: 'AI-verified match',
+    scrape: 'Found via web scrape',
+  }
+  const m = method.toLowerCase()
+  const label = Object.entries(methodLabels).find(([k]) => m.includes(k))?.[1] ?? method
+  return `${label} · ${conf} confidence`
+}
+
+function verdictIcon(method: string): string {
+  const m = method.toLowerCase()
+  if (m.includes('ean')) return '\u2713'
+  if (m.includes('model')) return '#'
+  if (m.includes('fuzzy')) return '\u223C'
+  if (m.includes('embedding')) return '\u2261'
+  if (m.includes('vision')) return '\u25CE'
+  if (m.includes('llm')) return '\u2605'
+  if (m.includes('scrape')) return '\u21BB'
+  return '\u2022'
+}
+
+function normalizeSpecValue(val: string): string {
+  return val.replace(/\s+/g, ' ').trim().toLowerCase()
+}
 
 export default function ProductDetail() {
   const { ref } = useParams<{ ref: string }>()
   const navigate = useNavigate()
   const { t, tSpec } = useI18n()
+  const { format } = useCurrency()
   const [product, setProduct] = useState<SourceProduct | null>(null)
   const [matches, setMatches] = useState<MatchEntry[]>([])
   const [similar, setSimilar] = useState<SimilarProduct[]>([])
   const [loading, setLoading] = useState(true)
+  const [diffTarget, setDiffTarget] = useState<string | null>(null)
+  const [targetSpecs, setTargetSpecs] = useState<Record<string, string> | null>(null)
+  const [targetLoading, setTargetLoading] = useState(false)
 
   useEffect(() => {
     if (!ref) return
     setLoading(true)
+    setDiffTarget(null)
+    setTargetSpecs(null)
     Promise.all([
       getProduct(ref).then((d) => {
         setProduct(d.product)
@@ -25,6 +83,32 @@ export default function ProductDetail() {
       getSimilar(ref, 12, 0.5).then((d) => setSimilar(d.similar)).catch(() => {}),
     ]).finally(() => setLoading(false))
   }, [ref])
+
+  // Keyboard: Escape to go back
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        navigate('/products')
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [navigate])
+
+  const toggleDiff = useCallback((targetRef: string) => {
+    if (diffTarget === targetRef) {
+      setDiffTarget(null)
+      setTargetSpecs(null)
+      return
+    }
+    setDiffTarget(targetRef)
+    setTargetLoading(true)
+    setTargetSpecs(null)
+    getProduct(targetRef)
+      .then((d) => setTargetSpecs(d.product?.specifications ?? {}))
+      .catch(() => setTargetSpecs({}))
+      .finally(() => setTargetLoading(false))
+  }, [diffTarget])
 
   if (loading) {
     return (
@@ -59,12 +143,72 @@ export default function ProductDetail() {
   const matchedRefs = new Set(matches.map((m) => m.target_reference))
   const nonIdenticalSimilar = similar.filter((s) => !matchedRefs.has(s.reference))
   const price = product.price_eur ?? product.price
+  const sourceSpecs = product.specifications ?? {}
+
+  // Price spread data
+  const pricesWithRetailer = matches
+    .filter((m) => m.target_price != null)
+    .map((m) => ({ price: m.target_price!, retailer: m.target_retailer, ref: m.target_reference }))
+  if (price != null) {
+    pricesWithRetailer.push({ price, retailer: product.retailer ?? 'Source', ref: product.reference })
+  }
+  const allPrices = pricesWithRetailer.map((p) => p.price)
+  const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0
+  const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 0
+  const priceRange = maxPrice - minPrice
+  const showPriceSpread = pricesWithRetailer.length >= 2 && priceRange > 0
+
+  // Spec diff computation
+  const renderSpecDiff = () => {
+    if (!diffTarget || !targetSpecs) return null
+    const srcKeys = Object.keys(sourceSpecs)
+    const tgtKeys = Object.keys(targetSpecs)
+    const allKeys = [...new Set([...srcKeys, ...tgtKeys])]
+
+    return (
+      <div className="spec-diff" style={{ margin: '0 0 16px' }}>
+        <div className="spec-diff-col">
+          <div className="spec-diff-header">Source — {product.name.slice(0, 40)}</div>
+          {allKeys.map((key) => {
+            const srcVal = sourceSpecs[key]
+            const tgtVal = targetSpecs[key]
+            const hasBoth = srcVal !== undefined && tgtVal !== undefined
+            const match = hasBoth && normalizeSpecValue(srcVal) === normalizeSpecValue(tgtVal)
+            const cls = srcVal === undefined ? 'diff-missing' : hasBoth ? (match ? 'diff-match' : 'diff-mismatch') : ''
+            return (
+              <div key={key} className={`spec-diff-row ${cls}`}>
+                <span className="spec-diff-key">{tSpec(key)}</span>
+                <span className="spec-diff-val">{srcVal ?? '--'}</span>
+              </div>
+            )
+          })}
+        </div>
+        <div className="spec-diff-col">
+          <div className="spec-diff-header">Target — {diffTarget}</div>
+          {allKeys.map((key) => {
+            const srcVal = sourceSpecs[key]
+            const tgtVal = targetSpecs[key]
+            const hasBoth = srcVal !== undefined && tgtVal !== undefined
+            const match = hasBoth && normalizeSpecValue(srcVal) === normalizeSpecValue(tgtVal)
+            const cls = tgtVal === undefined ? 'diff-missing' : hasBoth ? (match ? 'diff-match' : 'diff-mismatch') : ''
+            return (
+              <div key={key} className={`spec-diff-row ${cls}`}>
+                <span className="spec-diff-key">{tSpec(key)}</span>
+                <span className="spec-diff-val">{tgtVal ?? '--'}</span>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <>
       <div className="page-header">
         <button className="btn btn-secondary" onClick={() => navigate('/products')} style={{ marginBottom: '8px' }}>
           &larr; {t('product.back')}
+          <span style={{ fontSize: '0.68rem', color: 'var(--stone-500)', marginLeft: '8px' }}>Esc</span>
         </button>
         <h1>{product.name}</h1>
         <p>
@@ -145,6 +289,37 @@ export default function ProductDetail() {
           </div>
         </div>
 
+        {/* Price Spread */}
+        {showPriceSpread && (
+          <div className="price-spread" style={{ marginTop: '24px' }}>
+            <span className="price-spread-label">Price Spread</span>
+            <div style={{ flex: 1 }}>
+              <div className="price-spread-track">
+                {pricesWithRetailer.map((p, i) => {
+                  const pct = priceRange > 0 ? ((p.price - minPrice) / priceRange) * 100 : 50
+                  const isSource = p.ref === product.reference
+                  return (
+                    <div
+                      key={i}
+                      className="price-spread-dot"
+                      data-source={isSource ? 'true' : undefined}
+                      style={{
+                        left: `${pct}%`,
+                        background: isSource ? 'var(--accent)' : retailerColor(p.retailer),
+                      }}
+                      title={`${p.retailer}: ${format(p.price)}`}
+                    />
+                  )
+                })}
+              </div>
+              <div className="price-spread-range">
+                <span>{format(minPrice)}</span>
+                <span>{format(maxPrice)}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Matches */}
         <div className="card" style={{ marginTop: '24px' }}>
           <div className="card-header">
@@ -153,44 +328,78 @@ export default function ProductDetail() {
           {matches.length === 0 ? (
             <p style={{ color: 'var(--stone-500)', fontSize: '0.875rem' }}>{t('product.no_matches')}</p>
           ) : (
-            <div className="table-wrapper" style={{ border: 'none', boxShadow: 'none' }}>
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Target Ref</th>
-                    <th>Product Name</th>
-                    <th>{t('common.retailer')}</th>
-                    <th>{t('common.price')}</th>
-                    <th>Method</th>
-                    <th>Confidence</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {matches.map((m) => (
-                    <tr key={m.target_reference}>
-                      <td><Link to={`/products/${m.target_reference}`} className="mono" style={{ color: 'var(--accent)' }}>{m.target_reference}</Link></td>
-                      <td><span className="truncate" style={{ display: 'block', maxWidth: '280px' }}>{m.target_name}</span></td>
-                      <td><span className="badge badge-info">{m.target_retailer}</span></td>
-                      <td><Price value={m.target_price} /></td>
-                      <td><span className="badge badge-accent">{m.method}</span></td>
-                      <td>
-                        <div className="confidence-bar">
-                          <span className="mono" style={{ minWidth: '36px' }}>
-                            {(m.confidence * 100).toFixed(0)}%
-                          </span>
-                          <div className="confidence-track">
-                            <div
-                              className={`confidence-fill ${m.confidence >= 0.85 ? 'high' : m.confidence >= 0.65 ? 'medium' : 'low'}`}
-                              style={{ width: `${m.confidence * 100}%` }}
-                            />
-                          </div>
-                        </div>
-                      </td>
+            <>
+              <div className="table-wrapper" style={{ border: 'none', boxShadow: 'none' }}>
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>Target Ref</th>
+                      <th>Product Name</th>
+                      <th>{t('common.retailer')}</th>
+                      <th>{t('common.price')}</th>
+                      <th>Method</th>
+                      <th>Confidence</th>
+                      <th style={{ width: '36px' }}></th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {matches.map((m) => (
+                      <>
+                        <tr key={m.target_reference}>
+                          <td><Link to={`/products/${m.target_reference}`} className="mono" style={{ color: 'var(--accent)' }}>{m.target_reference}</Link></td>
+                          <td>
+                            <span className="truncate" style={{ display: 'block', maxWidth: '280px' }}>{m.target_name}</span>
+                            <div className="match-verdict" style={{ marginTop: '4px' }}>
+                              <span className="match-verdict-icon">{verdictIcon(m.method)}</span>
+                              {verdictText(m.method, m.confidence)}
+                            </div>
+                          </td>
+                          <td><span className="badge badge-info">{m.target_retailer}</span></td>
+                          <td><Price value={m.target_price} /></td>
+                          <td><span className="badge badge-accent">{m.method}</span></td>
+                          <td>
+                            <div className="confidence-bar">
+                              <span className="mono" style={{ minWidth: '36px' }}>
+                                {(m.confidence * 100).toFixed(0)}%
+                              </span>
+                              <div className="confidence-track">
+                                <div
+                                  className={`confidence-fill ${m.confidence >= 0.85 ? 'high' : m.confidence >= 0.65 ? 'medium' : 'low'}`}
+                                  style={{ width: `${m.confidence * 100}%` }}
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            {Object.keys(sourceSpecs).length > 0 && (
+                              <button
+                                className={`diff-toggle ${diffTarget === m.target_reference ? 'active' : ''}`}
+                                onClick={() => toggleDiff(m.target_reference)}
+                                title="Compare specs"
+                              >
+                                Diff
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                        {diffTarget === m.target_reference && (
+                          <tr key={`${m.target_reference}-diff`}>
+                            <td colSpan={7} style={{ padding: '12px 8px' }}>
+                              {targetLoading ? (
+                                <div style={{ textAlign: 'center', padding: '20px' }}>
+                                  <span className="spinner" style={{ width: '20px', height: '20px' }} />
+                                  <span style={{ marginLeft: '8px', fontSize: '0.8rem', color: 'var(--stone-500)' }}>Loading specs...</span>
+                                </div>
+                              ) : renderSpecDiff()}
+                            </td>
+                          </tr>
+                        )}
+                      </>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </div>
 

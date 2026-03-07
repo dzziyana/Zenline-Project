@@ -1,5 +1,5 @@
-import { useEffect, useState, useCallback, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { searchProducts, getAllSourceProducts, getBrands, getTrends } from '../services/api'
 import { Price } from '../CurrencyContext'
 import { useI18n } from '../i18n'
@@ -7,6 +7,9 @@ import type { SourceProduct, BrandEntry, TrendInsight } from '../types/product'
 
 export default function Products() {
   const { t, lang } = useI18n()
+  const navigate = useNavigate()
+  const gridRef = useRef<HTMLDivElement>(null)
+  const [focusIdx, setFocusIdx] = useState(-1)
   const [sources, setSources] = useState<SourceProduct[]>([])
   const [search, setSearch] = useState('')
   const [searchResults, setSearchResults] = useState<SourceProduct[] | null>(null)
@@ -53,6 +56,51 @@ export default function Products() {
   const brandFiltered = brandFilter
     ? filtered.filter((p) => p.brand?.toLowerCase() === brandFilter.toLowerCase())
     : filtered
+
+  // Keyboard navigation for product grid
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return
+      const visible = brandFiltered.slice(0, 60)
+      if (visible.length === 0) return
+
+      const grid = gridRef.current
+      if (!grid) return
+      const card = grid.querySelector('.product-card') as HTMLElement | null
+      const cols = card ? Math.max(1, Math.floor(grid.clientWidth / card.clientWidth)) : 4
+
+      if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        setFocusIdx((i) => Math.min(i + 1, visible.length - 1))
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        setFocusIdx((i) => Math.max(i - 1, 0))
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        setFocusIdx((i) => Math.min(i + cols, visible.length - 1))
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        setFocusIdx((i) => Math.max(i - cols, 0))
+      } else if (e.key === 'Enter' && focusIdx >= 0 && focusIdx < visible.length) {
+        e.preventDefault()
+        navigate(`/products/${visible[focusIdx].reference}`)
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [brandFiltered, focusIdx, navigate])
+
+  // Scroll focused card into view
+  useEffect(() => {
+    if (focusIdx < 0) return
+    const grid = gridRef.current
+    if (!grid) return
+    const cards = grid.querySelectorAll('.product-card')
+    if (cards[focusIdx]) {
+      (cards[focusIdx] as HTMLElement).focus({ preventScroll: false });
+      (cards[focusIdx] as HTMLElement).scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    }
+  }, [focusIdx])
 
   return (
     <>
@@ -101,8 +149,8 @@ export default function Products() {
           </div>
         ) : (
           <>
-            <div className="product-grid">
-              {brandFiltered.slice(0, 60).map((p) => {
+            <div className="product-grid" ref={gridRef}>
+              {brandFiltered.slice(0, 60).map((p, idx) => {
                 const price = p.price_eur ?? p.price
                 const mc = p.match_count ?? 0
                 const trend = p.brand ? trendByBrand[p.brand.toLowerCase()] : null
@@ -112,6 +160,8 @@ export default function Products() {
                     to={`/products/${p.reference}`}
                     className={`product-card${trend ? ' product-card--trending' : ''}`}
                     style={{ textDecoration: 'none' }}
+                    tabIndex={0}
+                    onFocus={() => setFocusIdx(idx)}
                   >
                     {trend && (
                       <div className="product-trending-badge">
