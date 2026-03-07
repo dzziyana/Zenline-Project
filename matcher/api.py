@@ -101,6 +101,90 @@ def product_detail(reference: str):
         conn.close()
 
 
+@app.get("/api/explain/{source_ref}/{target_ref}")
+def explain_match(source_ref: str, target_ref: str):
+    """Explain why two products were matched (or not)."""
+    from .fuzzy_match import (
+        extract_model_number, normalize_name, _extract_screen_size,
+        _extract_model_series, _strip_model_suffix, verify_scraped_match,
+    )
+    from .ean_match import _get_eans
+    from rapidfuzz import fuzz
+
+    conn = _get_db()
+    try:
+        source = get_product(conn, source_ref)
+        target = get_product(conn, target_ref)
+        if not source or not target:
+            return JSONResponse(status_code=404, content={"error": "Product not found"})
+
+        from .models import Product
+        src = Product.from_dict(source)
+        tgt = Product.from_dict(target)
+
+        src_eans = _get_eans(src)
+        tgt_eans = _get_eans(tgt)
+        src_model = extract_model_number(src)
+        tgt_model = extract_model_number(tgt)
+        src_name = normalize_name(src.name)
+        tgt_name = normalize_name(tgt.name)
+
+        explanation = {
+            "source": {"ref": source_ref, "name": src.name, "brand": src.brand, "model": src_model, "eans": src_eans},
+            "target": {"ref": target_ref, "name": tgt.name, "brand": tgt.brand, "model": tgt_model, "eans": tgt_eans},
+            "signals": {},
+        }
+
+        # EAN match
+        ean_overlap = set(src_eans) & set(tgt_eans)
+        explanation["signals"]["ean_match"] = bool(ean_overlap)
+        if ean_overlap:
+            explanation["signals"]["ean_shared"] = list(ean_overlap)
+
+        # Brand match
+        explanation["signals"]["brand_match"] = (
+            bool(src.brand and tgt.brand) and src.brand.lower() == tgt.brand.lower()
+        )
+
+        # Model number
+        explanation["signals"]["model_exact"] = bool(src_model and tgt_model and src_model == tgt_model)
+        if src_model and tgt_model:
+            src_stripped = _strip_model_suffix(src_model)
+            tgt_stripped = _strip_model_suffix(tgt_model)
+            prefix_len = sum(1 for a, b in zip(src_stripped, tgt_stripped) if a == b)
+            explanation["signals"]["model_prefix_match"] = prefix_len
+
+        # Series
+        src_series = _extract_model_series(src_model) if src_model else None
+        tgt_series = _extract_model_series(tgt_model) if tgt_model else None
+        explanation["signals"]["series_match"] = bool(src_series and tgt_series and src_series == tgt_series)
+
+        # Screen size
+        src_size = _extract_screen_size(src.name)
+        tgt_size = _extract_screen_size(tgt.name)
+        explanation["signals"]["screen_size"] = {"source": src_size, "target": tgt_size, "match": src_size == tgt_size if src_size and tgt_size else None}
+
+        # Fuzzy scores
+        explanation["signals"]["fuzzy_token_sort"] = round(fuzz.token_sort_ratio(src_name, tgt_name), 1)
+        explanation["signals"]["fuzzy_token_set"] = round(fuzz.token_set_ratio(src_name, tgt_name), 1)
+
+        # Check existing match
+        match_row = conn.execute(
+            "SELECT * FROM matches WHERE source_reference = ? AND target_reference = ?",
+            (source_ref, target_ref)
+        ).fetchone()
+        if match_row:
+            explanation["matched"] = True
+            explanation["method"] = match_row["method"]
+            explanation["confidence"] = match_row["confidence"]
+        else:
+            explanation["matched"] = False
+
+        return explanation
+    finally:
+        conn.close()
+
+
 @app.get("/api/search")
 def search(
     q: str = Query(..., min_length=1, description="Search query"),
