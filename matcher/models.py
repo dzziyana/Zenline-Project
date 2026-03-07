@@ -5,6 +5,34 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 
+BRAND_MAP = {
+    "samsung electronics gmbh": "Samsung",
+    "samsung": "Samsung",
+    "imtron gmbh": "PEAQ",
+    "tcl": "TCL",
+    "sharp": "Sharp",
+    "xiaomi": "Xiaomi",
+    "changhong": "CHIQ",
+    "lg electronics": "LG",
+    "lg": "LG",
+    "sony": "Sony",
+    "philips": "Philips",
+    "hisense": "Hisense",
+    "panasonic": "Panasonic",
+    "jbl": "JBL",
+    "sonos": "Sonos",
+    "bose": "Bose",
+}
+
+
+def _normalize_brand(brand: str) -> str:
+    brand_lower = brand.strip().lower()
+    for key, val in BRAND_MAP.items():
+        if key in brand_lower:
+            return val
+    return brand.strip()
+
+
 @dataclass
 class Product:
     reference: str
@@ -20,17 +48,38 @@ class Product:
 
     @classmethod
     def from_dict(cls, d: dict) -> Product:
+        specs = d.get("specifications") or {}
+
+        # Extract EAN from multiple possible fields
+        ean = d.get("ean")
+        if not ean:
+            ean = specs.get("GTIN") or specs.get("EAN-Code") or specs.get("EAN")
+
+        # Extract brand from multiple possible fields
+        brand = d.get("brand") or ""
+        if not brand:
+            brand = specs.get("Hersteller") or specs.get("Marke") or specs.get("Brand") or ""
+        brand = _normalize_brand(brand)
+
+        # If brand still empty, try to infer from product name
+        if not brand:
+            name_lower = d.get("name", "").lower()
+            for key, val in BRAND_MAP.items():
+                if name_lower.startswith(key) or f" {key} " in name_lower:
+                    brand = val
+                    break
+
         return cls(
             reference=d.get("reference", ""),
             name=d.get("name", ""),
-            brand=d.get("brand", ""),
+            brand=brand,
             category=d.get("category", ""),
             price_eur=d.get("price_eur"),
-            ean=d.get("ean"),
+            ean=ean,
             url=d.get("url"),
             image_url=d.get("image_url"),
             retailer=d.get("retailer"),
-            specifications=d.get("specifications", {}),
+            specifications=specs,
         )
 
 

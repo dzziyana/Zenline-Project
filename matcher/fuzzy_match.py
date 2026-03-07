@@ -7,13 +7,24 @@ from rapidfuzz import fuzz
 from .models import Match, Product
 
 
-def extract_model_number(name: str) -> str | None:
-    """Try to extract a model number from a product name.
+def extract_model_number(product: Product) -> str | None:
+    """Extract model number from product name or specifications."""
+    # Check specs first — most reliable
+    specs = product.specifications
+    for key in ["Hersteller Modellnummer", "Modellnummer", "Modellbezeichnung",
+                "Model", "model", "Modellname", "Art.-Nr."]:
+        if key in specs and specs[key]:
+            val = specs[key].strip()
+            if len(val) >= 4:
+                return val.upper()
 
-    Model numbers typically contain digits mixed with letters,
-    e.g. 'SMS4HVW33E', 'GV3D850', 'KGN39VICT'.
-    """
-    # Look for alphanumeric sequences with at least one digit and one letter, >= 4 chars
+    # Fall back to extracting from product name
+    return _extract_model_from_name(product.name)
+
+
+def _extract_model_from_name(name: str) -> str | None:
+    """Try to extract a model number from a product name."""
+    # Look for alphanumeric sequences with digits+letters, >= 4 chars
     candidates = re.findall(r'\b([A-Za-z0-9](?:[A-Za-z0-9._/-]){3,})\b', name)
     for c in candidates:
         has_digit = any(ch.isdigit() for ch in c)
@@ -27,31 +38,36 @@ def normalize_name(name: str) -> str:
     """Normalize product name for comparison."""
     name = name.lower()
     # Remove common filler words
-    for word in ["mit", "und", "für", "the", "with", "and", "for", "von"]:
+    for word in ["mit", "und", "für", "the", "with", "and", "for", "von",
+                 "online", "kaufen", "bestellen", "günstig"]:
         name = name.replace(f" {word} ", " ")
+    # Remove size/dimension patterns like (65") or 65 Zoll
+    name = re.sub(r'\(\d+["\u201d]\)', '', name)
     # Collapse whitespace
     name = re.sub(r'\s+', ' ', name).strip()
     return name
 
 
 def match_by_model_number(sources: list[Product], targets: list[Product]) -> list[Match]:
-    """Match by extracted model numbers within the same brand."""
-    # Build index: (brand_lower, model_number) -> targets
-    model_index: dict[tuple[str, str], list[Product]] = {}
+    """Match by extracted model numbers."""
+    # Build index: model_number -> targets (brand-agnostic for wider recall)
+    model_index: dict[str, list[Product]] = {}
     for t in targets:
-        model = extract_model_number(t.name)
-        if model and t.brand:
-            key = (t.brand.lower(), model)
-            model_index.setdefault(key, []).append(t)
+        model = extract_model_number(t)
+        if model:
+            model_index.setdefault(model, []).append(t)
 
     matches = []
     for source in sources:
-        model = extract_model_number(source.name)
-        if not model or not source.brand:
+        model = extract_model_number(source)
+        if not model:
             continue
-        key = (source.brand.lower(), model)
-        if key in model_index:
-            for target in model_index[key]:
+        if model in model_index:
+            for target in model_index[model]:
+                # If both have brands, they should match
+                if source.brand and target.brand:
+                    if source.brand.lower() != target.brand.lower():
+                        continue
                 matches.append(Match(
                     source_reference=source.reference,
                     target_reference=target.reference,
@@ -59,7 +75,7 @@ def match_by_model_number(sources: list[Product], targets: list[Product]) -> lis
                     target_retailer=target.retailer or "",
                     target_url=target.url or "",
                     target_price=target.price_eur,
-                    confidence=0.9,
+                    confidence=0.95,
                     method="model_number",
                 ))
 
@@ -69,28 +85,33 @@ def match_by_model_number(sources: list[Product], targets: list[Product]) -> lis
 def match_by_fuzzy_name(
     sources: list[Product],
     targets: list[Product],
-    threshold: float = 85.0,
+    threshold: float = 82.0,
     already_matched: set[tuple[str, str]] | None = None,
 ) -> list[Match]:
-    """Fuzzy match by normalized product name within the same brand."""
+    """Fuzzy match by normalized product name, optionally within same brand."""
     already_matched = already_matched or set()
 
-    # Group targets by brand
+    # Group targets by brand for efficiency
     brand_targets: dict[str, list[Product]] = {}
+    no_brand_targets: list[Product] = []
     for t in targets:
         if t.brand:
             brand_targets.setdefault(t.brand.lower(), []).append(t)
+        else:
+            no_brand_targets.append(t)
 
     matches = []
     for source in sources:
-        if not source.brand:
-            continue
-        brand_key = source.brand.lower()
-        candidates = brand_targets.get(brand_key, [])
-        if not candidates:
-            continue
-
         src_name = normalize_name(source.name)
+
+        # Search same-brand targets first
+        candidates = []
+        if source.brand:
+            candidates = brand_targets.get(source.brand.lower(), [])
+
+        # Also search no-brand targets
+        candidates = candidates + no_brand_targets
+
         for target in candidates:
             if (source.reference, target.reference) in already_matched:
                 continue
