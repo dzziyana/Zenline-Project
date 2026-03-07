@@ -795,6 +795,8 @@ PRODUCT_TYPES: dict[str, list[str]] = {
     "vacuum_robot": ["saugroboter", "robot vacuum", "roborock s", "roomba"],
     "vacuum_generic": ["staubsauger", "vacuum cleaner", "sauger"],
     "meat_grinder": ["fleischwolf", "meat grinder"],
+    # Microwave BEFORE sandwich_grill ("3-in-1 Mikrowelle" is a microwave, not a sandwich grill)
+    "microwave": ["mikrowelle", "microwave"],
     "sandwich_grill": ["sandwichmaker", "sandwich maker", "sandwichtoaster",
                        "sandwich-toaster", "kontaktgrill", "waffeleisen und sandwichmaker",
                        "3-in-1", "3 in 1"],
@@ -820,27 +822,34 @@ PRODUCT_TYPES: dict[str, list[str]] = {
                       "kochfeld reiniger", "kochfeldreiniger", "herdplattenreinig"],
     "drain_hose": ["ablaufschlauch", "drain hose", "waschmaschinenschlauch"],
     "aquastop_hose": ["aquastop verlängerungsschlauch", "aquastop-schlauch",
-                      "zulaufschlauch"],
+                      "aquastopschlauch", "zulaufschlauch"],
     "stacking_kit": ["zwischenbaurahmen", "stacking kit", "verbindungsrahmen"],
     "thermometer": ["bratenthermometer", "kühlschrankthermometer",
                     "gefrierschrankthermometer", "kühl-/gefrierschrankther"],
     "range_hood_filter": ["dunstabzug", "aktivkohlefilter", "fettfilter",
-                          "range hood filter", "dunstfilter", "filter-set universal"],
+                          "range hood filter", "dunstfilter", "filter-set universal",
+                          "wandhaube", "abzugshaube", "dunstabzugshaube", "cooker hood",
+                          "unterbauhaube", "kopffreihaube", "vent hood"],
     "washing_accessory": ["waschbälle", "waschbaelle", "trocknerbälle",
                           "trocknerbaelle", "dryer balls",
                           "waschmaschinen komplett-pflege", "waschmaschinen pflege"],
     "plumbing_fitting": ["winkelstück", "winkelstueck", "siphon", "kondensatablauf"],
     # Herd set before cooktops (contains "kochfeld" in name)
     "herd_set": ["herdset", "herd-set", "einbau-herdset", "backofen set",
-                 "einbauherd", "einbau-herd"],
-    # Microwaves -- all merged (GT doesn't distinguish grill vs plain)
-    "microwave": ["mikrowelle", "microwave"],
+                 "einbauherd", "einbau-herd",
+                 "einbaubackofen", "einbau-backofen", "built-in oven",
+                 "standherd", "elektroherd", "gasherd",
+                 "backofenset", "backofen-set",
+                 "herd-kochfeld", "herd, kochfeld",
+                 "freistehender herd", "electric stove", "standing stove",
+                 "minibackofen", "mini-backofen", "mini backofen"],
     # Air fryer AFTER microwave (some microwaves have "Heißluftfritteusenfunktion")
     "air_fryer": ["heissluftfritteuse", "heißluftfritteuse", "airfryer", "air fryer",
                   "fritteuse", "friteuse", "easy fry", "dual easy"],
     # Washing machines -- all merged (GT doesn't distinguish toplader vs frontlader)
-    "washing_machine": ["waschmaschine", "washing machine", "frontlader",
-                        "toplader", "top loader", "top-loader"],
+    "washing_machine": ["waschmaschine", "waschmachine", "washing machine", "frontlader",
+                        "toplader", "top loader", "top-loader",
+                        "waschtrockner", "waschtrokner", "washer dryer", "washer-dryer"],
     "tumble_dryer": ["wärmepumpentrockner", "waermepumpentrockner", "trockner",
                      "tumble dryer", "dryer"],
     "dishwasher": ["geschirrspüler", "geschirrspueler", "dishwasher",
@@ -849,11 +858,16 @@ PRODUCT_TYPES: dict[str, list[str]] = {
     "cold_appliance": ["kühl- gefrierkombination", "kuehl- gefrierkombination",
                        "kühl-gefrierkombination", "kuehl-gefrierkombination",
                        "kühl-/gefrierkombination", "kuehl-/gefrierkombination",
+                       "kühl-gefrier-kombination", "kuehl-gefrier-kombination",
                        "kühlgefrierkombination", "fridge freezer", "combi fridge",
                        "gefrierschrank", "stand-gefrierschrank", "gefriertruhe", "freezer",
                        "kühlschrank", "kuehlschrank", "glastürkühlschrank",
                        "glastuerkuehlschrank", "fridge", "refrigerator",
-                       "kühl-/gefrier", "kuehl-/gefrier"],
+                       "kühl-/gefrier", "kuehl-/gefrier",
+                       "kühl-gefrier", "kuehl-gefrier",
+                       "gefrierkombination", "gefrierbox", "side by side", "side-by-side",
+                       "multi-door", "french door",
+                       "kühlen & ", "kuehl & "],
     # Cooktops -- all merged (GT groups induction+ceramic+electric together)
     "cooktop": ["induktionskochfeld", "induktionskochplatte",
                 "induktionsdoppelkochplatte", "induction cooktop",
@@ -862,7 +876,10 @@ PRODUCT_TYPES: dict[str, list[str]] = {
                 "ceranfeld", "ceramic cooktop", "glaskeramik kochfeld",
                 "glaskeramik",
                 "kochplatte", "einzelkochplatte", "doppelkochplatte",
-                "elektrokochzone", "hot plate", "massekochfeld"],
+                "elektrokochzone", "hot plate", "massekochfeld",
+                "induction hob", "ceramic hob", "glass ceramic hob",
+                "elektro-kochfeld", "strahlungsheizungskochfeld",
+                "autarkes kochfeld"],
 }
 
 
@@ -876,6 +893,14 @@ def _classify_product_type(name: str) -> str | None:
                 if ptype == "cooktop_induction" and "ohne induktion" in nl:
                     continue
                 return ptype
+
+    # Fallback: classify standalone ovens/herds as herd_set
+    # Only if they mention volume (real ovens) not lightbulbs/cleaners
+    import re
+    if ("backofen" in nl or "herd" in nl or "stove" in nl or "oven" in nl) and "herdanschluss" not in nl and "herd-anschluss" not in nl:
+        if re.search(r'\d+\s*l[,\s)]', nl):
+            return "herd_set"
+
     return None
 
 
