@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react'
-import { getCategories } from '../services/api'
+import { getDashboard, getCategories } from '../services/api'
 import { STRATEGIES } from '../strategies'
+import type { DashboardStats } from '../types/product'
 
 const STRATEGY_ICONS: Record<string, JSX.Element> = {
   ean: (
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
       <rect x="4" y="6" width="28" height="24" rx="3" />
-      <line x1="9" y1="12" x2="9" y2="24" />
-      <line x1="12" y1="12" x2="12" y2="24" />
-      <line x1="16" y1="12" x2="16" y2="24" />
-      <line x1="18" y1="12" x2="18" y2="24" />
-      <line x1="22" y1="12" x2="22" y2="24" />
-      <line x1="24" y1="12" x2="24" y2="24" />
+      <line x1="9" y1="12" x2="9" y2="24" /><line x1="12" y1="12" x2="12" y2="24" />
+      <line x1="16" y1="12" x2="16" y2="24" /><line x1="18" y1="12" x2="18" y2="24" />
+      <line x1="22" y1="12" x2="22" y2="24" /><line x1="24" y1="12" x2="24" y2="24" />
       <line x1="27" y1="12" x2="27" y2="24" />
     </svg>
   ),
@@ -26,77 +24,73 @@ const STRATEGY_ICONS: Record<string, JSX.Element> = {
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
       <path d="M6 18C10 12 14 24 18 18C22 12 26 24 30 18" opacity="0.3" />
       <path d="M6 18C10 14 14 22 18 18C22 14 26 22 30 18" />
-      <line x1="8" y1="28" x2="16" y2="28" />
-      <line x1="20" y1="28" x2="28" y2="28" opacity="0.4" />
-      <line x1="8" y1="8" x2="14" y2="8" />
-      <line x1="22" y1="8" x2="28" y2="8" opacity="0.4" />
+      <line x1="8" y1="28" x2="16" y2="28" /><line x1="20" y1="28" x2="28" y2="28" opacity="0.4" />
+      <line x1="8" y1="8" x2="14" y2="8" /><line x1="22" y1="8" x2="28" y2="8" opacity="0.4" />
     </svg>
   ),
   embedding: (
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="10" cy="10" r="3" />
-      <circle cx="26" cy="10" r="3" />
-      <circle cx="18" cy="26" r="3" />
-      <circle cx="10" cy="26" r="3" opacity="0.3" />
-      <circle cx="26" cy="26" r="3" opacity="0.3" />
-      <line x1="12" y1="12" x2="16" y2="24" />
-      <line x1="24" y1="12" x2="20" y2="24" />
+      <circle cx="10" cy="10" r="3" /><circle cx="26" cy="10" r="3" /><circle cx="18" cy="26" r="3" />
+      <circle cx="10" cy="26" r="3" opacity="0.3" /><circle cx="26" cy="26" r="3" opacity="0.3" />
+      <line x1="12" y1="12" x2="16" y2="24" /><line x1="24" y1="12" x2="20" y2="24" />
       <line x1="13" y1="10" x2="23" y2="10" opacity="0.3" />
     </svg>
   ),
   vision: (
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 18C4 18 10 8 18 8C26 8 32 18 32 18C32 18 26 28 18 28C10 28 4 18 4 18Z" />
-      <circle cx="18" cy="18" r="5" />
-      <circle cx="18" cy="18" r="2" fill="currentColor" stroke="none" />
+      <circle cx="18" cy="18" r="5" /><circle cx="18" cy="18" r="2" fill="currentColor" stroke="none" />
     </svg>
   ),
   llm: (
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
       <rect x="6" y="4" width="24" height="20" rx="4" />
-      <path d="M12 11H24" opacity="0.3" />
-      <path d="M12 15H20" opacity="0.3" />
-      <path d="M14 24L10 32" />
-      <path d="M22 24L26 32" />
+      <path d="M12 11H24" opacity="0.3" /><path d="M12 15H20" opacity="0.3" />
+      <path d="M14 24L10 32" /><path d="M22 24L26 32" />
       <circle cx="14" cy="12" r="1.5" fill="currentColor" stroke="none" />
       <circle cx="22" cy="12" r="1.5" fill="currentColor" stroke="none" />
     </svg>
   ),
   scrape: (
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="18" cy="18" r="13" />
-      <ellipse cx="18" cy="18" rx="6" ry="13" />
-      <line x1="5" y1="13" x2="31" y2="13" />
-      <line x1="5" y1="23" x2="31" y2="23" />
+      <circle cx="18" cy="18" r="13" /><ellipse cx="18" cy="18" rx="6" ry="13" />
+      <line x1="5" y1="13" x2="31" y2="13" /><line x1="5" y1="23" x2="31" y2="23" />
       <line x1="18" y1="5" x2="18" y2="31" />
     </svg>
   ),
 }
 
+const CONF_COLORS: Record<string, string> = {
+  excellent: 'var(--success)',
+  high: 'var(--accent)',
+  medium: 'var(--warning)',
+  low: 'var(--info)',
+}
+
 export default function Dashboard() {
   const [categories, setCategories] = useState<string[]>([])
+  const [dashboard, setDashboard] = useState<DashboardStats | null>(null)
   const [enabledStrategies, setEnabledStrategies] = useState<Set<string>>(() =>
     new Set(STRATEGIES.filter((s) => s.defaultEnabled).map((s) => s.id))
   )
 
   useEffect(() => {
     getCategories().then(setCategories).catch(() => setCategories([]))
+    getDashboard().then(setDashboard).catch(() => {})
   }, [])
 
   const toggleStrategy = (id: string) => {
     setEnabledStrategies((prev) => {
       const next = new Set(prev)
-      if (next.has(id)) {
-        next.delete(id)
-      } else {
-        next.add(id)
-      }
+      next.has(id) ? next.delete(id) : next.add(id)
       return next
     })
   }
 
   const enableAll = () => setEnabledStrategies(new Set(STRATEGIES.map((s) => s.id)))
   const disableAll = () => setEnabledStrategies(new Set())
+
+  const d = dashboard
 
   return (
     <>
@@ -105,23 +99,151 @@ export default function Dashboard() {
         <p>Overview of your product matching workspace</p>
       </div>
       <div className="page-body">
+        {/* Live Stats */}
         <div className="stats-grid">
           <div className="stat-card">
-            <div className="stat-label">Categories</div>
-            <div className="stat-value">{categories.length}</div>
-            <div className="stat-note">Available to match</div>
+            <div className="stat-label">Source Products</div>
+            <div className="stat-value">{d?.source_count ?? '--'}</div>
+            <div className="stat-note">To be matched</div>
           </div>
           <div className="stat-card">
-            <div className="stat-label">Active Strategies</div>
-            <div className="stat-value">{enabledStrategies.size}<span style={{ fontSize: '1rem', color: 'var(--stone-500)', fontFamily: 'DM Sans, sans-serif' }}> / {STRATEGIES.length}</span></div>
-            <div className="stat-note">Toggle below to configure</div>
+            <div className="stat-label">Target Pool</div>
+            <div className="stat-value">{d?.target_count ?? '--'}</div>
+            <div className="stat-note">From {d?.retailers?.length ?? 0} retailers</div>
           </div>
           <div className="stat-card">
-            <div className="stat-label">Retailers</div>
-            <div className="stat-value">6+</div>
-            <div className="stat-note">Austrian electronics retailers</div>
+            <div className="stat-label">Matches Found</div>
+            <div className="stat-value">{d?.match_count ?? '--'}</div>
+            <div className="stat-note">{d?.sources_matched ?? 0} sources covered</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Coverage</div>
+            <div className="stat-value">{d ? `${d.coverage_pct.toFixed(0)}%` : '--'}</div>
+            <div className="stat-note">
+              {d && d.source_count > 0
+                ? `${d.sources_matched} / ${d.source_count} sources`
+                : 'No data yet'}
+            </div>
           </div>
         </div>
+
+        {/* Method Breakdown + Confidence Distribution */}
+        {d && (d.methods.length > 0 || d.match_count > 0) && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+            {/* Method breakdown */}
+            <div className="card">
+              <div className="card-header">
+                <span className="card-title">Matches by Method</span>
+              </div>
+              {d.methods.length > 0 ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {d.methods.map((m) => {
+                    const pct = d.match_count > 0 ? (m.count / d.match_count) * 100 : 0
+                    return (
+                      <div key={m.method} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <span style={{ minWidth: '100px', fontSize: '0.84rem', fontWeight: 500, color: 'var(--stone-700)' }}>
+                          {m.label}
+                        </span>
+                        <div style={{ flex: 1, height: '6px', background: 'var(--cream-200)', borderRadius: '3px', overflow: 'hidden' }}>
+                          <div style={{ width: `${pct}%`, height: '100%', background: 'var(--accent)', borderRadius: '3px', transition: 'width 0.3s' }} />
+                        </div>
+                        <span className="mono" style={{ minWidth: '40px', textAlign: 'right' }}>{m.count}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <p style={{ color: 'var(--stone-500)', fontSize: '0.875rem' }}>Run matching to see breakdown</p>
+              )}
+            </div>
+
+            {/* Confidence distribution */}
+            <div className="card">
+              <div className="card-header">
+                <span className="card-title">Confidence Distribution</span>
+              </div>
+              {d.match_count > 0 ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {(['excellent', 'high', 'medium', 'low'] as const).map((level) => {
+                    const count = d.confidence_distribution[level]
+                    const pct = d.match_count > 0 ? (count / d.match_count) * 100 : 0
+                    return (
+                      <div key={level} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <span style={{ minWidth: '80px', fontSize: '0.84rem', fontWeight: 500, color: 'var(--stone-700)', textTransform: 'capitalize' }}>
+                          {level}
+                        </span>
+                        <div style={{ flex: 1, height: '6px', background: 'var(--cream-200)', borderRadius: '3px', overflow: 'hidden' }}>
+                          <div style={{ width: `${pct}%`, height: '100%', background: CONF_COLORS[level], borderRadius: '3px', transition: 'width 0.3s' }} />
+                        </div>
+                        <span className="mono" style={{ minWidth: '40px', textAlign: 'right' }}>{count}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <p style={{ color: 'var(--stone-500)', fontSize: '0.875rem' }}>No matches yet</p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Top Brands */}
+        {d && d.brands.length > 0 && (
+          <div className="card" style={{ marginBottom: '24px' }}>
+            <div className="card-header">
+              <span className="card-title">Top Brands</span>
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {d.brands.slice(0, 12).map((b) => (
+                <div key={b.brand} style={{
+                  padding: '8px 14px',
+                  background: 'var(--cream-100)',
+                  border: '1px solid var(--cream-300)',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '0.84rem',
+                }}>
+                  <strong style={{ color: 'var(--stone-800)' }}>{b.brand}</strong>
+                  <span style={{ color: 'var(--stone-500)', marginLeft: '8px' }}>
+                    {b.matched_sources} matched &middot; {b.total_matches} total
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Recent Runs */}
+        {d && d.recent_runs.length > 0 && (
+          <div className="card" style={{ marginBottom: '24px' }}>
+            <div className="card-header">
+              <span className="card-title">Recent Pipeline Runs</span>
+            </div>
+            <div className="table-wrapper" style={{ border: 'none', boxShadow: 'none' }}>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Sources</th>
+                    <th>Matches</th>
+                    <th>Covered</th>
+                    <th>When</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {d.recent_runs.map((run, i) => (
+                    <tr key={i}>
+                      <td><span className="badge badge-accent">{run.category}</span></td>
+                      <td>{run.source_count}</td>
+                      <td><strong>{run.match_count}</strong></td>
+                      <td>{run.sources_matched}</td>
+                      <td><span className="mono">{new Date(run.created_at).toLocaleString()}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
         {/* Strategies Section */}
         <div className="card" style={{ marginBottom: '24px' }}>
@@ -182,9 +304,7 @@ export default function Dashboard() {
                 <div className="empty-icon">
                   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3">
                     <rect x="4" y="4" width="32" height="32" rx="4"/>
-                    <line x1="12" y1="16" x2="28" y2="16"/>
-                    <line x1="12" y1="22" x2="24" y2="22"/>
-                    <line x1="12" y1="28" x2="20" y2="28"/>
+                    <line x1="12" y1="16" x2="28" y2="16"/><line x1="12" y1="22" x2="24" y2="22"/><line x1="12" y1="28" x2="20" y2="28"/>
                   </svg>
                 </div>
                 <h3>No categories loaded</h3>
@@ -194,13 +314,9 @@ export default function Dashboard() {
               <ul style={{ listStyle: 'none' }}>
                 {categories.map((c) => (
                   <li key={c} style={{
-                    padding: '10px 0',
-                    borderBottom: '1px solid var(--cream-200)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    fontSize: '0.9rem',
-                    color: 'var(--stone-700)',
+                    padding: '10px 0', borderBottom: '1px solid var(--cream-200)',
+                    display: 'flex', alignItems: 'center', gap: '10px',
+                    fontSize: '0.9rem', color: 'var(--stone-700)',
                   }}>
                     <span className="badge badge-accent">{c}</span>
                   </li>
@@ -209,22 +325,29 @@ export default function Dashboard() {
             )}
           </div>
 
+          {/* Retailers */}
           <div className="card">
             <div className="card-header">
-              <span className="card-title">Quick Start</span>
+              <span className="card-title">Retailers</span>
             </div>
-            <ol className="steps-list">
-              <li>Download source products and target pool JSON from the hackathon platform</li>
-              <li>Place them in <code style={{
-                background: 'var(--cream-200)',
-                padding: '2px 6px',
-                borderRadius: '4px',
-                fontSize: '0.84rem',
-                fontFamily: 'monospace',
-              }}>data/</code> or upload via the API</li>
-              <li>Go to <strong>Products</strong> to browse and search the catalog</li>
-              <li>Go to <strong>Matching</strong> to run the pipeline and generate submissions</li>
-            </ol>
+            {d && d.retailers.length > 0 ? (
+              <ul style={{ listStyle: 'none' }}>
+                {d.retailers.map((r) => (
+                  <li key={r} style={{
+                    padding: '10px 0', borderBottom: '1px solid var(--cream-200)',
+                    display: 'flex', alignItems: 'center', gap: '10px',
+                    fontSize: '0.9rem', color: 'var(--stone-700)',
+                  }}>
+                    <span className="badge badge-info">{r}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="empty-state">
+                <h3>No retailer data</h3>
+                <p>Run the pipeline to discover retailers from target products.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
