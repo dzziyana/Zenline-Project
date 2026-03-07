@@ -1,51 +1,103 @@
 [
   {
+    "source_reference": "P_F24DB7EA",
+    "competitors": [
+      {
+        "reference": "P_7DD0C99E",
+        "competitor_retailer": "MediaMarkt AT",
+        "competitor_product_name": "Mini Akku Handstaubsauger Druckluftfunktion USB-C",
+        "competitor_url": "https://www.mediamarkt.at/de/product/_mini-akku-handstaubsauger-druckluftfunktion-usb-c-1234567.html",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_06F3C397",
+    "competitors": [
+      {
+        "reference": "P_3A39CD31",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "meberg PF11257 Mikrowellendeckel Glockenform 25 cm BPA frei Kunststoff Mikrowellenabdeckhaube Mikrowellenhaube transparent Mikrowellebabdeckung Abdeckung Mikrowelle (Glocke)",
+        "competitor_url": "https://www.amazon.de/meberg-Mikrowellendeckel-Mikrowellenabdeckhaube-Mikrowellenhaube-Mikrowellebabdeckung/dp/B09N7F1NH7/ref=sr_1_1?dib=eyJ2IjoiMSJ9.GVuiWbFHNwnMKnenb8HWEn8xUDD32gW7TRWk67Bj1wwHVe5hbvkq7cA1EC1W2HLiYE8da7x_qsU7oY4hMStDVjauPVH1oCthdKfEnnIR_bfYblb3AAkW9hqjEFbQA6kLQnnaSYgUWRHK7VAuwzsbDUEB6kVBTO75Niml3JHyT_NPokPuCiqN-rq5fOk2QAO8Q8a1r8CrRtlhMsvAVLkgW6h1fFG2Bw72Pq-NyhTdjZXAK7KcOo4NMol8xlaEzm0dO-JJpFeTZsQwDOk2zKwgOeLRgPEkYjfjmgPgOUBqjpI.DlPZsNhHZcVTHbzEMbPXKoVUalpzvtlNQmCBoSQM8xQ&dib_tag=se&keywords=Mikrowellenhaube+25cm+Spritzschutz+Kunststoff+transparent&qid=1769561682&sr=8-1",
+        "competitor_price": 8.99
+      },
+      {
+        "reference": "P_4DB0B2BB",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "meberg PF11257 Mikrowellendeckel Set, 2 St\u00fcck, 25 cm, BPA-freier Kunststoff, Transparent, Sp\u00fclmaschinenfest",
+        "competitor_url": "https://www.amazon.de/meberg-Mikrowellendeckel-BPA-freier-Transparent-Sp%C3%BClmaschinenfest/dp/B0CRW1DMPJ/ref=sr_1_6?dib=eyJ2IjoiMSJ9.GVuiWbFHNwnMKnenb8HWEn8xUDD32gW7TRWk67Bj1wwHVe5hbvkq7cA1EC1W2HLiYE8da7x_qsU7oY4hMStDVjauPVH1oCthdKfEnnIR_bfYblb3AAkW9hqjEFbQA6kLQnnaSYgUWRHK7VAuwzsbDcotYEbc6IDLfdbSbTJ8PlSA5p_cfSq6RL7HO81hbAoWKCLWS-BueVvt8tgFJhbw5dkZXPUxB7zFFCrQlS74kz--kYt20PjHUbUz_G2eH6U0lKIHAYrxuk0ZGlmkO9scnerblxv8CLQcrYkGePndn_U.2H5KseQxSymU5l-lFnFtXI9q3d0l3Ifvm5E1r1s-7uo&dib_tag=se&keywords=Mikrowellenhaube+25cm+Spritzschutz+Kunststoff+transparent&qid=1769562260&sr=8-6",
+        "competitor_price": 11.9
+      },
+      {
+        "reference": "P_8CE76E4D",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "meberg PF11257 Mikrowellendeckel Set, 2 St\u00fcck, 25 cm, BPA-freier Kunststoff, Transparent, Sp\u00fclmaschinenfest",
+        "competitor_url": "https://www.amazon.de/meberg-Mikrowellendeckel-BPA-freier-Transparent-Sp%C3%BClmaschinenfest/dp/B0CRW1DMPJ/ref=sr_1_6?dib=eyJ2IjoiMSJ9.GVuiWbFHNwnMKnenb8HWEn8xUDD32gW7TRWk67Bj1wwHVe5hbvkq7cA1EC1W2HLiYE8da7x_qsU7oY4hMStDVjauPVH1oCthdKfEnnIR_bfYblb3AAkW9hqjEFbQA6kLQnnaSYgUWRHK7VAuwzsbDUEB6kVBTO75Niml3JHyT_NPokPuCiqN-rq5fOk2QAO8Q8a1r8CrRtlhMsvAVLkgW6h1fFG2Bw72Pq-NyhTdjZXAK7KcOo4NMol8xlaEzm0dO-JJpFeTZsQwDOk2zKwgOeLRgPEkYjfjmgPgOUBqjpI.DlPZsNhHZcVTHbzEMbPXKoVUalpzvtlNQmCBoSQM8xQ&dib_tag=se&keywords=Mikrowellenhaube+25cm+Spritzschutz+Kunststoff+transparent&qid=1769561682&sr=8-6",
+        "competitor_price": 11.9
+      }
+    ]
+  },
+  {
     "source_reference": "P_32E93F6C",
     "competitors": [
       {
-        "reference": "SCRAPED_electronic4you.at_74148143",
-        "competitor_product_name": "Kenwood CHP80.000SI Duo Prep 2-in-1",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/kenwood-chp80-000si-duo-prep-2-in-1-263185.html",
-        "competitor_price": 74.99
+        "reference": "P_DF146934",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "2-in-1 Raclette Grill 8 People Electric Table Grill Non-Stick Coated Reversible Grill Plate Electric Grill Smokeless Raclette with 8 Mini Raclette Pans & 8 Scrapers Dishwasher Safe 1300 W : Amazon.de: Home & Kitchen",
+        "competitor_url": "https://www.amazon.de/Antihaftbeschichtet-Wende-Grillplatte-Elektrogrill-Rauchfreier-Sp%C3%BClmaschinenfest/dp/B0CHMFRW5R",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_44CBF62B",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "Klarstein Sirloin Raclette-Grill, 1500 Watt, 2-in-1: Aluminium-Grillplatte & Natursteinplatte, Edelstahl-Heizelement, regulierbarer Thermostat, f\u00fcr 8 Personen, Raclette-Pfannen aus Stahl",
+        "competitor_url": "https://www.amazon.de/Klarstein-Sirloin-Raclette-Grill-Aluminium-Grillplatte-Edelstahl-Heizelement/dp/B07ZRM2FZW/ref=sr_1_11?dib=eyJ2IjoiMSJ9.OnMse7WCwsi2l8Ll_aFmZIC_wViF9QIAxeUrX3KY4yiQnQYZpJ1S94XBU-pZtr0SluMAenuzMRB6lLwCkAV-z_PeL4G7v7mqgf60b3433njQ_TeD67jvCtrFFRWZxYTViCKyaWLOiMNSsiS7LIcnEPoendGvsAcO4ZdxaKcaXdVwiFsMBJxz8gwNo8OMw_XvuTXE8lUoBv3_Gai2VIrKbfGOmYeIN7A-nRm9ZOSRsco.vdjDeokNvIRBEQCZ5W3tnkvQ2B3nXsDlQRNgRWRfBv0&dib_tag=se&keywords=Raclette+Grill+8+Personen+Naturstein+1500W&qid=1770246637&sr=8-11",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_0BF8BFF9",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "Russell Hobbs Standmixer 2-in-1 [1,5l Glasbeh\u00e4lter Mixer & 0,6l Mini Smoothie Maker -To-Go-Trinkflasche inkl. Deckel] Sp\u00fclmaschinenfest, Impuls-/Ice-Crush Funktion, Becher BPA frei, Edelstahl 23821-56",
+        "competitor_url": "https://www.amazon.de/Russell-Hobbs-23821-56-Glas-Standmixer-Go-Becher/dp/B06XCFCMJZ/ref=sr_1_7?dib=eyJ2IjoiMSJ9.7HXCF43EWkMDXP1kbVh4sqUZFMhfHWCQjBUyP4oMmfXsIPz26pTjqM91Z8b9Ct4th-OoXSgU82MroLDQ6iCCTtAhmhszYmmpwXpINgtFbuKgazIIhKE2u067-oYMip1X3d2u1F-y3LnYgcmzCCTgxZIdzEJQ0CovKnzcd5O4enoI7q7J6Gn8FS_gm2mshNIzEpIIvi1nUBxLVQBweD9PFF1qVo-zBsY4AFsm5J04Crc.L4_XplUvNpVu72FaUXz7lGxOhfC31C_zZAGKgVcy5w8&dib_tag=se&keywords=Standmixer+Edelstahl+1000+Watt+Glasbeh%C3%A4lter&qid=1770251165&sr=8-7",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_38ECFF89",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "Akitas 800W Beutelloser Staubsauger: Starke Saugkraft, Deutscher Wessel-Werk 2-in-1-B\u00fcrstenkopf (Hartb\u00f6den/Teppiche) + Turbo-Haarb\u00fcrste f\u00fcr Haustiere",
+        "competitor_url": "https://www.amazon.de/Akitas-800W-Beutelloser-Staubsauger-1-B%C3%BCrstenkopf/dp/B0CS6Y1TY9/ref=sr_1_3?dib=eyJ2IjoiMSJ9.mjxSskz_VWh758GABAJfwPPWxUFIaGQ1KpbeDJDWSNfafbV7KmUK9DtwpmDhwUVvbmQFGeH77Gx3iL1pVnKt-38QnK0otzjdUqeb7izrNRT5fa6UQgVYTrr8QXYxpWut07MXID3Mk1aPYQNz7EoVkP7aDU9CnJ03u-vq_YaQbIh47bgbybG59Jw6bXamFBEJ-L6mh_cicKt9P8jfKoCmhpspi3l2BLcPgeakISedAyg.EstoKym_rqtpvnSC1z7olc-qO892EWRT83lICQCWhdg&dib_tag=se&keywords=beutelloser+Schlittenstaubsauger+800+Watt+kompakt&qid=1770247155&sr=8-3",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CC178206",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "Cecotec Bodenstaubsauger mit 2 Litern Beutelloser Conga Rockstar Multicyclonic Compact X-Treme. 800 W, Ultraleicht und Kompakt, 20 kPa, Aktionsradius 6,2 m, 2-in-1-Zubeh\u00f6r f\u00fcr M\u00f6bel und Ecken.",
+        "competitor_url": "https://www.amazon.de/Cecotec-Bodenstaubsauger-Beutelloser-Multicyclonic-Aktionsradius/dp/B0BPZJCLV6/ref=sr_1_5?dib=eyJ2IjoiMSJ9.mjxSskz_VWh758GABAJfwPPWxUFIaGQ1KpbeDJDWSNfafbV7KmUK9DtwpmDhwUVvbmQFGeH77Gx3iL1pVnKt-38QnK0otzjdUqeb7izrNRT5fa6UQgVYTrr8QXYxpWut07MXID3Mk1aPYQNz7EoVkP7aDU9CnJ03u-vq_YaQbIh47bgbybG59Jw6bXamFBEJ-L6mh_cicKt9P8jfKoCmhpspi3l2BLcPgeakISedAyg.EstoKym_rqtpvnSC1z7olc-qO892EWRT83lICQCWhdg&dib_tag=se&keywords=beutelloser+Schlittenstaubsauger+800+Watt+kompakt&qid=1770247155&sr=8-5",
+        "competitor_price": null
       }
     ]
   },
   {
-    "source_reference": "P_3C4C40C9",
+    "source_reference": "P_5D2C815F",
     "competitors": [
       {
-        "reference": "SCRAPED_E-Tec_64972696",
-        "competitor_product_name": "Remington S6505",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAq9areXX-pMjHnZJRXBjFe93Zd7hTQronPJS7Zg8WqOvsYyGKQ5Px9fdgL9uKkOUisfRyMABNMxPRYWmaSbwAkI9knHJXQOBLcaNjts8WAXURvkbuBdTDR-M1caOboCQHImJy-EfEC54hg-f5xxoTsa8tzsmqESvoXkVS_IimFVkYgUIhiyaWvdZrnPU5siVA",
-        "competitor_price": 35.8
-      },
-      {
-        "reference": "SCRAPED_E-Tec_77123752",
-        "competitor_product_name": "Remington S6505",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAq9areXX-pMjHnZJRXBjFe93Zd7hTQronPJS7Zg8WqOvsYyGKQ5Px9fdgL9uKkOUisfRyMABNMxPRYWmaSbwAkI9knHJXQOBLcaNjts8WAXURvkbuBdTDR-M1caOboCQE88No3rP8yUkXazQFsOZf0a8tzsmqESvoXkVS_IimFVkYgUIhiyaWvdZrnPU5siVA",
-        "competitor_price": 35.8
-      },
-      {
-        "reference": "SCRAPED_E-Tec_83626820",
-        "competitor_product_name": "Remington S6505",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAq9areXX-pMjHnZJRXBjFe93Zd7hTQronPJS7Zg8WqOvsYyGKQ5Px9fdgL9uKkOUisfRyMABNMxPRYWmaSbwAkI9knHJXQOBLcaNjts8WAXURvkbuBdTDR-M1caOboCQI2QwAz0IfMsYbIYhmapex4a8tzsmqESvoXkVS_IimFVkYgUIhiyaWvdZrnPU5siVA",
-        "competitor_price": 35.8
+        "reference": "P_91E9174D",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "Tefal Easygrill Elektrischer Standgrill | BG90F5 | Mit Standf\u00fc\u00dfen F\u00fcr Drau\u00dfen | Auch Als Tischgrill Drinnen verwendbar | 2300 W | 870cm\u00b2 Grillfl\u00e4che | Leichte Reinigung | schwarz/Burgunderrot",
+        "competitor_url": "https://www.amazon.de/Tefal-BG90F5-Easygrill-Elektro-Standgrill-Burgunderrot/dp/B079R1D4ZR/ref=sr_1_10?dib=eyJ2IjoiMSJ9.7Stg7X4w42M6WPbp7vCzrSC16FOIbXscW2w4V3DQdcFDSTv1ErJy33m7JeXwNYc8f04TABfoWer_Sf6N59Rq85Vs0HkI3Vjf2tGcP7prgnuxRwZZd4uGMGvmt-Ej8uWRjhY9R_EOAlWoZSAgTjnbhLCciDDorOUxTrAGwwCkIoU-UTOptI1FwOpz48k70JW_7qzBB3LVjtTMITbks0-TfKPM70rqz6IqhXk86YgXY50.dDZ-3Ejm-vCBXYEm-GjilFq2PxMqExGlDRaUixcP6pE&dib_tag=se&keywords=Elektro+Standgrill+2000+Watt+Thermostat&qid=1770553742&sr=8-10",
+        "competitor_price": null
       }
     ]
   },
   {
-    "source_reference": "P_6A08C720",
+    "source_reference": "P_6850D325",
     "competitors": [
       {
-        "reference": "SCRAPED_electronic4you.at_79509624",
-        "competitor_product_name": "Silva SM5050 Standmixer",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/silva-sm5050-standmixer-248389.html",
-        "competitor_price": 39.99
+        "reference": "P_BD801EE4",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "ROMMELSBACHER Vakuumierer VAC 585, Absaugleistung 20 Liter/Min., Einhand-Bedienung, Langzeitbetrieb geeignet, Doppel-Versiegelungsnaht, 2 Programme, 2 Geschwindigkeiten, f\u00fcr Folien bis 30 cm",
+        "competitor_url": "https://www.amazon.de/Rommelsbacher-VAC-585/dp/B07NLPYH9C/ref=sr_1_10?keywords=Vakuumierger%C3%A4t+Edelstahl+110W+automatisch&qid=1769561311&sr=8-10",
+        "competitor_price": 179.0
       }
     ]
   },
@@ -53,18 +105,32 @@
     "source_reference": "P_76C8AC06",
     "competitors": [
       {
-        "reference": "SCRAPED_Expert_AT_68015950",
-        "competitor_product_name": "Beurer MG99 Mini Massage Gun - Massagepistole PhysioLine",
-        "competitor_retailer": "Expert AT",
-        "competitor_url": "https://www.expert.at/shop/koerperpflege-wellness/massage-entspannung/massagegeraete/beurer-mg99-mini-massage-gun~p2397744",
-        "competitor_price": 74.99
+        "reference": "P_33469DD7",
+        "competitor_retailer": "MediaMarkt AT",
+        "competitor_product_name": "BEURER MG99 PhysioLine Massagepistole, mit 4 Aufs\u00e4tzen, Gr\u00fcn | MediaMarkt",
+        "competitor_url": "https://www.mediamarkt.at/de/product/_beurer-mg-99-massage-gun-compact-inkl-4-aufsatze-1874925.html",
+        "competitor_price": null
       },
       {
-        "reference": "SCRAPED_electronic4you.at_72195198",
-        "competitor_product_name": "Beurer MG 99 Massagegun",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/beurer-mg-99-massagegun-280011.html",
-        "competitor_price": 108.49
+        "reference": "P_B54808B0",
+        "competitor_retailer": "MediaMarkt AT",
+        "competitor_product_name": "BEURER 103.35 MG99 Limited Edition Massagepistole, mit 4 Aufs\u00e4tzen, Schwarz/Kupfer online kaufen | MediaMarkt",
+        "competitor_url": "https://www.mediamarkt.at/de/product/_beurer-10335-mg99-limited-edition-massagegun-1973023.html",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D2690F44",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "Beurer MG 99 Massagepistole, handliche Massage Gun mit 4 Aufs\u00e4tzen, kraftvolle Triggerpunktmassage, Lockerung von Verspannungen, kompaktes Muskelmassageger\u00e4t mit 5 Intensit\u00e4tsstufen & Akku",
+        "competitor_url": "https://www.amazon.de/Beurer-Massagepistole-Triggerpunktmassage-Muskelmassageger%C3%A4t-Intensit%C3%A4tsstufen/dp/B09QC1W78J/ref=sr_1_2?dib=eyJ2IjoiMSJ9.YbevPrCmHdod43pj0FXQ_yqHu7JvdbSukuKqr6-8r981Fvu2IAU5FnnWWfC7OM0J4CoiAWA6bcHfu1mOWrVWqoUxOWh3zaNBWCg_KnehsnLLoaXk-PiPs0PdiFq4_9B5OT_2CyefYTGsaW2_Jmd47O3Vmwd6cSd50JzT-3szQZ-g5PyoZLSEYKECctSbU37dRxJzWy7u3Zl1qRFQzvx7dFUSyE_JJRdkLNTdxRStuJKRPNQP-Wlh4Rqmh5tdvH8iKnGdDLqc9lBymOqApBPaaoFmT2NxGXMNUNFJPN7ZFjY.sEq4iraKfNeo9b3w0vggAw33GAxR5CNOq5iFeuSozZ0&dib_tag=se&keywords=Massagepistole+schwenkbar+4+Aufs%C3%A4tze+USB-C&qid=1769686207&sr=8-2",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_830A36D0",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "Beurer MG 99 Massagepistole, handliche Massage Gun mit 4 Aufs\u00e4tzen, kraftvolle Triggerpunktmassage, Lockerung von Verspannungen, kompaktes Muskelmassageger\u00e4t mit 5 Intensit\u00e4tsstufen & Akku",
+        "competitor_url": "https://www.amazon.de/Beurer-Massagepistole-Triggerpunktmassage-Muskelmassageger%C3%A4t-Intensit%C3%A4tsstufen/dp/B09QC1W78J/ref=sr_1_8?dib=eyJ2IjoiMSJ9.9yDDcaMXVdeNODM7eKQaytPLv1mu6vpFr9I82CIxZixjjvs5NWm7-H64uxtgDpVKvAmFI-THU5T1MZ-MEyvJqb14eHZmYmziiwez7AvTh9tTYx84VMPFE65c66MKj3FwrOYOp33OmpUs_MeCkHRmbtxBF0XdQojz_Mln4Ty_oBdhClZTSrG1-752VEUtJB0FCCnpurYb0pxU26Jrbr2ZJGTzRWPIMQby0g4pmz7wdBwqsQSN5dPkZ30phlX4sv8aBDoFTQHFspzC7YxUeWcyInAioYoGup53dVsH4IzhAek.lysfP9TjDGIXMP3pz-sCsKwN5ceEbVRSV2IMefkYB08&dib_tag=se&keywords=Massagepistole+verstellbarer+Winkel+4+Aufs%C3%A4tze&qid=1770341682&sr=8-8",
+        "competitor_price": null
       }
     ]
   },
@@ -72,11 +138,11 @@
     "source_reference": "P_873CB436",
     "competitors": [
       {
-        "reference": "SCRAPED_electronic4you.at_07434127",
-        "competitor_product_name": "Clatronic WA 3670 Multigrill",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/clatronic-wa-3670-multigrill-232516.html",
-        "competitor_price": 49.99
+        "reference": "P_DADAE8F2",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "Clatronic\u00ae Multifunktionsger\u00e4t 3 in 1 | Sandwichtoaster, Waffeleisen und Kontaktgrill | 800 Watt | Sp\u00fclmaschinengeeignet | Antihaftbeschichtung | Sandwich Maker | ST/WA 3670 Schwarz-Edelstahl",
+        "competitor_url": "https://www.amazon.de/Multifunktionsger%C3%A4t-Sp%C3%BClmaschinengeeignet-Antihaftbeschichtung-3670-Schwarz-Edelstahl/dp/B01N6JG1U4/ref=sr_1_15?dib=eyJ2IjoiMSJ9.fO4UkJgl0v_8laOIErZ0K_PX6Hb65ZvHwWpsBzQ96xJctVh5xPOHYCqO4kScfjFRL_Afvxf24F4-6kQqQaBeCTln85nKVevjlsB2h_2eulzAPi4BHaQ2_2G2ef72uePZ8KPzTZbZqk-gQ5q_d2Y_rZVSrOGOiLwf_Y3bX6Hm2DwEZ1m7G2EF49NxFXMA3F6vf7ANJKoCvhS_g018FCgckZgseL2zLZOxV3vTTZz5Wwc.P8WvqeP2o4u0rkYJ3QKtTrMJgglPGuTe1GceWd5hO4g&dib_tag=se&keywords=Sandwichmaker+3+in+1+wechselbare+Platten+750W&qid=1770246619&sr=8-15",
+        "competitor_price": null
       }
     ]
   },
@@ -84,399 +150,89 @@
     "source_reference": "P_885477C9",
     "competitors": [
       {
-        "reference": "SCRAPED_Cyberport_AT_74181232",
-        "competitor_product_name": "Severin EK 3163",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5QhatQvKH02gIi5ht2CzKNbAkT3p9_mVyqADZp4N1YvONATbXB3lSUorpggYy2_HFZ1pA3HgURS8uENl-LhDHH_maT3CcVXx-iEuQl3ZC8OGOQ",
-        "competitor_price": 27.9
-      },
-      {
-        "reference": "SCRAPED_E-Tec_65353043",
-        "competitor_product_name": "Severin EK 3163",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAPNGXq9uYT9KwZlyxXNFkwK93Zd7hTQronPJS7Zg8WqOZ0TGuAGUFslxd4xS3nRPi4YBFoL-QdTV4Zo5QFUWZeqdkiDnzFBZ1sKrfLN9Yacl-i5Csq2GuAxC-PuNglFdQnlwgycujwWYS2gNELmrFIJLWVDWPncxh_hfDfxjl8IfVp6AV1s8V8eZZwyfm5dlUQ",
-        "competitor_price": 28.0
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_09080592",
-        "competitor_product_name": "Severin EK 3163",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5QhatQvKH02gIi5ht2CzKNbAkT3p9_mVyqADZp4N1YvONLvSA0RKDdlnAsjZwXD7NoRpA3HgURS8uENl-LhDHH_maT3CcVXx-iEuQl3ZC8OGOQ",
-        "competitor_price": 27.9
-      },
-      {
-        "reference": "SCRAPED_E-Tec_95400411",
-        "competitor_product_name": "Severin EK 3163",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAPNGXq9uYT9KwZlyxXNFkwK93Zd7hTQronPJS7Zg8WqOZ0TGuAGUFslxd4xS3nRPi4YBFoL-QdTV4Zo5QFUWZeqdkiDnzFBZ1sKrfLN9Yacl-i5Csq2GuAxC-PuNglFdQrNBm5ptigG9KhBFs3ikTCFLWVDWPncxh_hfDfxjl8IfVp6AV1s8V8eZZwyfm5dlUQ",
-        "competitor_price": 28.0
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_28795956",
-        "competitor_product_name": "Severin EK 3163",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5QhatQvKH02gIi5ht2CzKNbAkT3p9_mVyqADZp4N1YvONJ8SAbsPDbjSLUrNaUfaZDhpA3HgURS8uENl-LhDHH_maT3CcVXx-iEuQl3ZC8OGOQ",
-        "competitor_price": 27.9
-      },
-      {
-        "reference": "SCRAPED_E-Tec_20237415",
-        "competitor_product_name": "Severin EK 3163",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAPNGXq9uYT9KwZlyxXNFkwK93Zd7hTQronPJS7Zg8WqOZ0TGuAGUFslxd4xS3nRPi4YBFoL-QdTV4Zo5QFUWZeqdkiDnzFBZ1sKrfLN9Yacl-i5Csq2GuAxC-PuNglFdQlaKTNFeBi_B99aB8BIMA1ZLWVDWPncxh_hfDfxjl8IfVp6AV1s8V8eZZwyfm5dlUQ",
-        "competitor_price": 28.0
+        "reference": "P_AF56529E",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "SEVERIN Eierkocher f\u00fcr 3 Eier mit elektronischer Kochzeit\u00fcberwachung, inkl. Messbecher mit Eierstecher, Eier Kocher f\u00fcr ideale H\u00e4rtestufe, Edelstahl-geb\u00fcrstet/schwarz, 300 W, EK 3163",
+        "competitor_url": "https://www.amazon.de/SEVERIN-elektronischer-Kochzeit%C3%BCberwachung-Edelstahl-geb%C3%BCrstet-3163/dp/B08Z7YHM8Z/ref=sr_1_3?dib=eyJ2IjoiMSJ9.dfE3HpAEY5rxH0SNwoaZkIoI347j6oahY62JFVjuEZG83Wg1xk4szgXKZNO-eQhGbViRYw0am0I_pToZbdB5xmrUCjy9qzIpiQvMIcccveQwYYI7RL7E6x8gQ1iYlcpGmv2sxMWa_3Wg5ksYEbqQbnYpEjFOfgRaVKoTwVgxIUWQl16QDhtuApYUXa8bFVrPQBYFgHq0XYebAU54YFiZRnAmmYL6FrPynv3hKknF9eQ.Sj7itbOAxOdwY5h0rLZ7ZAQ4-0LnyKM1ilC8SCPpHqw&dib_tag=se&keywords=Eierkocher+3+Eier+Edelstahl+Signalton&qid=1769557619&sr=8-3",
+        "competitor_price": 34.99
       }
     ]
   },
   {
-    "source_reference": "P_9875C7C8",
+    "source_reference": "P_AE1569F3",
     "competitors": [
       {
-        "reference": "SCRAPED_E-Tec_15172257",
-        "competitor_product_name": "Silva Schneider TA 2503 WS Toaster",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAgYL3mydGRMEkV1avNNlLe93Zd7hTQronPJS7Zg8WqOiD_zZZhLlsupKtwTgKlbJHgaS5uz2_JALyj99dmG28uuHdKQUWhhmBzTc2rywKEJXCsrmxUEtp9odg9wfFVzXsP65DlR3W3Zlt9rJl9axZRKpcmJ3FZRYU3veeUiUGmB",
-        "competitor_price": 9.99
+        "reference": "P_F5586FC9",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "JONR ED12 Lite Nass-Trockensauger Kabellos mit Akku, Wischsauger mit Selbstreinigung, 3-in-1 Saug- und Wischfunktion f\u00fcr Harte B\u00f6den & Tierhaare, 1 mm Kantenreinigung, Anti-Verwicklungs-Design",
+        "competitor_url": "https://www.amazon.de/dp/B0DYMY759P",
+        "competitor_price": null
       },
       {
-        "reference": "SCRAPED_electronic4you.at_55843901",
-        "competitor_product_name": "Silva Homeline,TA 2503 weiß",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/silva-homeline-ta-2503-weiss-244381.html",
-        "competitor_price": 25.99
+        "reference": "P_9EDE0253",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "JONR ED12 Lite Nass-Trockensauger Kabellos mit Akku, Wischsauger mit Selbstreinigung, 3-in-1 Saug- und Wischfunktion f\u00fcr Harte B\u00f6den & Tierhaare, 1 mm Kantenreinigung, Anti-Verwicklungs-Design",
+        "competitor_url": "https://www.amazon.de/JONR-Trockensauger-ED12-Lite-Staubsauger/dp/B0DYMY759P/ref=sr_1_7?dib=eyJ2IjoiMSJ9.LYByoaeOc9thruh5xLkmwEa92gVDA8C6PPpeILCaSSP8O1ICa-jwE-ef-zYRY9hNB2mkRKq5MLliNX-RrmGEqoGzI6x_6KXZ4gH_Cd9UvSQ0xu1eYvN_EnXQNQXvjq1S1ZUhqTXusOkgQKnhyHRj_ulvrsY2SrtZQnz_Zl-E1Kzi5pompoqPb5_KaX08NW6AiTGXtrBVXBgCOMsh6q86R4rIMfyu2cEES1XMTSN9oOo.qx-aP7YWeIQ3dSDwhcVa4RdAgOe--k7xgurY_Jndd08&dib_tag=se&keywords=Nass-Trockensauger+Akkubetrieb+kabellos+Wischfunktion&qid=1769561681&sr=8-7",
+        "competitor_price": 199.99
       },
       {
-        "reference": "SCRAPED_E-Tec_58852258",
-        "competitor_product_name": "Silva Schneider TA 2503 WS Toaster",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAgYL3mydGRMEkV1avNNlLe93Zd7hTQronPJS7Zg8WqOiD_zZZhLlsupKtwTgKlbJHgaS5uz2_JALyj99dmG28uuHdKQUWhhmBzTc2rywKEJXCsrmxUEtp9odg9wfFVzXk_F8VggJjcPAa7_0KbJPq1KpcmJ3FZRYU3veeUiUGmB",
-        "competitor_price": 9.99
+        "reference": "P_ECFA4465",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "JONR ED12 Nass Trockensauger Akku, Selbstreinigung, Saug Wisch Staubsauger, Saugwischer Kabellos, Kantenreinigungsb\u00fcrste 6mm, 850mL Wassertank, Anti-Verwirrungs-Haar f\u00fcr Harte Boden, Tierhaare",
+        "competitor_url": "https://www.amazon.de/JONR-ED12-Trockensauger-Kantenreinigungsb%C3%BCrste-Selbstreinigung/dp/B0C8LRTK1P/ref=sr_1_7?dib=eyJ2IjoiMSJ9.6QGZrcfgxhZWWN0rHwu_RYmbVXwzLYk4TproL-gZzqKNDdBpc240sdfXVev6HxlLlX4SmvhV6n-5oGW5ElJdJffQlh-IohzTy2Rq5D3QI3A3nw64I3hK4Atg2QxtDvwuB8xLAoGiyxXmkGMjk7ILNRglI5D0bMRJcsFuU3KVUXf0PnOfnqYU32LojgZ1_dVVjoWFkhJJSPwSq1jAOXvaBelvThL8UtFrGRLPBGUC94w.hwBqlpU0bp5oXk_KPrakZJqF1PFstKKzS5imA001asU&dib_tag=se&keywords=Akku+Nass-Trockensauger+Wischfunktion+beutellos&qid=1770247493&sr=8-7",
+        "competitor_price": null
       },
       {
-        "reference": "SCRAPED_E-Tec_87236615",
-        "competitor_product_name": "Silva Schneider TA 2503 WS Toaster",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAgYL3mydGRMEkV1avNNlLe93Zd7hTQronPJS7Zg8WqOiD_zZZhLlsupKtwTgKlbJHgaS5uz2_JALyj99dmG28uuHdKQUWhhmBzTc2rywKEJXCsrmxUEtp9odg9wfFVzXgeFVldJnGaglySiKpg8sLNKpcmJ3FZRYU3veeUiUGmB",
-        "competitor_price": 9.99
+        "reference": "P_4EEF44D4",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "JONR ED12 Pro Nass Trockensauger Akku, Kabelloser Saugwischer, Dreikantenreinigung, Hei\u00dfwasser-Selbstreinigung Hei\u00dfluft-Trocknung, 850mL Wassertank, Anti-Verwirrungs-Haar f\u00fcr Hartb\u00f6den, Tierhaare",
+        "competitor_url": "https://www.amazon.de/JONR-Trockensauger-Dreikantenreinigung-Hei%C3%9Fwasser-Selbstreinigung-Hei%C3%9Fluft-Trocknung/dp/B0DSFLLP9B/ref=sr_1_19?dib=eyJ2IjoiMSJ9.6QGZrcfgxhZWWN0rHwu_RYmbVXwzLYk4TproL-gZzqKNDdBpc240sdfXVev6HxlLlX4SmvhV6n-5oGW5ElJdJffQlh-IohzTy2Rq5D3QI3A3nw64I3hK4Atg2QxtDvwuB8xLAoGiyxXmkGMjk7ILNRglI5D0bMRJcsFuU3KVUXf0PnOfnqYU32LojgZ1_dVVjoWFkhJJSPwSq1jAOXvaBelvThL8UtFrGRLPBGUC94w.hwBqlpU0bp5oXk_KPrakZJqF1PFstKKzS5imA001asU&dib_tag=se&keywords=Akku+Nass-Trockensauger+Wischfunktion+beutellos&qid=1770247493&sr=8-19",
+        "competitor_price": null
       },
       {
-        "reference": "SCRAPED_E-Tec_63235285",
-        "competitor_product_name": "Silva Schneider TA 2503 WS Toaster",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAgYL3mydGRMEkV1avNNlLe93Zd7hTQronPJS7Zg8WqOiD_zZZhLlsupKtwTgKlbJHgaS5uz2_JALyj99dmG28uuHdKQUWhhmBzTc2rywKEJXCsrmxUEtp9odg9wfFVzXtLdkKm4Eu4FG0D3PSaYdohKpcmJ3FZRYU3veeUiUGmB",
-        "competitor_price": 9.99
+        "reference": "P_8AA780BD",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "JONR ED12 Pro Nass Trockensauger Akku, Kabelloser Saugwischer, Dreikantenreinigung, Hei\u00dfwasser-Selbstreinigung Hei\u00dfluft-Trocknung, 850mL Wassertank, Anti-Verwirrungs-Haar f\u00fcr Hartb\u00f6den, Tierhaare",
+        "competitor_url": "https://www.amazon.de/JONR-Trockensauger-Dreikantenreinigung-Hei%C3%9Fwasser-Selbstreinigung-Hei%C3%9Fluft-Trocknung/dp/B0DSFLLP9B/ref=sr_1_12?keywords=Akku+Nass+Trockensauger+Wischfunktion+beutellos&qid=1770164227&sr=8-12",
+        "competitor_price": null
       }
     ]
   },
   {
-    "source_reference": "P_A3998966",
+    "source_reference": "P_9CDA5230",
     "competitors": [
       {
-        "reference": "SCRAPED_Cyberport_AT_79769477",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5Qgoz_D3ofe_MNrzi2C36LkhHbaW7MkUoT2N0_tJNHDUg6VU-pyZdLUfIbTyeirYYgJ2VGLaZcf3WvWJrwHKke20C4zIVt83ad6vLlhd-IFluA",
-        "competitor_price": 34.9
-      },
-      {
-        "reference": "SCRAPED_E-Tec_35960404",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAPEMFr3CvYuqrlqZ_RZ3Tlu93Zd7hTQronPJS7Zg8WqOMpJpb2I1c2FRt1c6PIUI03KV2AP78r-UBYa2IQWZyPyAv8qDdXWvIQEzL-blSsO1znFj4Id0mzk5FtM8Aq2x_nmMgQLWxb1CgwjuLDg9H_Q",
-        "competitor_price": 36.65
-      },
-      {
-        "reference": "SCRAPED_electronic4you.at_01860263",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/beurer-hk-35-heizkissen-277040.html",
-        "competitor_price": 45.99
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_00465251",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5Qgoz_D3ofe_MNrzi2C36LkhHbaW7MkUoT2N0_tJNHDUg0SNSzXrBnDxkT6d2I4A5Ft2VGLaZcf3WvWJrwHKke20C4zIVt83ad6vLlhd-IFluA",
-        "competitor_price": 34.9
-      },
-      {
-        "reference": "SCRAPED_E-Tec_93578735",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAPEMFr3CvYuqrlqZ_RZ3Tlu93Zd7hTQronPJS7Zg8WqOMpJpb2I1c2FRt1c6PIUI03KV2AP78r-UBYa2IQWZyPyAv8qDdXWvIQEzL-blSsO1d_jDCAu2xaWybKVjDUGmbnmMgQLWxb1CgwjuLDg9H_Q",
-        "competitor_price": 36.65
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_29905788",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5Qgoz_D3ofe_MNrzi2C36LkhHbaW7MkUoT2N0_tJNHDUg1_yUAR7rzGB1rY162wQLqR2VGLaZcf3WvWJrwHKke20VcM-C0o122Gn0dhPvkiUJg",
-        "competitor_price": 33.9
-      },
-      {
-        "reference": "SCRAPED_E-Tec_37354667",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAPEMFr3CvYuqrlqZ_RZ3Tlu93Zd7hTQronPJS7Zg8WqOMpJpb2I1c2FRt1c6PIUI03KV2AP78r-UBYa2IQWZyPyAv8qDdXWvIQEzL-blSsO1ter0bQZPoB4CD77fUh844XmMgQLWxb1CgwjuLDg9H_Q",
-        "competitor_price": 36.65
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_35080461",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5Qgoz_D3ofe_MNrzi2C36LkhHbaW7MkUoT2N0_tJNHDUg8hwUXQxSdiyXAnK6AWTWGh2VGLaZcf3WvWJrwHKke20VcM-C0o122Gn0dhPvkiUJg",
-        "competitor_price": 33.9
-      },
-      {
-        "reference": "SCRAPED_E-Tec_98660585",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAPEMFr3CvYuqrlqZ_RZ3Tlu93Zd7hTQronPJS7Zg8WqOMpJpb2I1c2FRt1c6PIUI03KV2AP78r-UBYa2IQWZyPyAv8qDdXWvIQEzL-blSsO1VUD7IkfdCSf9eH_mWhxy8_b-qGgKS9MiO774gUPst78",
-        "competitor_price": 36.65
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_50775600",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5Qgoz_D3ofe_MNrzi2C36LkhHbaW7MkUoT2N0_tJNHDUgx-wAjvNyji30zaTm43HG4Z2VGLaZcf3WvWJrwHKke20VcM-C0o122Gn0dhPvkiUJg",
-        "competitor_price": 33.9
-      },
-      {
-        "reference": "SCRAPED_E-Tec_34739043",
-        "competitor_product_name": "Beurer HK 35 Heizkissen",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAPEMFr3CvYuqrlqZ_RZ3Tlu93Zd7hTQronPJS7Zg8WqOMpJpb2I1c2FRt1c6PIUI03KV2AP78r-UBYa2IQWZyPyAv8qDdXWvIQEzL-blSsO1wQsqaBGMD9kqnRawEX8e9nmMgQLWxb1CgwjuLDg9H_Q",
-        "competitor_price": 36.65
+        "reference": "P_D0CF1545",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "meberg Mikrowellen-Spritzschutzdeckel 29 cm - BPA-frei, Transparent, Sp\u00fclmaschinenfest, Passend f\u00fcr Standard Mikrowellen : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "https://www.amazon.de/meberg-Mikrowellen-Spritzschutzdeckel-Transparent-Sp%C3%BClmaschinenfest-Mikrowellen/dp/B09N7DJBMY",
+        "competitor_price": null
       }
     ]
   },
   {
-    "source_reference": "P_AEBB7B99",
+    "source_reference": "P_D3CB9498",
     "competitors": [
       {
-        "reference": "SCRAPED_Expert_AT_61832815",
-        "competitor_product_name": "Oral-B Pro Sensitive Clean 6er - Ersatz-Zahnbürsten / Aufsteckbürsten",
-        "competitor_retailer": "Expert AT",
-        "competitor_url": "https://www.expert.at/shop/koerperpflege-wellness/mund-zahnpflege/ersatz-zahnbuersten-duesen/oral-b-pro-sensitive-clean-6er~p3321503",
-        "competitor_price": 24.99
+        "reference": "P_1D2356A4",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "WMF Bueno Pro Toaster 2 Scheiben, Doppelschlitz Toaster Edelstahl mit Br\u00f6tchenaufsatz, 2 Scheiben, 6 Br\u00e4unungsstufen, 870 W, edelstahl matt",
+        "competitor_url": "https://www.amazon.de/WMF-Doppelschlitz-Br%C3%B6tchenaufsatz-Br%C3%A4unungsstufen-Edelstahl/dp/B07GSYK5Q5/ref=sr_1_16?dib=eyJ2IjoiMSJ9.SOYjE7Z1CyNwqIKdgw1_UyHDrCWsonEysg1um3MdwLu0pfmwpD-CS5_Ustf1tD_URvc4IrN9QRqUDohG7AKJ3kXdVNrxNBI0qmZ2TM5dy7VUf3wTXBGAzBfBsqNephpnplqHFWgCnwuhT76zZVKCO8CzO5tUCzNk-smgUpTvZFxEv41DTw4hDHcFQp9sKIs5OwyenvFMEh1whYaARUgq1__YPWRte_FOiOH3aVN03ZU.CLo-mqtpTsPSlJAq1KzG3q9sY1rfwRdCBod7uLEmL1U&dib_tag=se&keywords=Toaster+2-Schlitz+Br%C3%B6tchenaufsatz+Edelstahl+schwarz&qid=1770246657&sr=8-16",
+        "competitor_price": null
       },
       {
-        "reference": "SCRAPED_electronic4you.at_23773743",
-        "competitor_product_name": "Oral-B Aufsteckbürsten 6er",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/oral-b-aufsteckbursten-6er-245577.html",
-        "competitor_price": 35.99
-      }
-    ]
-  },
-  {
-    "source_reference": "P_B1054089",
-    "competitors": [
-      {
-        "reference": "SCRAPED_electronic4you.at_02248090",
-        "competitor_product_name": "Tefal HT4621 Prep'Mix+ Handmixer",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/tefal-ht4621-prep-mix-handmixer-232840.html",
-        "competitor_price": 89.99
-      }
-    ]
-  },
-  {
-    "source_reference": "P_B1AECA54",
-    "competitors": [
-      {
-        "reference": "SCRAPED_electronic4you.at_52097893",
-        "competitor_product_name": "Tefal EY905B Dual Easy Fry & Grill",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/tefal-ey905b-dual-easy-fry-grill-266904.html",
-        "competitor_price": 279.99
-      }
-    ]
-  },
-  {
-    "source_reference": "P_D40654BF",
-    "competitors": [
-      {
-        "reference": "SCRAPED_E-Tec_36752389",
-        "competitor_product_name": "Silva Schneider Homeline BS-C9002",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAACOTyh7KeFzhFFoeWeHZ--y93Zd7hTQronPJS7Zg8WqOSt3BANCxk4E7FxaFPpQN7Q3AWBVqxWnz_U2pUG1GNsASXhWr8dmFYQ1HaYAQT-Ang6DNt7r5osl0ULnlkTSJVmrS5IzRKtKxTr7X_nZCx95coSpNgCcbGn-x6qC1MvO9o_xlC1m_YSxprh4d9jK6WA-HIzdBAmliflmg6iQXiwk",
-        "competitor_price": 60.0
+        "reference": "P_7EF8B2BE",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "WMF Bueno Edition Toaster 2 Scheiben Edelstahl, Doppelschlitz Toaster mit Br\u00f6tchenaufsatz, 2 Scheiben, 7 Br\u00e4unungsstufen, 800 W, edelstahl matt",
+        "competitor_url": "https://www.amazon.de/WMF-Doppelschlitz-Br%C3%B6tchenaufsatz-Br%C3%A4unungsstufen-Edelstahl/dp/B00UIAK6D8/ref=sr_1_6?dib=eyJ2IjoiMSJ9.SOYjE7Z1CyNwqIKdgw1_UyHDrCWsonEysg1um3MdwLu0pfmwpD-CS5_Ustf1tD_URvc4IrN9QRqUDohG7AKJ3kXdVNrxNBI0qmZ2TM5dy7VUf3wTXBGAzBfBsqNephpnplqHFWgCnwuhT76zZVKCO8CzO5tUCzNk-smgUpTvZFxEv41DTw4hDHcFQp9sKIs5OwyenvFMEh1whYaARUgq1__YPWRte_FOiOH3aVN03ZU.CLo-mqtpTsPSlJAq1KzG3q9sY1rfwRdCBod7uLEmL1U&dib_tag=se&keywords=Toaster+2-Schlitz+Br%C3%B6tchenaufsatz+Edelstahl+schwarz&qid=1770246657&sr=8-6",
+        "competitor_price": null
       },
       {
-        "reference": "SCRAPED_E-Tec_83004300",
-        "competitor_product_name": "Silva Schneider Homeline BS-C9002",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAACOTyh7KeFzhFFoeWeHZ--y93Zd7hTQronPJS7Zg8WqOSt3BANCxk4E7FxaFPpQN7Q3AWBVqxWnz_U2pUG1GNsASXhWr8dmFYQ1HaYAQT-Ang6DNt7r5osl0ULnlkTSJVmrS5IzRKtKxTr7X_nZCx95YkzqEt5RrzBweaG9flzsuo_xlC1m_YSxprh4d9jK6WA-HIzdBAmliflmg6iQXiwk",
-        "competitor_price": 60.0
-      },
-      {
-        "reference": "SCRAPED_E-Tec_88606954",
-        "competitor_product_name": "Silva Schneider Homeline BS-C9002",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAACOTyh7KeFzhFFoeWeHZ--y93Zd7hTQronPJS7Zg8WqOSt3BANCxk4E7FxaFPpQN7Q3AWBVqxWnz_U2pUG1GNsASXhWr8dmFYQ1HaYAQT-Ang6DNt7r5osl0ULnlkTSJVmrS5IzRKtKxTr7X_nZCx94SggBYqLzkH8-s7W_DdBw8o_xlC1m_YSxprh4d9jK6WA-HIzdBAmliflmg6iQXiwk",
-        "competitor_price": 60.0
-      }
-    ]
-  },
-  {
-    "source_reference": "P_F31A2F91",
-    "competitors": [
-      {
-        "reference": "SCRAPED_E-Tec_02469816",
-        "competitor_product_name": "Beurer HD 75 Heizdecke dark grey",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAq9areXX-pMjHnZJRXBjFe93Zd7hTQronPJS7Zg8WqO9k2737y36x-zDOiLs3gVTSSxxeoMlHtLiqO_PYTitR_Mo2I13y9WqvMaSTxU6OevoLNJpgDv6O5QkqmFbP_TTOkfgw5Ee_4sRsO69uImTpRyYdOzj5tDtjCq39_30ynqKj1Ve_5e47neXRnbrVVe9A",
-        "competitor_price": 51.5
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_67207222",
-        "competitor_product_name": "Beurer HD 75 Heizdecke dark grey",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5Qgoz_D3ofe_MNrzi2C36LkhForhGboYA1e8WsdEu-tWNfbsN6h-zM5qleLXpQTQzq6qES01crGZuH9V72AIgyQgXXCgt2BOaXSBNIKElfWReA",
-        "competitor_price": 60.12
-      },
-      {
-        "reference": "SCRAPED_Expert_AT_71622874",
-        "competitor_product_name": "Beurer HD75 Cosy Nordic - Kuschel-Heizdecke 180 x 130 cm",
-        "competitor_retailer": "Expert AT",
-        "competitor_url": "https://www.expert.at/shop/koerperpflege-wellness/massage-entspannung/heizkissen-heizdecken/beurer-hd75-cosy-nordic~p2261974",
-        "competitor_price": 79.99
-      },
-      {
-        "reference": "SCRAPED_electronic4you.at_62746116",
-        "competitor_product_name": "Beurer HD 75 Heizdecke dark grey",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/beurer-hd-75-heizdecke-dark-grey-277047.html",
-        "competitor_price": 89.99
-      },
-      {
-        "reference": "SCRAPED_E-Tec_53956127",
-        "competitor_product_name": "Beurer HD 75 Heizdecke dark grey",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAq9areXX-pMjHnZJRXBjFe93Zd7hTQronPJS7Zg8WqO9k2737y36x-zDOiLs3gVTSSxxeoMlHtLiqO_PYTitR_Mo2I13y9WqvMaSTxU6OevoLNJpgDv6O5QkqmFbP_TTIfr1oXN8WLVqe55bN99jElyYdOzj5tDtjCq39_30ynqKj1Ve_5e47neXRnbrVVe9A",
-        "competitor_price": 51.5
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_43845825",
-        "competitor_product_name": "Beurer HD 75 Heizdecke dark grey",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5Qgoz_D3ofe_MNrzi2C36LkhForhGboYA1e8WsdEu-tWNUtmic12FX6MoRM5warNpnyqES01crGZuH9V72AIgyQgXXCgt2BOaXSBNIKElfWReA",
-        "competitor_price": 60.12
-      },
-      {
-        "reference": "SCRAPED_E-Tec_84663421",
-        "competitor_product_name": "Beurer HD 75 Heizdecke dark grey",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAq9areXX-pMjHnZJRXBjFe93Zd7hTQronPJS7Zg8WqO9k2737y36x-zDOiLs3gVTSSxxeoMlHtLiqO_PYTitR_Mo2I13y9WqvMaSTxU6OevoLNJpgDv6O5QkqmFbP_TTMO4GJSfl518ZOKMIgVbMLVyYdOzj5tDtjCq39_30ynqKj1Ve_5e47neXRnbrVVe9A",
-        "competitor_price": 51.5
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_27105005",
-        "competitor_product_name": "Beurer HD 75 Heizdecke dark grey",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5Qgoz_D3ofe_MNrzi2C36LkhForhGboYA1e8WsdEu-tWNV9YQtcPDgxgGvkbzedSQoiqES01crGZuH9V72AIgyQg4GqOh-9KDqaL10SVBQjFLQ",
-        "competitor_price": 60.12
-      },
-      {
-        "reference": "SCRAPED_E-Tec_37404249",
-        "competitor_product_name": "Beurer HD 75 Heizdecke dark grey",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAAq9areXX-pMjHnZJRXBjFe93Zd7hTQronPJS7Zg8WqO9k2737y36x-zDOiLs3gVTSSxxeoMlHtLiqO_PYTitR_Mo2I13y9WqvMaSTxU6OevoLNJpgDv6O5QkqmFbP_TTNJEIWvzW59_R3ah24rMoFtyYdOzj5tDtjCq39_30ynqKj1Ve_5e47neXRnbrVVe9A",
-        "competitor_price": 51.5
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_31125111",
-        "competitor_product_name": "Beurer HD 75 Heizdecke dark grey",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5Qgoz_D3ofe_MNrzi2C36LkhForhGboYA1e8WsdEu-tWNbXKOwTQg3MWuP_Wa9PT6H6qES01crGZuH9V72AIgyQgXXCgt2BOaXSBNIKElfWReA",
-        "competitor_price": 60.12
-      }
-    ]
-  },
-  {
-    "source_reference": "P_F8105CD7",
-    "competitors": [
-      {
-        "reference": "SCRAPED_E-Tec_70547661",
-        "competitor_product_name": "Braun WK 1100 WH Breakfast1",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAI0SUKwDq6ji1yIY49Rodty93Zd7hTQronPJS7Zg8WqOrUO6wl-TpD3zhjUgOOX3n1Xnm73Yv4up_pB23oTH48ODoIRDyBSYHWXO3t4W0PLXfXVmboLkxJZybpMzcfwxKs-nJly4kFm3Qcvy6YW3NF1XX_C3UUOrdUQ1eorIx42SqvtWUPs8WhYqne7n81UJAQ",
-        "competitor_price": 30.0
-      },
-      {
-        "reference": "SCRAPED_Expert_AT_98863015",
-        "competitor_product_name": "Braun WK1100WH Breakfast 1 - Wasserkocher 1,7 l",
-        "competitor_retailer": "Expert AT",
-        "competitor_url": "https://www.expert.at/shop/haushalt-kueche/tee-wasserkocher/braun-wk1100wh-breakfast-1~p2570015",
-        "competitor_price": 32.99
-      },
-      {
-        "reference": "SCRAPED_electronic4you.at_55380288",
-        "competitor_product_name": "Braun WK 1100 WH Wasserkocher",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/braun-wk-1100-wh-wasserkocher-223533.html",
-        "competitor_price": 32.99
-      },
-      {
-        "reference": "SCRAPED_E-Tec_07424135",
-        "competitor_product_name": "Braun WK 1100 WH Breakfast1",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAI0SUKwDq6ji1yIY49Rodty93Zd7hTQronPJS7Zg8WqOrUO6wl-TpD3zhjUgOOX3n1Xnm73Yv4up_pB23oTH48ODoIRDyBSYHWXO3t4W0PLXfXVmboLkxJZybpMzcfwxKtiVT847uw0U5uCsYCfjsdxXX_C3UUOrdUQ1eorIx42SqvtWUPs8WhYqne7n81UJAQ",
-        "competitor_price": 30.0
-      },
-      {
-        "reference": "SCRAPED_E-Tec_53751233",
-        "competitor_product_name": "Braun WK 1100 WH Breakfast1",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAI0SUKwDq6ji1yIY49Rodty93Zd7hTQronPJS7Zg8WqOrUO6wl-TpD3zhjUgOOX3n1Xnm73Yv4up_pB23oTH48ODoIRDyBSYHWXO3t4W0PLXfXVmboLkxJZybpMzcfwxKiFeExO436va9BolUdtg4MxXX_C3UUOrdUQ1eorIx42SqvtWUPs8WhYqne7n81UJAQ",
-        "competitor_price": 30.0
-      },
-      {
-        "reference": "SCRAPED_E-Tec_08500809",
-        "competitor_product_name": "Braun WK 1100 WH Breakfast1",
-        "competitor_retailer": "E-Tec",
-        "competitor_url": "https://geizhals.at/redir/AwAAAI0SUKwDq6ji1yIY49Rodty93Zd7hTQronPJS7Zg8WqOrUO6wl-TpD3zhjUgOOX3n1Xnm73Yv4up_pB23oTH48ODoIRDyBSYHWXO3t4W0PLXfXVmboLkxJZybpMzcfwxKgdKTfINq0csLcPT7Sok4_pXX_C3UUOrdUQ1eorIx42SqvtWUPs8WhYqne7n81UJAQ",
-        "competitor_price": 30.0
-      }
-    ]
-  },
-  {
-    "source_reference": "P_FA23D317",
-    "competitors": [
-      {
-        "reference": "SCRAPED_electronic4you.at_38794141",
-        "competitor_product_name": "Mova S2 Akku-Handstaubsauger",
-        "competitor_retailer": "electronic4you.at",
-        "competitor_url": "https://www.electronic4you.at/mova-s2-akku-handstaubsauger-272681.html",
-        "competitor_price": 199.0
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_47468983",
-        "competitor_product_name": "Dreame Mova S2 Akku-Handstaubsauger",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5QhxRl0BKMqDVODykmouX2z22q1t_ZhNNj8SLCnu5KgQlDDuhPLpuDGxmBZ5-ipI8UwT6clk_3upACsnIHpeFMON0Q6YNL-dQYaU-1U7vlxh2g",
-        "competitor_price": 159.0
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_47889220",
-        "competitor_product_name": "Dreame Mova S2 Akku-Handstaubsauger",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5QhxRl0BKMqDVODykmouX2z22q1t_ZhNNj8SLCnu5KgQlPLRAf7rO4_n1rXxKbqQ4KcT6clk_3upACsnIHpeFMON0Q6YNL-dQYaU-1U7vlxh2g",
-        "competitor_price": 159.0
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_79953273",
-        "competitor_product_name": "Dreame Mova S2 Akku-Handstaubsauger",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5QhxRl0BKMqDVODykmouX2z22q1t_ZhNNj8SLCnu5KgQlBKqQ_QX47iJEWsRd5A2G44T6clk_3upACsnIHpeFMON2u9D0JqGmLdI9-1_T26vRg",
-        "competitor_price": 159.0
-      },
-      {
-        "reference": "SCRAPED_Cyberport_AT_35923415",
-        "competitor_product_name": "Dreame Mova S2 Akku-Handstaubsauger",
-        "competitor_retailer": "Cyberport AT",
-        "competitor_url": "https://geizhals.at/redir/AwAAAOtzoVZLAE-yDlAXXorw5QhxRl0BKMqDVODykmouX2z22q1t_ZhNNj8SLCnu5KgQlJtO6gYFXG96-gG4ExDZq-AT6clk_3upACsnIHpeFMON0Q6YNL-dQYaU-1U7vlxh2g",
-        "competitor_price": 159.0
+        "reference": "P_1AD642B2",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "WMF Stelio Toaster 2 Scheiben Edelstahl, Doppelschlitz Toaster mit Br\u00f6tchenaufsatz, Bagel-Funktion, 7 Br\u00e4unungsstufen, 900 W, edelstahl matt schwarz",
+        "competitor_url": "https://www.amazon.de/WMF-Doppelschlitz-Br%C3%B6tchenaufsatz-Bagel-Funktion-Br%C3%A4unungsstufen/dp/B0DKG1P38V/ref=sr_1_5?dib=eyJ2IjoiMSJ9.SOYjE7Z1CyNwqIKdgw1_UyHDrCWsonEysg1um3MdwLu0pfmwpD-CS5_Ustf1tD_URvc4IrN9QRqUDohG7AKJ3kXdVNrxNBI0qmZ2TM5dy7VUf3wTXBGAzBfBsqNephpnplqHFWgCnwuhT76zZVKCO8CzO5tUCzNk-smgUpTvZFxEv41DTw4hDHcFQp9sKIs5OwyenvFMEh1whYaARUgq1__YPWRte_FOiOH3aVN03ZU.CLo-mqtpTsPSlJAq1KzG3q9sY1rfwRdCBod7uLEmL1U&dib_tag=se&keywords=Toaster+2-Schlitz+Br%C3%B6tchenaufsatz+Edelstahl+schwarz&qid=1770246657&sr=8-5",
+        "competitor_price": null
       }
     ]
   }

@@ -35,17 +35,27 @@ def dedupe_matches(matches: list[Match]) -> list[Match]:
     return list(best.values())
 
 
-def build_submission(matches: list[Match]) -> list[dict]:
-    """Convert matches to submission format, excluding self-matches."""
-    by_source: dict[str, SubmissionEntry] = {}
+def build_submission(matches: list[Match], max_per_source: int = 0) -> list[dict]:
+    """Convert matches to submission format, excluding self-matches.
+
+    If max_per_source > 0, keeps at most that many matches per source,
+    sorted by confidence (highest first).
+    """
+    by_source: dict[str, list[Match]] = {}
     for m in matches:
-        # Skip self-matches (source ref == target ref, not scored by platform)
         if m.source_reference == m.target_reference:
             continue
-        if m.source_reference not in by_source:
-            by_source[m.source_reference] = SubmissionEntry(source_reference=m.source_reference)
-        by_source[m.source_reference].add_match(m)
-    return [entry.to_dict() for entry in by_source.values()]
+        by_source.setdefault(m.source_reference, []).append(m)
+
+    result = []
+    for source_ref, source_matches in by_source.items():
+        source_matches.sort(key=lambda m: m.confidence, reverse=True)
+        entry = SubmissionEntry(source_reference=source_ref)
+        limit = source_matches[:max_per_source] if max_per_source > 0 else source_matches
+        for m in limit:
+            entry.add_match(m)
+        result.append(entry.to_dict())
+    return result
 
 
 def print_summary(matches: list[Match], sources: list[Product]):

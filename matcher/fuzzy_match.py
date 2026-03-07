@@ -97,33 +97,71 @@ def _dimensions_conflict(src_name: str, tgt_name: str) -> bool:
 
 
 def match_by_model_number(sources: list[Product], targets: list[Product]) -> list[Match]:
-    """Match by extracted model numbers."""
+    """Match by extracted model numbers (full and short codes)."""
     model_index: dict[str, list[Product]] = {}
+    short_code_index: dict[str, list[Product]] = {}
     for t in targets:
         model = extract_model_number(t)
         if model:
             model_index.setdefault(model, []).append(t)
+        for code in _extract_short_model_codes(t.name):
+            short_code_index.setdefault(code, []).append(t)
 
     matches = []
+    matched_pairs: set[tuple[str, str]] = set()
+
     for source in sources:
+        src_size = _extract_screen_size(source.name)
+
+        # Try full model number first
         model = extract_model_number(source)
-        if not model:
-            continue
-        if model in model_index:
+        if model and model in model_index:
             for target in model_index[model]:
                 if source.brand and target.brand:
                     if source.brand.lower() != target.brand.lower():
                         continue
-                matches.append(Match(
-                    source_reference=source.reference,
-                    target_reference=target.reference,
-                    target_name=target.name,
-                    target_retailer=target.retailer or "",
-                    target_url=target.url or "",
-                    target_price=target.price_eur,
-                    confidence=0.95,
-                    method="model_number",
-                ))
+                # If both have screen sizes, they must match
+                tgt_size = _extract_screen_size(target.name)
+                if src_size and tgt_size and src_size != tgt_size:
+                    continue
+                pair = (source.reference, target.reference)
+                if pair not in matched_pairs:
+                    matched_pairs.add(pair)
+                    matches.append(Match(
+                        source_reference=source.reference,
+                        target_reference=target.reference,
+                        target_name=target.name,
+                        target_retailer=target.retailer or "",
+                        target_url=target.url or "",
+                        target_price=target.price_eur,
+                        confidence=0.95,
+                        method="model_number",
+                    ))
+
+        # Also try short model codes (EK 3163, ST 3477, WK 1100, etc.)
+        for code in _extract_short_model_codes(source.name):
+            if code in short_code_index:
+                for target in short_code_index[code]:
+                    if source.brand and target.brand:
+                        if source.brand.lower() != target.brand.lower():
+                            continue
+                    # If both have screen sizes, they must match
+                    tgt_size = _extract_screen_size(target.name)
+                    if src_size and tgt_size and src_size != tgt_size:
+                        continue
+                    pair = (source.reference, target.reference)
+                    if pair not in matched_pairs:
+                        matched_pairs.add(pair)
+                        matches.append(Match(
+                            source_reference=source.reference,
+                            target_reference=target.reference,
+                            target_name=target.name,
+                            target_retailer=target.retailer or "",
+                            target_url=target.url or "",
+                            target_price=target.price_eur,
+                            confidence=0.90,
+                            method="model_number",
+                        ))
 
     return matches
 
@@ -450,6 +488,12 @@ def match_by_product_line(
                 tgt_size = _extract_screen_size(target.name)
                 if src_size and tgt_size and src_size != tgt_size:
                     continue
+            else:
+                # For cables, require same length
+                src_len = _extract_cable_length_m(source.name)
+                tgt_len = _extract_cable_length_m(target.name)
+                if src_len and tgt_len and src_len != tgt_len:
+                    continue
 
             # Same brand + same product line (+ same size for TVs) = match
             matches.append(Match(
@@ -493,7 +537,11 @@ def _extract_cable_length_m(name: str) -> str | None:
     """Extract cable length in meters, normalized to string like '1.5'."""
     m = re.search(r'(\d+)[.,](\d+)\s*m\b', name.lower())
     if m:
-        return f"{m.group(1)}.{m.group(2)}"
+        # Normalize: "1.50" -> "1.5", "1.0" -> "1"
+        decimal = m.group(2).rstrip("0")
+        if decimal:
+            return f"{m.group(1)}.{decimal}"
+        return m.group(1)
     m = re.search(r'(\d+)\s*m\b', name.lower())
     if m:
         return m.group(1)
