@@ -17,8 +17,8 @@ const UI_TRANSLATIONS: Record<string, Record<Lang, string>> = {
   'dashboard.subtitle': { en: 'Overview of your product matching workspace', de: 'Überblick über Ihren Produkt-Matching-Arbeitsbereich' },
   'products.title': { en: 'Products', de: 'Produkte' },
   'products.subtitle': { en: 'Browse, search, and inspect source products and their matches', de: 'Quellprodukte und ihre Übereinstimmungen durchsuchen und untersuchen' },
-  'chat.title': { en: 'Chat', de: 'Chat' },
-  'chat.subtitle': { en: 'Ask questions about products, matches, or search the catalog', de: 'Fragen zu Produkten, Matches oder dem Katalog stellen' },
+  'chat.title': { en: 'Text search', de: 'Chat-Textsuche' },
+  'chat.subtitle': { en: 'Make queries about products, matches, or search the catalog', de: 'Suchanfragen zu Produkten, Matches oder dem Katalog stellen' },
 
   // Stats
   'stats.source_products': { en: 'Source Products', de: 'Quellprodukte' },
@@ -63,7 +63,7 @@ const UI_TRANSLATIONS: Record<string, Record<Lang, string>> = {
   'nav.products': { en: 'Products', de: 'Produkte' },
   'nav.matching': { en: 'Matching', de: 'Abgleich' },
   'nav.trends': { en: 'Trends', de: 'Trends' },
-  'nav.chat': { en: 'Chat', de: 'Chat' },
+  'nav.chat': { en: 'Text search', de: 'Chat-Textsuche' },
 'sidebar.subtitle': { en: 'Product Matcher', de: 'Produktabgleich-Service' },
   'sidebar.footer': { en: 'Zenline Hackathon 2026', de: 'Zenline Hackathon 2026' },
 
