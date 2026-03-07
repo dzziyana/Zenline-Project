@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { searchProducts, getAllSourceProducts, getBrands, getTrends } from '../services/api'
+import { Price } from '../CurrencyContext'
 import { useI18n } from '../i18n'
 import type { SourceProduct, BrandEntry, TrendInsight } from '../types/product'
 
@@ -147,7 +148,7 @@ export default function Products() {
                       )}
                       <div className="product-card-footer">
                         {p.retailer && <span className="badge badge-info" style={{ fontSize: '0.7rem' }}>{p.retailer}</span>}
-                        {price != null && <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>&euro;{price.toFixed(2)}</span>}
+                        {price != null && <Price value={price} style={{ fontWeight: 600, fontSize: '0.88rem' }} />}
                       </div>
                       <div className="product-card-matches">
                         {mc > 0

@@ -1,5 +1,6 @@
 import { Routes, Route, NavLink } from 'react-router-dom'
 import { useI18n } from './i18n'
+import { useCurrency, type Currency } from './CurrencyContext'
 import Dashboard from './pages/Dashboard'
 import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
@@ -9,6 +10,8 @@ import Trends from './pages/Trends'
 
 export default function App() {
   const { lang, setLang, t } = useI18n()
+  const { currency, setCurrency } = useCurrency()
+  const currencies: Currency[] = ['EUR', 'USD', 'GBP', 'CHF']
 
   return (
     <div className="app-layout">
@@ -70,15 +73,26 @@ export default function App() {
             {t('nav.chat')}
           </NavLink>
         </nav>
-        <div className="lang-toggle">
-          <button
-            className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
-            onClick={() => setLang('en')}
-          >EN</button>
-          <button
-            className={`lang-btn ${lang === 'de' ? 'active' : ''}`}
-            onClick={() => setLang('de')}
-          >DE</button>
+        <div className="sidebar-toggles">
+          <div className="lang-toggle">
+            <button
+              className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
+              onClick={() => setLang('en')}
+            >EN</button>
+            <button
+              className={`lang-btn ${lang === 'de' ? 'active' : ''}`}
+              onClick={() => setLang('de')}
+            >DE</button>
+          </div>
+          <div className="currency-toggle">
+            {currencies.map((c) => (
+              <button
+                key={c}
+                className={`currency-btn ${currency === c ? 'active' : ''}`}
+                onClick={() => setCurrency(c)}
+              >{c}</button>
+            ))}
+          </div>
         </div>
         <div className="sidebar-footer">
           {t('sidebar.footer')}

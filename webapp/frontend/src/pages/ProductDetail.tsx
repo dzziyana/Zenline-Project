@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { getProduct, getSimilar } from '../services/api'
 import { useI18n } from '../i18n'
+import { Price } from '../CurrencyContext'
 import type { SourceProduct, MatchEntry, SimilarProduct } from '../types/product'
 
 export default function ProductDetail() {
@@ -110,7 +111,7 @@ export default function ProductDetail() {
               {price != null && (
                 <div className="meta-row">
                   <span className="meta-label">{t('common.price')}</span>
-                  <span className="meta-value" style={{ fontSize: '1.2rem', fontWeight: 600 }}>&euro;{price.toFixed(2)}</span>
+                  <Price value={price} className="meta-value" style={{ fontSize: '1.2rem', fontWeight: 600 }} />
                 </div>
               )}
               {product.category && (
@@ -170,7 +171,7 @@ export default function ProductDetail() {
                       <td><Link to={`/products/${m.target_reference}`} className="mono" style={{ color: 'var(--accent)' }}>{m.target_reference}</Link></td>
                       <td><span className="truncate" style={{ display: 'block', maxWidth: '280px' }}>{m.target_name}</span></td>
                       <td><span className="badge badge-info">{m.target_retailer}</span></td>
-                      <td>{m.target_price != null ? `\u20AC${m.target_price.toFixed(2)}` : '--'}</td>
+                      <td><Price value={m.target_price} /></td>
                       <td><span className="badge badge-accent">{m.method}</span></td>
                       <td>
                         <div className="confidence-bar">
@@ -219,7 +220,7 @@ export default function ProductDetail() {
                         {s.brand && <div style={{ fontSize: '0.76rem', color: 'var(--stone-500)', marginTop: '2px' }}>{s.brand}</div>}
                       </td>
                       <td><span className="badge badge-info">{s.retailer}</span></td>
-                      <td>{s.price != null ? `\u20AC${s.price.toFixed(2)}` : '--'}</td>
+                      <td><Price value={s.price} /></td>
                       <td>
                         <div className="confidence-bar">
                           <span className="mono" style={{ minWidth: '36px' }}>

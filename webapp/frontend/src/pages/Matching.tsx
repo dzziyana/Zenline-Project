@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+ import { Price } from "../CurrencyContext";
 import {
   getCategories,
   getAllMatches,
@@ -513,18 +514,14 @@ export default function Matching() {
                                   </div>
                                   {(m.target_price ?? m.competitor_price) !=
                                     null && (
-                                    <span
+                                    <Price
+                                      value={m.target_price ?? m.competitor_price}
                                       style={{
                                         fontSize: "0.8rem",
                                         color: "var(--stone-400)",
                                         marginLeft: "8px",
                                       }}
-                                    >
-                                      EUR{" "}
-                                      {(
-                                        m.target_price ?? m.competitor_price
-                                      )?.toFixed(2)}
-                                    </span>
+                                    />
                                   )}
                                 </td>
                                 <td>
