@@ -115,6 +115,19 @@ def insert_matches(conn: sqlite3.Connection, matches: list[Match]):
     conn.commit()
 
 
+def insert_scrape_results(conn: sqlite3.Connection, results: list[dict]):
+    """Store raw scrape results for auditing."""
+    conn.executemany(
+        """INSERT INTO scrape_results
+           (source_reference, retailer, query, result_name, result_url, result_price, result_ean, matched)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+        [(r.get("source_reference", ""), r.get("retailer", ""), r.get("query_used", ""),
+          r.get("name", ""), r.get("url", ""), r.get("price"), r.get("ean"), 0)
+         for r in results]
+    )
+    conn.commit()
+
+
 def log_pipeline_run(conn: sqlite3.Connection, category: str, source_count: int,
                      target_count: int, matches: list[Match]):
     by_method: dict[str, int] = {}
