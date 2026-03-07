@@ -614,23 +614,34 @@ def get_source_products(category: str):
         return JSONResponse(status_code=404, content={"error": f"No source data for category: {category}"})
     with open(path) as f:
         data = json.load(f)
-    products = []
-    for d in data:
-        p = Product.from_dict(d)
-        products.append({
-            "reference": p.reference,
-            "name": p.name,
-            "brand": p.brand,
-            "ean": p.ean,
-            "category": p.category,
-            "price": p.price_eur,
-            "price_eur": p.price_eur,
-            "image_url": d.get("image_url"),
-            "url": d.get("url"),
-            "retailer": d.get("retailer"),
-            "specifications": d.get("specifications", {}),
-        })
-    return {"products": products}
+    conn = _get_db()
+    try:
+        products = []
+        for d in data:
+            p = Product.from_dict(d)
+            # Get match count from DB
+            matches = get_matches_for_source(conn, p.reference)
+            # Try to get image_url from DB if not in JSON
+            db_product = get_product(conn, p.reference)
+            image_url = d.get("image_url") or (db_product.get("image_url") if db_product else None)
+            products.append({
+                "reference": p.reference,
+                "name": p.name,
+                "brand": p.brand,
+                "ean": p.ean,
+                "category": p.category,
+                "price": p.price_eur,
+                "price_eur": p.price_eur,
+                "image_url": image_url,
+                "url": d.get("url"),
+                "retailer": d.get("retailer"),
+                "specifications": d.get("specifications", {}),
+                "match_count": len(matches),
+                "is_source": 1,
+            })
+        return {"products": products}
+    finally:
+        conn.close()
 
 
 @app.get("/api/products/target/{category}")
