@@ -51,7 +51,7 @@ export default function Products() {
   const displayProducts = searchResults ?? sources
   const filtered = tab === 'unmatched'
     ? displayProducts.filter((p) => (p.match_count ?? 0) === 0)
-    : displayProducts
+    : [...displayProducts].sort((a, b) => (b.match_count ?? 0) - (a.match_count ?? 0))
 
   const brandFiltered = brandFilter
     ? filtered.filter((p) => p.brand?.toLowerCase() === brandFilter.toLowerCase())
