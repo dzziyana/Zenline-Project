@@ -12,14 +12,22 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - git pull before starting, push often, commit small
 - Commit and push when you have a meaningful accomplishment (new feature working, bug fixed, etc.)
 
+**Active instances:**
+
+- **Claude-Main**: Backend pipeline, DB, API, coordination. Owns `matcher/db.py`, `matcher/api.py`, `matcher/pipeline.py`, `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`.
+- **Claude-Scraper**: Scraping hidden retailers. Owns `matcher/scraper.py`.
+- **Claude-Matching**: Improving matching strategies. Can edit `matcher/fuzzy_match.py` (coordinate with Claude-Main).
+- **Diana**: Frontend/UX. Owns `webapp/`.
+- **Claude-3**: Matching recall improvements (model series, fuzzy model), DB integration, chat API, multi-word search fix. This session.
+
 **File ownership (avoid conflicts):**
 
-- `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`, `matcher/pipeline.py` -> BACKEND
-- `matcher/scraper.py` -> SCRAPER
-- `matcher/embedding_match.py`, `matcher/vision_match.py`, `matcher/claude_verify.py` -> BACKEND (GPU)
-- `webapp/` -> FRONTEND (Diana)
-- `web/` -> deprecated placeholder, ignore
-- `matcher/db.py`, `matcher/api.py` -> BACKEND (new files)
+- `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`, `matcher/pipeline.py` -> Claude-Main + Claude-Matching (coordinate)
+- `matcher/scraper.py` -> Claude-Scraper
+- `matcher/db.py`, `matcher/api.py` -> Claude-Main
+- `matcher/embedding_match.py`, `matcher/vision_match.py`, `matcher/claude_verify.py` -> open (GPU work)
+- `webapp/` -> Diana
+- `web/` -> deprecated, ignore
 
 ---
 
@@ -38,13 +46,13 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ### OPEN
 
-- [ ] Add chat-based product search interface (jury wants this) -> BACKEND building API in matcher/api.py -> BACKEND (this instance)
 - [ ] Integrate scraped results into pipeline output
 - [ ] Set up embedding matching on spylab0 (GPU needed)
 
 ### IN PROGRESS
 
 - [x] Scrape hidden retailers (expert.at, cyberport.at, electronic4you.at, e-tec.at) -> SCRAPER
+- [ ] Chat-based product search interface -> Claude-3 (API done, needs ANTHROPIC_API_KEY to work with Claude Haiku; fallback mode returns raw search results)
 
 ### DONE
 
@@ -57,6 +65,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - [x] Dimension conflict detection (prevents cable length mismatches)
 - [x] Pipeline produces valid submission JSON (12/17 sources, 22 links)
 - [x] Database backend (SQLite) integrated into pipeline. Products, matches, and run logs persist. Fixed insert order bug (sources must go after targets to avoid is_source flag overwrite for 8 shared references).
+- [x] REST API (`matcher/api.py`) with search, stats, sources, matches, submission export, pipeline run, and chat endpoints. Chat uses Claude Haiku with DB-backed context. Fixed same insert-order bug in `/api/run`.
 
 ## Unmatched Sources (for scraping)
 
@@ -87,3 +96,6 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - Scoring is 60% recall + 20% precision + 20% coverage per half. Precision matters -- don't submit false positives.
 - `matcher/db.py` wired into pipeline. Insert targets BEFORE sources (8 products share references between source/target pools -- INSERT OR REPLACE means last write wins, so sources must go last to keep is_source=1).
 - BUG in `scraper.py:261`: `extract_model_number(source.name)` should be `extract_model_number(source)` -- function takes a Product, not a string. SCRAPER instance please fix.
+- `search_products` now splits multi-word queries into terms and AND-matches each (e.g. "Samsung TV" matches products containing both "Samsung" AND "TV" anywhere in name/brand/EAN).
+- Chat endpoint (`POST /api/chat`) needs `ANTHROPIC_API_KEY` env var. Gracefully falls back to raw search results without it. Uses Claude Haiku 4.5 for cost efficiency.
+- API runs on: `uv run python -m uvicorn matcher.api:app --port 8001`
