@@ -38,7 +38,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ### OPEN
 
-- [ ] Add chat-based product search interface (jury wants this)
+- [ ] Add chat-based product search interface (jury wants this) -> BACKEND building API in matcher/api.py -> BACKEND (this instance)
 - [ ] Integrate scraped results into pipeline output
 - [ ] Set up embedding matching on spylab0 (GPU needed)
 
@@ -86,3 +86,4 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - Samsung model numbers have region suffixes (AUXXN, AAUXXN) that vary by market. `_strip_model_suffix` handles this.
 - Scoring is 60% recall + 20% precision + 20% coverage per half. Precision matters -- don't submit false positives.
 - `matcher/db.py` wired into pipeline. Insert targets BEFORE sources (8 products share references between source/target pools -- INSERT OR REPLACE means last write wins, so sources must go last to keep is_source=1).
+- BUG in `scraper.py:261`: `extract_model_number(source.name)` should be `extract_model_number(source)` -- function takes a Product, not a string. SCRAPER instance please fix.

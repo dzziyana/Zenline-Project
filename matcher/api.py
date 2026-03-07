@@ -1,17 +1,20 @@
 """REST API for the product matcher.
 
 Provides endpoints for searching products, viewing matches,
-running the pipeline, and exporting submissions.
+running the pipeline, chat-based search, and exporting submissions.
 """
 
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
+import anthropic
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 from .db import (
     get_connection,
