@@ -592,6 +592,44 @@ def _format_smart_fallback(query: str, search_context: str, stats: dict) -> str:
         finally:
             conn.close()
 
+    # Strategy/method questions
+    if any(w in q for w in ["strategy", "strategies", "method", "methods", "how did", "how was", "why matched", "why was"]):
+        conn = _get_db()
+        try:
+            method_counts = conn.execute(
+                "SELECT method, COUNT(*) as cnt FROM matches GROUP BY method ORDER BY cnt DESC"
+            ).fetchall()
+            if method_counts:
+                lines = ["**Matching Strategies Used:**\n"]
+                method_descriptions = {
+                    "ean": "EAN/GTIN barcode exact match (highest confidence)",
+                    "model_number": "Extracted model numbers compared within same brand",
+                    "model_series": "Samsung/LG series code + screen size matching",
+                    "product_line": "Same product line across different sizes",
+                    "product_type": "Same product category (e.g. all toasters, all vacuums)",
+                    "fuzzy_model": "Fuzzy model number matching with region variant handling",
+                    "fuzzy_name": "Fuzzy product name similarity (token sort ratio)",
+                    "screen_size": "Cross-brand screen size matching for TVs",
+                    "scrape": "Web scraping from hidden retailers (Expert, electronic4you)",
+                    "embedding": "Semantic similarity via sentence embeddings",
+                }
+                for r in method_counts:
+                    desc = method_descriptions.get(r["method"], r["method"])
+                    lines.append(f"- **{r['method']}** ({r['cnt']} matches): {desc}")
+
+                # If the query mentions a specific product, show its match method
+                search_results = search_products(conn, q, limit=3)
+                for sr in search_results:
+                    if sr.get("is_source"):
+                        matches = get_matches_for_source(conn, sr["reference"])
+                        if matches:
+                            lines.append(f"\n**{sr['name']}** was matched using:")
+                            for m in matches[:5]:
+                                lines.append(f"  - {m['target_name'][:50]} via **{m['method']}** (confidence: {m['confidence']:.2f})")
+                return "\n".join(lines)
+        finally:
+            conn.close()
+
     # Default: format search results nicely
     if "No products found" in search_context:
         return f"I couldn't find any products matching \"{query}\". Try searching by brand name, model number, or EAN."
@@ -1192,6 +1230,192 @@ loadSidebar();
 </script>
 </body>
 </html>"""
+
+# ---------------------------------------------------------------------------
+# Reusability & "wow factor" endpoints (Claude #3)
+# ---------------------------------------------------------------------------
+
+@app.get("/api/product-types")
+def get_product_types():
+    """Return the product type taxonomy the system knows about."""
+    from .fuzzy_match import PRODUCT_TYPES
+    types = []
+    for ptype, keywords in PRODUCT_TYPES.items():
+        # Group by category prefix
+        category = ptype.split("_")[0] if "_" in ptype else ptype
+        types.append({
+            "type_id": ptype,
+            "category": category,
+            "keywords": keywords,
+            "keyword_count": len(keywords),
+        })
+    # Group by category
+    by_category: dict[str, list] = {}
+    for t in types:
+        by_category.setdefault(t["category"], []).append(t)
+    return {
+        "total_types": len(types),
+        "categories": {k: len(v) for k, v in by_category.items()},
+        "types": types,
+    }
+
+
+@app.get("/api/match-quality")
+def match_quality(category: str | None = Query(None)):
+    """Return precision/recall/F1 estimates per category using known correct links."""
+    data_dir = Path("data")
+    correct_files = {
+        "tv_audio": data_dir / "correct_links.json",
+        "small_appliances": data_dir / "correct_links_small_appliances.json",
+    }
+
+    conn = _get_db()
+    try:
+        results = {}
+        for cat, path in correct_files.items():
+            if category and cat != category:
+                continue
+            if not path.exists():
+                continue
+            with open(path) as f:
+                correct: dict[str, list[str]] = json.load(f)
+
+            # Get our matches from DB for this category's sources
+            our_links: dict[str, set[str]] = {}
+            for source_ref in correct:
+                matches = get_matches_for_source(conn, source_ref)
+                our_links[source_ref] = {m["target_reference"] for m in matches}
+
+            # Compute metrics
+            total_correct = sum(len(v) for v in correct.values())
+            total_submitted = sum(len(v) for v in our_links.values())
+            true_positives = 0
+            false_positives = 0
+            false_negatives = 0
+
+            per_source = []
+            for source_ref, correct_targets in correct.items():
+                correct_set = set(correct_targets)
+                our_set = our_links.get(source_ref, set())
+                tp = len(correct_set & our_set)
+                fp = len(our_set - correct_set)
+                fn = len(correct_set - our_set)
+                true_positives += tp
+                false_positives += fp
+                false_negatives += fn
+                per_source.append({
+                    "source_reference": source_ref,
+                    "correct": len(correct_set),
+                    "submitted": len(our_set),
+                    "true_positives": tp,
+                    "false_positives": fp,
+                    "missed": fn,
+                })
+
+            precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) else 0
+            recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) else 0
+            f1 = 2 * precision * recall / (precision + recall) if (precision + recall) else 0
+            coverage = sum(1 for s in our_links.values() if s) / len(correct) if correct else 0
+            # Scoring formula: 0.6 * recall + 0.2 * precision + 0.2 * coverage
+            score = 0.6 * recall + 0.2 * precision + 0.2 * coverage
+
+            results[cat] = {
+                "sources": len(correct),
+                "total_correct_links": total_correct,
+                "total_submitted_links": total_submitted,
+                "true_positives": true_positives,
+                "false_positives": false_positives,
+                "false_negatives": false_negatives,
+                "precision": round(precision, 4),
+                "recall": round(recall, 4),
+                "f1": round(f1, 4),
+                "coverage": round(coverage, 4),
+                "estimated_score": round(score * 50, 1),
+                "per_source": sorted(per_source, key=lambda x: x["missed"], reverse=True),
+            }
+
+        return {"categories": results}
+    finally:
+        conn.close()
+
+
+@app.get("/api/compare/{ref1}/{ref2}")
+def compare_products(ref1: str, ref2: str):
+    """Side-by-side comparison of two products with all attributes."""
+    from .fuzzy_match import (
+        extract_model_number, _extract_screen_size, _classify_product_type,
+    )
+    from .models import Product
+
+    conn = _get_db()
+    try:
+        p1_raw = get_product(conn, ref1)
+        p2_raw = get_product(conn, ref2)
+        if not p1_raw or not p2_raw:
+            missing = ref1 if not p1_raw else ref2
+            return JSONResponse(status_code=404, content={"error": f"Product {missing} not found"})
+
+        p1 = Product.from_dict(p1_raw)
+        p2 = Product.from_dict(p2_raw)
+
+        def _product_info(p: Product, raw: dict) -> dict:
+            specs = raw.get("specifications", {})
+            if isinstance(specs, str):
+                specs = json.loads(specs)
+            return {
+                "reference": p.reference,
+                "name": p.name,
+                "brand": p.brand,
+                "category": p.category,
+                "ean": p.ean,
+                "price_eur": p.price_eur,
+                "retailer": p.retailer,
+                "url": p.url,
+                "image_url": raw.get("image_url"),
+                "model_number": extract_model_number(p),
+                "screen_size": _extract_screen_size(p.name),
+                "product_type": _classify_product_type(p.name),
+                "specifications": specs,
+                "is_source": bool(raw.get("is_source")),
+            }
+
+        info1 = _product_info(p1, p1_raw)
+        info2 = _product_info(p2, p2_raw)
+
+        # Check if they're matched
+        match_row = conn.execute(
+            "SELECT * FROM matches WHERE (source_reference = ? AND target_reference = ?) "
+            "OR (source_reference = ? AND target_reference = ?)",
+            (ref1, ref2, ref2, ref1)
+        ).fetchone()
+
+        # Find shared and different specs
+        specs1 = info1["specifications"]
+        specs2 = info2["specifications"]
+        all_keys = sorted(set(list(specs1.keys()) + list(specs2.keys())))
+        spec_comparison = []
+        for k in all_keys:
+            v1 = specs1.get(k)
+            v2 = specs2.get(k)
+            spec_comparison.append({
+                "key": k,
+                "product_1": v1,
+                "product_2": v2,
+                "match": v1 == v2 if v1 and v2 else None,
+            })
+
+        return {
+            "product_1": info1,
+            "product_2": info2,
+            "match_info": dict(match_row) if match_row else None,
+            "same_brand": info1["brand"] and info2["brand"] and info1["brand"].lower() == info2["brand"].lower(),
+            "same_screen_size": info1["screen_size"] == info2["screen_size"] if info1["screen_size"] and info2["screen_size"] else None,
+            "same_product_type": info1["product_type"] == info2["product_type"] if info1["product_type"] and info2["product_type"] else None,
+            "spec_comparison": spec_comparison,
+        }
+    finally:
+        conn.close()
+
 
 # SPA catch-all: serve index.html for client-side routes (must be after all API routes)
 @app.get("/{full_path:path}", response_class=HTMLResponse)
