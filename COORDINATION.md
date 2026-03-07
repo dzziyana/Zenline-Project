@@ -19,7 +19,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - **Claude-Matching**: Improving matching strategies. Can edit `matcher/fuzzy_match.py` (coordinate with Claude-Main).
 - **Diana**: Frontend/UX. Owns `webapp/`.
 - **Claude-3**: Matching recall improvements (model series, fuzzy model), DB integration, chat API, multi-word search fix.
-- **Claude-4**: Restored reverted fuzzy_match.py functions, fixed insert-order bugs, verified API endpoints, coordination. Active now.
+- **Claude-4**: Restored reverted fuzzy_match.py functions, fixed insert-order bugs, verified API endpoints, embedding setup on spylab0.
 
 **File ownership (avoid conflicts):**
 
@@ -47,13 +47,12 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ### OPEN
 
-- [ ] Integrate scraped results into pipeline output
 - [ ] Set up embedding matching on spylab0 (GPU needed) -> Claude-4
 
 ### IN PROGRESS
 
 - [x] Scrape hidden retailers (expert.at, cyberport.at, electronic4you.at, e-tec.at) -> SCRAPER
-- [ ] Chat-based product search interface -> Claude-3 (API done, needs ANTHROPIC_API_KEY to work with Claude Haiku; fallback mode returns raw search results)
+- [ ] Chat-based product search -- ANTHROPIC_API_KEY needed for Claude Haiku; fallback returns raw search results
 
 ### DONE
 
@@ -71,6 +70,8 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - [x] Brand filter: `GET /api/brands`, `GET /api/matches/by-brand/{brand}`, and `brand_filter` param in `run_matching()` (jury wants "Only look for Brand X")
 - [x] Scrape match verification function `verify_scraped_match()` in fuzzy_match.py (ready for scraper integration)
 - [x] Multi-word search fix in `search_products()` (AND-matches each term)
+- [x] Standalone chat UI at `/` with source sidebar, stats bar, and message history. OpenAPI docs at `/docs`. Start with: `uv run python -m uvicorn matcher.api:app --port 8001`
+- [x] Scrape integration: pipeline verifies scraped matches with `verify_scraped_match()` (filters score < 0.5), stores raw results in `scrape_results` DB table, API endpoint `GET /api/scrape-results`
 
 ## Unmatched Sources (for scraping)
 
