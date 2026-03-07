@@ -1,4 +1,9 @@
 /Users/dianaazarenok/Desktop/claudeathon/Zenline-Project/webapp/backend/src/main/java/com/zenline/client/MatcherClient.java
+/Users/dianaazarenok/Desktop/claudeathon/Zenline-Project/webapp/backend/src/main/java/com/zenline/entity/CategoryEntity.java
+/Users/dianaazarenok/Desktop/claudeathon/Zenline-Project/webapp/backend/src/main/java/com/zenline/entity/MatchRunEntity.java
+/Users/dianaazarenok/Desktop/claudeathon/Zenline-Project/webapp/backend/src/main/java/com/zenline/entity/ProductEntity.java
+/Users/dianaazarenok/Desktop/claudeathon/Zenline-Project/webapp/backend/src/main/java/com/zenline/entity/ProductMatchEntity.java
+/Users/dianaazarenok/Desktop/claudeathon/Zenline-Project/webapp/backend/src/main/java/com/zenline/entity/ProductType.java
 /Users/dianaazarenok/Desktop/claudeathon/Zenline-Project/webapp/backend/src/main/java/com/zenline/model/CompetitorMatch.java
 /Users/dianaazarenok/Desktop/claudeathon/Zenline-Project/webapp/backend/src/main/java/com/zenline/model/MatchRequest.java
 /Users/dianaazarenok/Desktop/claudeathon/Zenline-Project/webapp/backend/src/main/java/com/zenline/model/MatchResult.java

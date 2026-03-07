@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: zenline-postgres
+    environment:
+      POSTGRES_DB: zenline
+      POSTGRES_USER: zenline
+      POSTGRES_PASSWORD: zenline
+    ports:
+      - "5432:5432"
+    volumes:
+      - zenline_pgdata:/var/lib/postgresql/data
+
+volumes:
+  zenline_pgdata:
