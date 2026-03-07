@@ -39,6 +39,9 @@ function verdictText(method: string, confidence: number): string {
     ean: "Identical EAN barcode",
     model_number: "Exact model number match",
     model_series: "Same model series",
+    product_line: "Same product line",
+    product_type: "Same product type",
+    screen_size: "Screen size match",
     fuzzy_model: "Fuzzy model match",
     fuzzy_name: "Fuzzy name similarity",
     fuzzy: "Fuzzy name similarity",
@@ -499,7 +502,9 @@ export default function ProductDetail() {
                           </td>
                           <td>
                             <span className="badge badge-accent">
-                              {m.method}
+                              {m.method
+                                .replace(/_/g, " ")
+                                .replace(/\b\w/g, (c) => c.toUpperCase())}
                             </span>
                           </td>
                           <td>
