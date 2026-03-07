@@ -848,10 +848,12 @@ PRODUCT_TYPES: dict[str, list[str]] = {
     # Cold appliances -- all merged (GT groups fridge+freezer+combos together)
     "cold_appliance": ["kühl- gefrierkombination", "kuehl- gefrierkombination",
                        "kühl-gefrierkombination", "kuehl-gefrierkombination",
+                       "kühl-/gefrierkombination", "kuehl-/gefrierkombination",
                        "kühlgefrierkombination", "fridge freezer", "combi fridge",
                        "gefrierschrank", "stand-gefrierschrank", "gefriertruhe", "freezer",
                        "kühlschrank", "kuehlschrank", "glastürkühlschrank",
-                       "glastuerkuehlschrank", "fridge", "refrigerator"],
+                       "glastuerkuehlschrank", "fridge", "refrigerator",
+                       "kühl-/gefrier", "kuehl-/gefrier"],
     # Cooktops -- all merged (GT groups induction+ceramic+electric together)
     "cooktop": ["induktionskochfeld", "induktionskochplatte",
                 "induktionsdoppelkochplatte", "induction cooktop",
