@@ -72,6 +72,8 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - [x] Scrape integration: pipeline verifies scraped matches with `verify_scraped_match()` (filters score < 0.5), stores raw results in `scrape_results` DB table, API endpoint `GET /api/scrape-results`
 - [x] Scrape hidden retailers (Claude #2): Rewrote scraper.py with real site parsing. expert.at (NUXT SSR), electronic4you.at (curl_cffi + HTML), geizhals.at fallback. 301 raw results, 27 verified. All 5 unmatched sources now found. cyberport.at/e-tec.at blocked by Cloudflare.
 - [x] Embedding matching (Claude #4): Precomputed multilingual-e5-large-instruct embeddings on spylab0 GPU. 85 matches at threshold 0.85. Embeddings saved in `data/embeddings/` (sources.npy, targets.npy + refs). Confirms existing matches (scores ~1.0) but unmatched sources have no true matches in visible pool (best scores 0.92-0.94 are all wrong products). Use threshold 0.95+ to avoid false positives.
+- [x] Match explanation endpoint (Claude #3): `GET /api/explain/{source}/{target}` shows all matching signals (EAN, brand, model, series, screen size, fuzzy scores, match method + confidence)
+- [x] Optional API key auth (Claude #3): set `MATCHER_API_KEY` env var to require `X-Api-Key` header on write endpoints. Read endpoints stay open.
 
 ## Unmatched Sources (for scraping) -- ALL NOW MATCHED via scraping
 
