@@ -12,13 +12,13 @@ Each stage assigns a confidence score (0--1). Higher-confidence stages run first
 
 ### Stage 1: EAN Barcode (confidence: 1.0)
 
-- Exact match on EAN/GTIN barcodes -- universal product identifier
+- Exact match on EAN (European Article Number) / GTIN (Global Trade Item Number) barcodes -- universal product identifiers
 - Checks multiple fields: `specifications.GTIN`, `specifications.EAN-Code`, top-level `ean`
 - ~15% hit rate, but 100% confidence when found
 
 ### Stage 2: Model Number (confidence: 0.90--0.95)
 
-- Regex extraction from messy product names
+- Regex (regular expression) extraction from messy product names
 - Handles standard codes (`SMS4HVW33E`), short codes (`EK 3163`), Samsung region suffixes (`AUXXN`)
 - Skip list filters false positives (`HDR10`, `2025`, `1080p`, `500ml`)
 - Matched within same brand only
@@ -39,7 +39,7 @@ Each stage assigns a confidence score (0--1). Higher-confidence stages run first
 
 ### Stage 5: Fuzzy Matching (confidence: 0.82--0.90)
 
-- Token-sort ratio via RapidFuzz (C++ performance)
+- Token-sort ratio (sort words alphabetically, then compute edit distance) via RapidFuzz (C++ performance)
 - Catches naming variations: "LG 32LQ63806LC" vs "LG 32LQ63006LA"
 - 82% threshold, scoped within same brand
 
@@ -47,7 +47,7 @@ Each stage assigns a confidence score (0--1). Higher-confidence stages run first
 
 - 4 hidden retailers not in the target pool
 - **expert.at** -- parse server-side rendered data directly from HTML
-- **electronic4you.at** -- browser impersonation (TLS fingerprint mimics Chrome)
+- **electronic4you.at** -- browser impersonation (TLS [Transport Layer Security] fingerprint mimics Chrome)
 - **cyberport.at / e-tec.at** -- Cloudflare bypass with rate-limited requests
 - Every scraped product verified on multiple signals before acceptance
 
@@ -57,12 +57,12 @@ Each stage assigns a confidence score (0--1). Higher-confidence stages run first
 
 ## Architecture
 
-- **Frontend:** React + TypeScript + Vite
-- **Backend:** FastAPI (Python), 15+ REST endpoints, auto-generated docs at `/docs`
-- **Database:** SQLite with 4 tables (products, matches, scrape_results, pipeline_runs)
-- **Auth:** API key on write endpoints, login modal in sidebar
-- **Embeddings:** multilingual-e5-large-instruct (560M params), precomputed on GPU, FAISS index for instant similarity lookups
-- **Chat:** Claude Haiku 4.5 with smart keyword fallback when no API key
+- **Frontend:** React + TypeScript + Vite (fast build tool)
+- **Backend:** FastAPI (Python), 15+ REST (Representational State Transfer) endpoints, auto-generated docs at `/docs`
+- **Database:** SQLite (lightweight file-based database) with 4 tables (products, matches, scrape_results, pipeline_runs)
+- **Auth:** API (Application Programming Interface) key on write endpoints, login modal in sidebar
+- **Embeddings:** multilingual-e5-large-instruct (560M parameter AI model), precomputed on GPU (Graphics Processing Unit), FAISS (Facebook AI Similarity Search) index for instant similarity lookups
+- **Chat:** Claude Haiku 4.5 (Anthropic's fast, cost-efficient LLM [Large Language Model]) with smart keyword fallback when no API key
 
 ## What Makes It Generalizable
 
@@ -82,7 +82,7 @@ Each stage assigns a confidence score (0--1). Higher-confidence stages run first
 
 **Total: 174.2/300 -- 1st place** (32 pts ahead of 2nd)
 
-- SA and LA categories released mid-hackathon, strong results immediately on both
+- SA (Small Appliances) and LA (Large Appliances) categories released mid-hackathon, strong results immediately on both
 - Same pipeline, no category-specific code
 
 ## Key Numbers
