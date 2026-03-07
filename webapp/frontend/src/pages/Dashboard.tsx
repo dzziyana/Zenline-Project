@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getDashboard, getCategories } from '../services/api'
 import { STRATEGIES } from '../strategies'
+import { useStrategies } from '../StrategyContext'
 import type { DashboardStats } from '../types/product'
 
 const STRATEGY_ICONS: Record<string, JSX.Element> = {
@@ -70,25 +71,12 @@ const CONF_COLORS: Record<string, string> = {
 export default function Dashboard() {
   const [categories, setCategories] = useState<string[]>([])
   const [dashboard, setDashboard] = useState<DashboardStats | null>(null)
-  const [enabledStrategies, setEnabledStrategies] = useState<Set<string>>(() =>
-    new Set(STRATEGIES.filter((s) => s.defaultEnabled).map((s) => s.id))
-  )
+  const { enabledStrategies, toggleStrategy, enableAll, disableAll } = useStrategies()
 
   useEffect(() => {
     getCategories().then(setCategories).catch(() => setCategories([]))
     getDashboard().then(setDashboard).catch(() => {})
   }, [])
-
-  const toggleStrategy = (id: string) => {
-    setEnabledStrategies((prev) => {
-      const next = new Set(prev)
-      next.has(id) ? next.delete(id) : next.add(id)
-      return next
-    })
-  }
-
-  const enableAll = () => setEnabledStrategies(new Set(STRATEGIES.map((s) => s.id)))
-  const disableAll = () => setEnabledStrategies(new Set())
 
   const d = dashboard
 
@@ -265,6 +253,7 @@ export default function Dashboard() {
                 <div
                   key={s.id}
                   className={`strategy-card ${enabled ? 'strategy-enabled' : 'strategy-disabled'}`}
+                  data-strategy={s.id}
                   onClick={() => toggleStrategy(s.id)}
                 >
                   <div className="strategy-header">
