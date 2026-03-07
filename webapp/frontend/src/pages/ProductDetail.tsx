@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { getProduct, getSimilar } from '../services/api'
+import { useI18n } from '../i18n'
 import type { SourceProduct, MatchEntry, SimilarProduct } from '../types/product'
 
 export default function ProductDetail() {
   const { ref } = useParams<{ ref: string }>()
   const navigate = useNavigate()
+  const { t, tSpec } = useI18n()
   const [product, setProduct] = useState<SourceProduct | null>(null)
   const [matches, setMatches] = useState<MatchEntry[]>([])
   const [similar, setSimilar] = useState<SimilarProduct[]>([])
@@ -27,7 +29,7 @@ export default function ProductDetail() {
     return (
       <>
         <div className="page-header">
-          <h1>Loading...</h1>
+          <h1>{t('common.loading')}</h1>
         </div>
         <div className="page-body">
           <div className="card" style={{ padding: '40px', textAlign: 'center' }}>
@@ -42,11 +44,11 @@ export default function ProductDetail() {
     return (
       <>
         <div className="page-header">
-          <h1>Product not found</h1>
+          <h1>{t('product.not_found')}</h1>
         </div>
         <div className="page-body">
           <button className="btn btn-secondary" onClick={() => navigate('/products')}>
-            Back to Products
+            {t('product.back')}
           </button>
         </div>
       </>
@@ -59,7 +61,7 @@ export default function ProductDetail() {
     <>
       <div className="page-header">
         <button className="btn btn-secondary" onClick={() => navigate('/products')} style={{ marginBottom: '8px' }}>
-          &larr; Back to Products
+          &larr; {t('product.back')}
         </button>
         <h1>{product.name}</h1>
         <p>
@@ -87,7 +89,7 @@ export default function ProductDetail() {
             <div className="product-detail-meta">
               {product.brand && (
                 <div className="meta-row">
-                  <span className="meta-label">Brand</span>
+                  <span className="meta-label">{t('common.brand')}</span>
                   <span className="meta-value">{product.brand}</span>
                 </div>
               )}
@@ -99,38 +101,38 @@ export default function ProductDetail() {
               )}
               {product.retailer && (
                 <div className="meta-row">
-                  <span className="meta-label">Retailer</span>
+                  <span className="meta-label">{t('common.retailer')}</span>
                   <span className="meta-value"><span className="badge badge-info">{product.retailer}</span></span>
                 </div>
               )}
               {price != null && (
                 <div className="meta-row">
-                  <span className="meta-label">Price</span>
+                  <span className="meta-label">{t('common.price')}</span>
                   <span className="meta-value" style={{ fontSize: '1.2rem', fontWeight: 600 }}>&euro;{price.toFixed(2)}</span>
                 </div>
               )}
               {product.category && (
                 <div className="meta-row">
-                  <span className="meta-label">Category</span>
+                  <span className="meta-label">{t('common.category')}</span>
                   <span className="meta-value"><span className="badge badge-accent">{product.category}</span></span>
                 </div>
               )}
               {product.url && (
                 <div className="meta-row">
-                  <span className="meta-label">URL</span>
+                  <span className="meta-label">{t('common.url')}</span>
                   <a href={product.url} target="_blank" rel="noreferrer" className="meta-value" style={{ color: 'var(--accent)', wordBreak: 'break-all' }}>
-                    View original &rarr;
+                    {t('common.view_original')} &rarr;
                   </a>
                 </div>
               )}
             </div>
             {product.specifications && Object.keys(product.specifications).length > 0 && (
               <div style={{ marginTop: '16px' }}>
-                <h3 style={{ fontSize: '0.88rem', fontWeight: 600, marginBottom: '8px', color: 'var(--stone-700)' }}>Specifications</h3>
+                <h3 style={{ fontSize: '0.88rem', fontWeight: 600, marginBottom: '8px', color: 'var(--stone-700)' }}>{t('product.specifications')}</h3>
                 <div className="product-detail-meta">
                   {Object.entries(product.specifications).slice(0, 10).map(([k, v]) => (
                     <div className="meta-row" key={k}>
-                      <span className="meta-label">{k}</span>
+                      <span className="meta-label">{tSpec(k)}</span>
                       <span className="meta-value">{v}</span>
                     </div>
                   ))}
@@ -143,10 +145,10 @@ export default function ProductDetail() {
         {/* Matches */}
         <div className="card" style={{ marginTop: '24px' }}>
           <div className="card-header">
-            <span className="card-title">Matches ({matches.length})</span>
+            <span className="card-title">{t('product.matches')} ({matches.length})</span>
           </div>
           {matches.length === 0 ? (
-            <p style={{ color: 'var(--stone-500)', fontSize: '0.875rem' }}>No matches found for this product.</p>
+            <p style={{ color: 'var(--stone-500)', fontSize: '0.875rem' }}>{t('product.no_matches')}</p>
           ) : (
             <div className="table-wrapper" style={{ border: 'none', boxShadow: 'none' }}>
               <table className="data-table">
@@ -154,8 +156,8 @@ export default function ProductDetail() {
                   <tr>
                     <th>Target Ref</th>
                     <th>Product Name</th>
-                    <th>Retailer</th>
-                    <th>Price</th>
+                    <th>{t('common.retailer')}</th>
+                    <th>{t('common.price')}</th>
                     <th>Method</th>
                     <th>Confidence</th>
                   </tr>
@@ -193,7 +195,7 @@ export default function ProductDetail() {
         {similar.length > 0 && (
           <div style={{ marginTop: '24px' }}>
             <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '14px', color: 'var(--stone-800)' }}>
-              Similar Products
+              {t('product.similar')}
             </h2>
             <div className="product-grid">
               {similar.map((s) => (
@@ -226,7 +228,7 @@ export default function ProductDetail() {
                           style={{ width: `${s.similarity * 100}%` }}
                         />
                       </div>
-                      <span className="mono" style={{ fontSize: '0.72rem' }}>{(s.similarity * 100).toFixed(0)}% similar</span>
+                      <span className="mono" style={{ fontSize: '0.72rem' }}>{(s.similarity * 100).toFixed(0)}% {t('common.similar')}</span>
                     </div>
                   </div>
                 </Link>

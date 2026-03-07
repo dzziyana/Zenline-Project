@@ -1,8 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { getDashboard, getCategories } from '../services/api'
 import { STRATEGIES } from '../strategies'
 import { useStrategies } from '../StrategyContext'
+import { useI18n } from '../i18n'
 import type { DashboardStats } from '../types/product'
+
+const STRATEGY_HINTS = [
+  { condition: (ids: Set<string>) => ids.size === 0, text: "Everything's off! Enable a few strategies and see what matches pop up.", icon: '~' },
+  { condition: (ids: Set<string>) => ids.size === STRATEGIES.length, text: "All engines running! Try disabling a few to see which ones pull the most weight.", icon: '>' },
+  { condition: (ids: Set<string>) => ids.has('ean') && ids.size === 1, text: "EAN-only is precise but narrow. Add Fuzzy or Embedding to catch more matches.", icon: '+' },
+  { condition: (ids: Set<string>) => !ids.has('llm') && ids.size >= 3, text: "Tip: Enable LLM Verify to let Claude double-check uncertain matches.", icon: '?' },
+  { condition: (ids: Set<string>) => !ids.has('vision') && ids.has('embedding'), text: "You've got text embeddings on. Try adding Vision for image-based matching too!", icon: '*' },
+  { condition: (ids: Set<string>) => ids.has('scrape') && !ids.has('ean'), text: "Scraping works best with EAN enabled -- scraped products often have barcodes.", icon: '!' },
+  { condition: (ids: Set<string>) => ids.size >= 2 && ids.size <= 4, text: "Nice combo! Toggle strategies on and off to experiment with precision vs. recall.", icon: '~' },
+]
 
 const STRATEGY_ICONS: Record<string, JSX.Element> = {
   ean: (
@@ -72,6 +83,7 @@ export default function Dashboard() {
   const [categories, setCategories] = useState<string[]>([])
   const [dashboard, setDashboard] = useState<DashboardStats | null>(null)
   const { enabledStrategies, toggleStrategy, enableAll, disableAll } = useStrategies()
+  const { t } = useI18n()
 
   useEffect(() => {
     getCategories().then(setCategories).catch(() => setCategories([]))
@@ -80,37 +92,44 @@ export default function Dashboard() {
 
   const d = dashboard
 
+  const hint = useMemo(() => {
+    for (const h of STRATEGY_HINTS) {
+      if (h.condition(enabledStrategies)) return h
+    }
+    return null
+  }, [enabledStrategies])
+
   return (
     <>
       <div className="page-header">
-        <h1>Dashboard</h1>
-        <p>Overview of your product matching workspace</p>
+        <h1>{t('dashboard.title')}</h1>
+        <p>{t('dashboard.subtitle')}</p>
       </div>
       <div className="page-body">
         {/* Live Stats */}
         <div className="stats-grid">
           <div className="stat-card">
-            <div className="stat-label">Source Products</div>
+            <div className="stat-label">{t('stats.source_products')}</div>
             <div className="stat-value">{d?.source_count ?? '--'}</div>
-            <div className="stat-note">To be matched</div>
+            <div className="stat-note">{t('stats.to_be_matched')}</div>
           </div>
           <div className="stat-card">
-            <div className="stat-label">Target Pool</div>
+            <div className="stat-label">{t('stats.target_pool')}</div>
             <div className="stat-value">{d?.target_count ?? '--'}</div>
             <div className="stat-note">From {d?.retailers?.length ?? 0} retailers</div>
           </div>
           <div className="stat-card">
-            <div className="stat-label">Matches Found</div>
+            <div className="stat-label">{t('stats.matches_found')}</div>
             <div className="stat-value">{d?.match_count ?? '--'}</div>
-            <div className="stat-note">{d?.sources_matched ?? 0} sources covered</div>
+            <div className="stat-note">{d?.sources_matched ?? 0} {t('stats.sources_covered')}</div>
           </div>
           <div className="stat-card">
-            <div className="stat-label">Coverage</div>
+            <div className="stat-label">{t('stats.coverage')}</div>
             <div className="stat-value">{d ? `${d.coverage_pct.toFixed(0)}%` : '--'}</div>
             <div className="stat-note">
               {d && d.source_count > 0
                 ? `${d.sources_matched} / ${d.source_count} sources`
-                : 'No data yet'}
+                : t('stats.no_data')}
             </div>
           </div>
         </div>
@@ -121,7 +140,7 @@ export default function Dashboard() {
             {/* Method breakdown */}
             <div className="card">
               <div className="card-header">
-                <span className="card-title">Matches by Method</span>
+                <span className="card-title">{t('card.methods')}</span>
               </div>
               {d.methods.length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -148,7 +167,7 @@ export default function Dashboard() {
             {/* Confidence distribution */}
             <div className="card">
               <div className="card-header">
-                <span className="card-title">Confidence Distribution</span>
+                <span className="card-title">{t('card.confidence')}</span>
               </div>
               {d.match_count > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -179,7 +198,7 @@ export default function Dashboard() {
         {d && d.brands.length > 0 && (
           <div className="card" style={{ marginBottom: '24px' }}>
             <div className="card-header">
-              <span className="card-title">Top Brands</span>
+              <span className="card-title">{t('card.top_brands')}</span>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {d.brands.slice(0, 12).map((b) => (
@@ -204,7 +223,7 @@ export default function Dashboard() {
         {d && d.recent_runs.length > 0 && (
           <div className="card" style={{ marginBottom: '24px' }}>
             <div className="card-header">
-              <span className="card-title">Recent Pipeline Runs</span>
+              <span className="card-title">{t('card.recent_runs')}</span>
             </div>
             <div className="table-wrapper" style={{ border: 'none', boxShadow: 'none' }}>
               <table className="data-table">
@@ -236,16 +255,27 @@ export default function Dashboard() {
         {/* Strategies Section */}
         <div className="card" style={{ marginBottom: '24px' }}>
           <div className="card-header">
-            <span className="card-title">Matching Strategies</span>
+            <div>
+              <span className="card-title">{t('strategies.title')}</span>
+              <span style={{ fontSize: '0.78rem', color: 'var(--stone-500)', marginLeft: '10px' }}>
+                {enabledStrategies.size} / {STRATEGIES.length} {t('strategies.active')}
+              </span>
+            </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               <button className="btn btn-secondary" style={{ padding: '5px 12px', fontSize: '0.78rem' }} onClick={enableAll}>
-                Enable all
+                {t('strategies.enable_all')}
               </button>
               <button className="btn btn-secondary" style={{ padding: '5px 12px', fontSize: '0.78rem' }} onClick={disableAll}>
-                Disable all
+                {t('strategies.disable_all')}
               </button>
             </div>
           </div>
+          {hint && (
+            <div className="strategy-hint">
+              <span className="strategy-hint-icon">{hint.icon}</span>
+              <span>{hint.text}</span>
+            </div>
+          )}
           <div className="strategy-grid">
             {STRATEGIES.map((s) => {
               const enabled = enabledStrategies.has(s.id)
@@ -286,7 +316,7 @@ export default function Dashboard() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
           <div className="card">
             <div className="card-header">
-              <span className="card-title">Categories</span>
+              <span className="card-title">{t('card.categories')}</span>
             </div>
             {categories.length === 0 ? (
               <div className="empty-state">
@@ -317,7 +347,7 @@ export default function Dashboard() {
           {/* Retailers */}
           <div className="card">
             <div className="card-header">
-              <span className="card-title">Retailers</span>
+              <span className="card-title">{t('card.retailers')}</span>
             </div>
             {d && d.retailers.length > 0 ? (
               <ul style={{ listStyle: 'none' }}>

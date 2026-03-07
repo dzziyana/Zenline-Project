@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { sendChat } from "../services/api";
+import { useI18n } from "../i18n";
 import type { ChatMessage } from "../types/product";
 
 export default function Chat() {
+  const { t } = useI18n();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -44,8 +46,8 @@ export default function Chat() {
   return (
     <>
       <div className="page-header">
-        <h1>Chat</h1>
-        <p>Ask questions about products, matches, or search the catalog</p>
+        <h1>{t('chat.title')}</h1>
+        <p>{t('chat.subtitle')}</p>
       </div>
       <div className="page-body">
         <div
@@ -164,7 +166,7 @@ export default function Chat() {
               onClick={handleSend}
               disabled={loading || !input.trim()}
             >
-              Send
+              {t('common.send')}
             </button>
           </div>
         </div>

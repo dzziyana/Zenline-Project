@@ -1,9 +1,11 @@
 import { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { searchProducts, getAllSourceProducts, getBrands } from '../services/api'
+import { useI18n } from '../i18n'
 import type { SourceProduct, BrandEntry } from '../types/product'
 
 export default function Products() {
+  const { t } = useI18n()
   const [sources, setSources] = useState<SourceProduct[]>([])
   const [search, setSearch] = useState('')
   const [searchResults, setSearchResults] = useState<SourceProduct[] | null>(null)
@@ -43,17 +45,17 @@ export default function Products() {
   return (
     <>
       <div className="page-header">
-        <h1>Products</h1>
-        <p>Browse, search, and inspect source products and their matches</p>
+        <h1>{t('products.title')}</h1>
+        <p>{t('products.subtitle')}</p>
       </div>
       <div className="page-body">
         <div className="toolbar">
           <div className="tab-group">
             <button className={`tab-btn ${tab === 'all' ? 'active' : ''}`} onClick={() => setTab('all')}>
-              All ({displayProducts.length})
+              {t('filter.all')} ({displayProducts.length})
             </button>
             <button className={`tab-btn ${tab === 'unmatched' ? 'active' : ''}`} onClick={() => setTab('unmatched')}>
-              Unmatched ({displayProducts.filter((p) => (p.match_count ?? 0) === 0).length})
+              {t('filter.unmatched')} ({displayProducts.filter((p) => (p.match_count ?? 0) === 0).length})
             </button>
           </div>
 
@@ -64,7 +66,7 @@ export default function Products() {
             value={brandFilter}
             onChange={(e) => setBrandFilter(e.target.value)}
           >
-            <option value="">All brands</option>
+            <option value="">{t('filter.all_brands')}</option>
             {brands.map((b) => (
               <option key={b.brand} value={b.brand}>{b.brand} ({b.source_count})</option>
             ))}
@@ -73,7 +75,7 @@ export default function Products() {
           <input
             type="text"
             className="input-field search-field"
-            placeholder="Search by name, brand, or EAN..."
+            placeholder={t('filter.search')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -82,8 +84,7 @@ export default function Products() {
         {brandFiltered.length === 0 ? (
           <div className="card">
             <div className="empty-state">
-              <h3>No products found</h3>
-              <p>Try adjusting your search or filters.</p>
+              <h3>{t('filter.no_products')}</h3>
             </div>
           </div>
         ) : (
@@ -122,7 +123,7 @@ export default function Products() {
                       <div className="product-card-matches">
                         {mc > 0
                           ? <span className="badge badge-success">{mc} match{mc !== 1 ? 'es' : ''}</span>
-                          : <span style={{ color: 'var(--stone-500)', fontSize: '0.75rem' }}>No matches</span>
+                          : <span style={{ color: 'var(--stone-500)', fontSize: '0.75rem' }}>{t('common.no_matches')}</span>
                         }
                         <span className="mono" style={{ fontSize: '0.72rem', color: 'var(--stone-500)' }}>{p.reference}</span>
                       </div>

@@ -1,4 +1,5 @@
 import { Routes, Route, NavLink } from 'react-router-dom'
+import { useI18n } from './i18n'
 import Dashboard from './pages/Dashboard'
 import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
@@ -6,6 +7,8 @@ import Matching from './pages/Matching'
 import Chat from './pages/Chat'
 
 export default function App() {
+  const { lang, setLang } = useI18n()
+
   return (
     <div className="app-layout">
       <aside className="sidebar">
@@ -57,6 +60,16 @@ export default function App() {
             Chat
           </NavLink>
         </nav>
+        <div className="lang-toggle">
+          <button
+            className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
+            onClick={() => setLang('en')}
+          >EN</button>
+          <button
+            className={`lang-btn ${lang === 'de' ? 'active' : ''}`}
+            onClick={() => setLang('de')}
+          >DE</button>
+        </div>
         <div className="sidebar-footer">
           Zenline Hackathon 2026
         </div>

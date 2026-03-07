@@ -52,7 +52,7 @@ export const STRATEGIES: Strategy[] = [
   {
     id: 'scrape',
     name: 'Web Scrape',
-    description: 'Scrapes hidden retailers (expert.at, cyberport.at, etc.) for additional matches.',
+    description: 'Scrapes hidden retailers for additional matches.',
     priority: 7,
     defaultEnabled: false,
   },
