@@ -239,32 +239,57 @@ def get_matches(source_reference: str):
         conn.close()
 
 
+def _build_submission(conn) -> list[dict]:
+    """Build submission JSON from current DB matches."""
+    sources = get_all_sources(conn)
+    submission = []
+    for s in sources:
+        matches = get_matches_for_source(conn, s["reference"])
+        if matches:
+            submission.append({
+                "source_reference": s["reference"],
+                "competitors": [
+                    {
+                        "reference": m["target_reference"],
+                        "competitor_retailer": m["target_retailer"],
+                        "competitor_product_name": m["target_name"],
+                        "competitor_url": m["target_url"],
+                        "competitor_price": m["target_price"],
+                    }
+                    for m in matches
+                ]
+            })
+    return submission
+
+
 @app.get("/api/submission")
 def get_submission():
     """Export current matches as submission JSON."""
     conn = _get_db()
     try:
-        sources = get_all_sources(conn)
-        submission = []
-        for s in sources:
-            matches = get_matches_for_source(conn, s["reference"])
-            if matches:
-                submission.append({
-                    "source_reference": s["reference"],
-                    "competitors": [
-                        {
-                            "reference": m["target_reference"],
-                            "competitor_retailer": m["target_retailer"],
-                            "competitor_product_name": m["target_name"],
-                            "competitor_url": m["target_url"],
-                            "competitor_price": m["target_price"],
-                        }
-                        for m in matches
-                    ]
-                })
-        return submission
+        return _build_submission(conn)
     finally:
         conn.close()
+
+
+@app.get("/api/submission/download")
+def download_submission(category: str = Query("tv_audio")):
+    """Download submission as a JSON file attachment."""
+    from fastapi.responses import Response
+
+    conn = _get_db()
+    try:
+        submission = _build_submission(conn)
+    finally:
+        conn.close()
+
+    content = json.dumps(submission, indent=2)
+    filename = f"submission_{category}.json"
+    return Response(
+        content=content,
+        media_type="application/json",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 @app.post("/api/run", dependencies=[Depends(_check_auth)])
@@ -387,10 +412,61 @@ def chat(req: ChatRequest):
             messages=messages,
         )
         reply = response.content[0].text
-    except Exception as e:
-        reply = f"AI chat unavailable ({type(e).__name__}). Here are the raw search results:\n\n{search_context}"
+    except Exception:
+        reply = _format_smart_fallback(req.message, search_context, stats)
 
     return {"reply": reply, "search_results": search_context}
+
+
+def _format_smart_fallback(query: str, search_context: str, stats: dict) -> str:
+    """Format a helpful response when Claude API is unavailable."""
+    q = query.lower().strip()
+
+    # Handle common question patterns
+    if any(w in q for w in ["stat", "overview", "how many", "summary"]):
+        methods = stats.get("methods", {})
+        method_str = ", ".join(f"{k}: {v}" for k, v in methods.items()) if methods else "none yet"
+        return (
+            f"**Matching Overview**\n\n"
+            f"- Sources: {stats['source_count']}\n"
+            f"- Targets: {stats['target_count']}\n"
+            f"- Matches found: {stats['match_count']}\n"
+            f"- Sources matched: {stats['sources_matched']}/{stats['source_count']}\n"
+            f"- Methods: {method_str}\n"
+            f"- Retailers: {', '.join(stats.get('retailers', []))}"
+        )
+
+    if any(w in q for w in ["unmatched", "missing", "not found", "no match"]):
+        conn = _get_db()
+        try:
+            unmatched = get_unmatched_sources(conn)
+            if not unmatched:
+                return "All source products have been matched!"
+            lines = ["**Unmatched Source Products:**\n"]
+            for u in unmatched:
+                lines.append(f"- {u['name']} ({u['brand'] or 'unknown brand'}) [ref: {u['reference']}]")
+            return "\n".join(lines)
+        finally:
+            conn.close()
+
+    if any(w in q for w in ["brand", "brands"]):
+        conn = _get_db()
+        try:
+            rows = conn.execute(
+                "SELECT brand, COUNT(*) as cnt FROM products WHERE brand != '' AND is_source = 1 GROUP BY brand ORDER BY cnt DESC"
+            ).fetchall()
+            lines = ["**Source Product Brands:**\n"]
+            for r in rows:
+                lines.append(f"- {r['brand']}: {r['cnt']} products")
+            return "\n".join(lines)
+        finally:
+            conn.close()
+
+    # Default: format search results nicely
+    if "No products found" in search_context:
+        return f"I couldn't find any products matching \"{query}\". Try searching by brand name, model number, or EAN."
+
+    return f"**Search results for \"{query}\":**\n\n{search_context}"
 
 
 @app.post("/api/upload", dependencies=[Depends(_check_auth)])
