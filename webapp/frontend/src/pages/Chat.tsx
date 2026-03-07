@@ -26,9 +26,10 @@ export default function Chat() {
 
     try {
       const res = await sendChat(text, updated);
+      const reply = res.reply?.trim() || "No response received. The matcher service may not have any data loaded yet.";
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: res.reply },
+        { role: "assistant", content: reply },
       ]);
     } catch {
       setMessages((prev) => [

@@ -11,6 +11,14 @@ from pathlib import Path
 
 import os
 
+# Load .env file if present (for ANTHROPIC_API_KEY etc.)
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).parent / ".env")
+    load_dotenv()  # also check project root
+except ImportError:
+    pass
+
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -408,21 +416,25 @@ class ChatRequest(BaseModel):
     history: list[dict] = []
 
 
-CHAT_SYSTEM_PROMPT = """You are a product matching assistant for an Austrian electronics retail comparison tool.
-You help users search for products, find matches, and understand matching results.
+CHAT_SYSTEM_PROMPT = """You are a product matching assistant for an Austrian electronics retail comparison tool called Zenline.
+You help users search for products, find matches, understand matching results, and discuss market trends.
 
-You have access to a database of source products (the products we want to find matches for) and target products (from competitor retailers like Amazon AT and MediaMarkt AT).
+You have access to a catalog of source products (the products we want to find matches for) and target products (from competitor retailers like Amazon AT, MediaMarkt AT, expert.at, cyberport.at, electronic4you.at, e-tec.at).
 
-When the user asks about products, you receive search results as context. Use them to answer.
+When the user asks about products, you receive search results as context. Use them to give specific, helpful answers.
 Be concise and format product info clearly. Use markdown for formatting.
 
 Available data:
 - Categories: TV & Audio, Small Appliances
-- TV brands: Samsung, LG, Sharp, TCL, CHIQ, PEAQ, Xiaomi, Sony, Philips, Hisense, Sonos, JBL, Bose
+- TV brands: Samsung, LG, Sharp, TCL, CHIQ, PEAQ, Xiaomi, Sony, Philips, Hisense, Sonos, JBL, Bose, Sennheiser
 - Appliance brands: Tefal, Beurer, WMF, Braun, Oral-B, Clatronic, SEVERIN, Rommelsbacher, SILVA, Kenwood, REMINGTON, KOENIC, GASTROBACK, JONR, Mova
 - Retailers: Amazon AT, MediaMarkt AT (visible); Expert AT, electronic4you.at, Cyberport AT, E-Tec AT (scraped)
 
-Respond in the same language the user writes in (German or English)."""
+Matching strategies available: EAN matching, model number extraction, fuzzy name matching, embedding similarity, CLIP vision matching, LLM verification, web scraping.
+
+You can also discuss market trends, recommend products, compare specifications, and help users understand pricing across retailers.
+
+Respond in the same language the user writes in (German or English). Be friendly and helpful."""
 
 
 _STOP_WORDS = {"find", "show", "search", "list", "get", "me", "all", "the", "a",
@@ -443,41 +455,83 @@ def _stem_word(word: str) -> str:
 
 
 def _chat_search(query: str) -> str:
-    """Search the DB and format results for the chat context."""
-    # Strip stop words and stem remaining words
+    """Search products from DB or JSON files for chat context."""
+    # Strip stop words and stem remaining words for better DB search
     words = query.split()
     filtered = [_stem_word(w) for w in words if w.lower() not in _STOP_WORDS]
     search_query = " ".join(filtered) if filtered else query
 
-    conn = _get_db()
+    # Try DB first with progressive search
     try:
-        # Try full query, then progressively fewer terms until we find results
-        search_words = search_query.split()
-        results = search_products(conn, search_query, limit=10)
-        if not results and len(search_words) > 1:
-            for n in range(len(search_words) - 1, 0, -1):
-                results = search_products(conn, " ".join(search_words[:n]), limit=10)
-                if results:
-                    break
-        if not results:
-            return f"No products found for '{query}'."
+        conn = _get_db()
+        try:
+            search_words = search_query.split()
+            results = search_products(conn, search_query, limit=10)
+            if not results and len(search_words) > 1:
+                for n in range(len(search_words) - 1, 0, -1):
+                    results = search_products(conn, " ".join(search_words[:n]), limit=10)
+                    if results:
+                        break
+            if results:
+                lines = []
+                for r in results:
+                    source_tag = " [SOURCE]" if r.get("is_source") else ""
+                    price = f" - EUR {r['price_eur']:.2f}" if r.get("price_eur") else ""
+                    lines.append(f"- {r['name']}{price} ({r['retailer'] or 'unknown'}){source_tag} [ref: {r['reference']}]")
 
-        lines = []
-        for r in results:
-            source_tag = " [SOURCE]" if r.get("is_source") else ""
-            price = f" - EUR {r['price_eur']:.2f}" if r.get("price_eur") else ""
-            lines.append(f"- {r['name']}{price} ({r['retailer'] or 'unknown'}){source_tag} [ref: {r['reference']}]")
+                    if r.get("is_source"):
+                        matches = get_matches_for_source(conn, r["reference"])
+                        if matches:
+                            for m in matches[:3]:
+                                lines.append(f"  -> Match: {m['target_name'][:60]} ({m['target_retailer']}, method={m['method']}, confidence={m['confidence']:.2f})")
+                        else:
+                            lines.append("  -> No matches found yet")
+                return "\n".join(lines)
+        finally:
+            conn.close()
+    except Exception:
+        pass
 
-            if r.get("is_source"):
-                matches = get_matches_for_source(conn, r["reference"])
-                if matches:
-                    for m in matches[:3]:
-                        lines.append(f"  -> Match: {m['target_name'][:60]} ({m['target_retailer']}, method={m['method']}, confidence={m['confidence']:.2f})")
-                else:
-                    lines.append("  -> No matches found yet")
-        return "\n".join(lines)
-    finally:
-        conn.close()
+    # Fallback: search JSON files directly
+    q_lower = query.lower()
+    # Keep short words if they look like brand names (uppercase original)
+    keywords = [w.lower() for w in words if len(w) > 2 or w[0].isupper() or w.isdigit()]
+    if not keywords:
+        keywords = [w.lower() for w in words if len(w) >= 2]
+    data_dir = Path("data")
+    hits = []
+    for f in data_dir.glob("source_products_*.json"):
+        try:
+            with open(f) as fh:
+                products = json.load(fh)
+            for p in products:
+                name = (p.get("name") or "").lower()
+                brand = (p.get("brand") or "").lower()
+                text = f"{name} {brand}"
+                if any(kw in text for kw in keywords):
+                    price = f" - EUR {p['price_eur']:.2f}" if p.get("price_eur") else (f" - EUR {p['price']:.2f}" if p.get("price") else "")
+                    retailer = p.get("retailer", "unknown")
+                    hits.append(f"- {p['name']}{price} ({retailer}) [ref: {p.get('reference', '?')}]")
+        except Exception:
+            continue
+    for f in data_dir.glob("target_products_*.json"):
+        try:
+            with open(f) as fh:
+                products = json.load(fh)
+            for p in products:
+                name = (p.get("name") or "").lower()
+                brand = (p.get("brand") or "").lower()
+                text = f"{name} {brand}"
+                if any(kw in text for kw in keywords):
+                    price = f" - EUR {p['price_eur']:.2f}" if p.get("price_eur") else (f" - EUR {p['price']:.2f}" if p.get("price") else "")
+                    retailer = p.get("retailer", "unknown")
+                    hits.append(f"- {p['name']}{price} ({retailer}) [ref: {p.get('reference', '?')}]")
+        except Exception:
+            continue
+
+    if hits:
+        return "\n".join(hits[:15])
+    return f"No products found for '{query}'."
 
 
 _trends_cache: dict = {}
@@ -513,15 +567,52 @@ def get_trends(refresh: bool = Query(False)):
 @app.post("/api/chat")
 def chat(req: ChatRequest):
     """Chat-based product search using Claude Haiku."""
-    conn = _get_db()
+    import logging
+    logger = logging.getLogger(__name__)
+
     try:
-        stats = get_stats(conn)
-    finally:
-        conn.close()
+        conn = _get_db()
+        try:
+            stats = get_stats(conn)
+        finally:
+            conn.close()
+    except Exception as e:
+        logger.warning("Chat DB error: %s", e)
+        stats = {"source_count": 0, "target_count": 0, "match_count": 0, "sources_matched": 0, "methods": {}, "retailers": []}
+
+    # If DB is empty, count from JSON files
+    if stats["source_count"] == 0:
+        data_dir = Path("data")
+        src_count = 0
+        tgt_count = 0
+        retailers = set()
+        for f in data_dir.glob("source_products_*.json"):
+            try:
+                with open(f) as fh:
+                    prods = json.load(fh)
+                    src_count += len(prods)
+                    for p in prods:
+                        if p.get("retailer"):
+                            retailers.add(p["retailer"])
+            except Exception:
+                pass
+        for f in data_dir.glob("target_products_*.json"):
+            try:
+                with open(f) as fh:
+                    tgt_count += len(json.load(fh))
+            except Exception:
+                pass
+        stats["source_count"] = src_count
+        stats["target_count"] = tgt_count
+        stats["retailers"] = sorted(retailers)
 
     context = f"Database: {stats['source_count']} sources, {stats['target_count']} targets, {stats['match_count']} matches ({stats['sources_matched']} sources matched)."
 
-    search_context = _chat_search(req.message)
+    try:
+        search_context = _chat_search(req.message)
+    except Exception as e:
+        logger.warning("Chat search error: %s", e)
+        search_context = f"Search unavailable for '{req.message}'."
 
     messages = []
     for h in req.history[-10:]:
@@ -541,8 +632,15 @@ def chat(req: ChatRequest):
             system=CHAT_SYSTEM_PROMPT,
             messages=messages,
         )
-        reply = response.content[0].text
-    except Exception:
+        reply = ""
+        for block in response.content:
+            if hasattr(block, "text"):
+                reply += block.text
+        if not reply.strip():
+            logger.warning("Claude returned empty response, using fallback")
+            reply = _format_smart_fallback(req.message, search_context, stats)
+    except Exception as e:
+        logger.warning("Chat Claude API error: %s", e)
         reply = _format_smart_fallback(req.message, search_context, stats)
 
     return {"reply": reply, "search_results": search_context}

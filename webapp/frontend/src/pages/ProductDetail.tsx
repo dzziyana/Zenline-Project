@@ -55,6 +55,8 @@ export default function ProductDetail() {
     )
   }
 
+  const matchedRefs = new Set(matches.map((m) => m.target_reference))
+  const nonIdenticalSimilar = similar.filter((s) => !matchedRefs.has(s.reference))
   const price = product.price_eur ?? product.price
 
   return (
@@ -191,48 +193,50 @@ export default function ProductDetail() {
           )}
         </div>
 
-        {/* Similar Products */}
-        {similar.length > 0 && (
-          <div style={{ marginTop: '24px' }}>
-            <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '14px', color: 'var(--stone-800)' }}>
-              {t('product.similar')}
-            </h2>
-            <div className="product-grid">
-              {similar.map((s) => (
-                <Link
-                  key={s.reference}
-                  to={`/products/${s.reference}`}
-                  className="product-card"
-                  style={{ textDecoration: 'none' }}
-                >
-                  <div className="product-card-image">
-                    <div className="product-image-placeholder">
-                      <svg width="32" height="32" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.25">
-                        <rect x="4" y="8" width="56" height="48" rx="6" />
-                        <circle cx="22" cy="26" r="6" />
-                        <path d="M4 44L20 32L36 42L48 34L60 42" />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="product-card-body">
-                    <div className="product-card-brand">{s.brand}</div>
-                    <div className="product-card-name">{s.name}</div>
-                    <div className="product-card-footer">
-                      <span className="badge badge-info" style={{ fontSize: '0.7rem' }}>{s.retailer}</span>
-                      {s.price != null && <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>&euro;{s.price.toFixed(2)}</span>}
-                    </div>
-                    <div className="product-card-similarity">
-                      <div className="confidence-track" style={{ height: '3px' }}>
-                        <div
-                          className={`confidence-fill ${s.similarity >= 0.85 ? 'high' : s.similarity >= 0.65 ? 'medium' : 'low'}`}
-                          style={{ width: `${s.similarity * 100}%` }}
-                        />
-                      </div>
-                      <span className="mono" style={{ fontSize: '0.72rem' }}>{(s.similarity * 100).toFixed(0)}% {t('common.similar')}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+        {/* Similar Products (excluding already-matched) */}
+        {nonIdenticalSimilar.length > 0 && (
+          <div className="card" style={{ marginTop: '24px' }}>
+            <div className="card-header">
+              <span className="card-title">{t('product.similar')} ({nonIdenticalSimilar.length})</span>
+            </div>
+            <div className="table-wrapper" style={{ border: 'none', boxShadow: 'none' }}>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Ref</th>
+                    <th>Product Name</th>
+                    <th>{t('common.retailer')}</th>
+                    <th>{t('common.price')}</th>
+                    <th>{t('common.similar')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {nonIdenticalSimilar.slice(0, 10).map((s) => (
+                    <tr key={s.reference}>
+                      <td><Link to={`/products/${s.reference}`} className="mono" style={{ color: 'var(--accent)' }}>{s.reference}</Link></td>
+                      <td>
+                        <div>{s.name}</div>
+                        {s.brand && <div style={{ fontSize: '0.76rem', color: 'var(--stone-500)', marginTop: '2px' }}>{s.brand}</div>}
+                      </td>
+                      <td><span className="badge badge-info">{s.retailer}</span></td>
+                      <td>{s.price != null ? `\u20AC${s.price.toFixed(2)}` : '--'}</td>
+                      <td>
+                        <div className="confidence-bar">
+                          <span className="mono" style={{ minWidth: '36px' }}>
+                            {(s.similarity * 100).toFixed(0)}%
+                          </span>
+                          <div className="confidence-track">
+                            <div
+                              className={`confidence-fill ${s.similarity >= 0.85 ? 'high' : s.similarity >= 0.65 ? 'medium' : 'low'}`}
+                              style={{ width: `${s.similarity * 100}%` }}
+                            />
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         )}

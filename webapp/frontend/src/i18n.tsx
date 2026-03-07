@@ -64,7 +64,7 @@ const UI_TRANSLATIONS: Record<string, Record<Lang, string>> = {
   'nav.matching': { en: 'Matching', de: 'Abgleich' },
   'nav.trends': { en: 'Trends', de: 'Trends' },
   'nav.chat': { en: 'Chat', de: 'Chat' },
-  'sidebar.subtitle': { en: 'Product Matcher', de: 'Produktabgleich-Service' },
+'sidebar.subtitle': { en: 'Product Matcher', de: 'Produktabgleich-Service' },
   'sidebar.footer': { en: 'Zenline Hackathon 2026', de: 'Zenline Hackathon 2026' },
 
   // Strategy names
