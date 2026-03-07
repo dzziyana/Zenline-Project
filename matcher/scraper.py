@@ -1,201 +1,42 @@
-"""Web scraping for hidden retailers."""
+"""Web scraping for hidden retailers.
+
+Uses three strategies:
+1. expert.at - Parse __NUXT__ SSR data from search results
+2. electronic4you.at - curl_cffi with browser impersonation + HTML parsing
+3. geizhals.at - Price aggregator fallback for e-tec.at and cyberport.at
+   (both sites block automated requests)
+"""
 
 from __future__ import annotations
 
 import asyncio
+import json
+import re
 import time
+from urllib.parse import quote_plus
 
-import httpx
+from curl_cffi import requests as cffi_requests
 from selectolax.parser import HTMLParser
 
 from .models import Match, Product
 
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ProductMatcherBot/1.0 (hackathon project)",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "de-AT,de;q=0.9,en;q=0.8",
-}
-
-# Rate limiting: track last request time per domain
+MIN_DELAY = 1.5  # seconds between requests to same domain
 _last_request: dict[str, float] = {}
-MIN_DELAY = 1.0  # seconds between requests to same domain
 
 
-async def _rate_limit(domain: str):
+def _rate_limit_sync(domain: str):
     """Ensure we don't hit the same domain too fast."""
     now = time.time()
     last = _last_request.get(domain, 0)
     wait = MIN_DELAY - (now - last)
     if wait > 0:
-        await asyncio.sleep(wait)
+        time.sleep(wait)
     _last_request[domain] = time.time()
 
 
-async def fetch_page(client: httpx.AsyncClient, url: str, domain: str) -> str | None:
-    """Fetch a page with rate limiting."""
-    await _rate_limit(domain)
-    try:
-        resp = await client.get(url, headers=HEADERS, follow_redirects=True, timeout=15)
-        if resp.status_code == 200:
-            return resp.text
-    except (httpx.HTTPError, httpx.TimeoutException):
-        pass
-    return None
-
-
-async def search_expert_at(client: httpx.AsyncClient, query: str) -> list[dict]:
-    """Search expert.at for products."""
-    domain = "expert.at"
-    url = f"https://www.expert.at/search?query={httpx.QueryParams({'query': query})}"
-    # expert.at uses query param 'query'
-    search_url = f"https://www.expert.at/search?query={query}"
-    html = await fetch_page(client, search_url, domain)
-    if not html:
-        return []
-    return _parse_expert_results(html)
-
-
-def _parse_expert_results(html: str) -> list[dict]:
-    """Parse expert.at search results."""
-    tree = HTMLParser(html)
-    results = []
-    # This is a placeholder - actual selectors need to be determined
-    # by inspecting the live site during the hackathon
-    for node in tree.css("div.product-item, article.product, div[data-product]"):
-        name_el = node.css_first("h2, h3, .product-name, .product-title")
-        price_el = node.css_first(".price, .product-price, [data-price]")
-        link_el = node.css_first("a[href]")
-        if name_el:
-            result = {
-                "name": name_el.text(strip=True),
-                "url": "",
-                "price": None,
-                "retailer": "Expert AT",
-            }
-            if link_el:
-                href = link_el.attributes.get("href", "")
-                if href and not href.startswith("http"):
-                    href = f"https://www.expert.at{href}"
-                result["url"] = href
-            if price_el:
-                price_text = price_el.text(strip=True)
-                result["price"] = _parse_price(price_text)
-            results.append(result)
-    return results
-
-
-async def search_cyberport_at(client: httpx.AsyncClient, query: str) -> list[dict]:
-    """Search cyberport.at for products."""
-    domain = "cyberport.at"
-    search_url = f"https://www.cyberport.at/search.html?q={query}"
-    html = await fetch_page(client, search_url, domain)
-    if not html:
-        return []
-    return _parse_cyberport_results(html)
-
-
-def _parse_cyberport_results(html: str) -> list[dict]:
-    """Parse cyberport.at search results."""
-    tree = HTMLParser(html)
-    results = []
-    for node in tree.css("div.productList__item, article.product, .product-item"):
-        name_el = node.css_first("h2, h3, .product-name, .product-title, a.product-link")
-        price_el = node.css_first(".price, .product-price")
-        link_el = node.css_first("a[href]")
-        if name_el:
-            result = {
-                "name": name_el.text(strip=True),
-                "url": "",
-                "price": None,
-                "retailer": "Cyberport AT",
-            }
-            if link_el:
-                href = link_el.attributes.get("href", "")
-                if href and not href.startswith("http"):
-                    href = f"https://www.cyberport.at{href}"
-                result["url"] = href
-            if price_el:
-                result["price"] = _parse_price(price_el.text(strip=True))
-            results.append(result)
-    return results
-
-
-async def search_electronic4you(client: httpx.AsyncClient, query: str) -> list[dict]:
-    """Search electronic4you.at for products."""
-    domain = "electronic4you.at"
-    search_url = f"https://www.electronic4you.at/search?sSearch={query}"
-    html = await fetch_page(client, search_url, domain)
-    if not html:
-        return []
-    return _parse_electronic4you_results(html)
-
-
-def _parse_electronic4you_results(html: str) -> list[dict]:
-    """Parse electronic4you.at search results."""
-    tree = HTMLParser(html)
-    results = []
-    for node in tree.css(".product--box, .product-item, article.product"):
-        name_el = node.css_first(".product--title, .product-name, h2, h3")
-        price_el = node.css_first(".product--price, .price")
-        link_el = node.css_first("a[href]")
-        if name_el:
-            result = {
-                "name": name_el.text(strip=True),
-                "url": "",
-                "price": None,
-                "retailer": "electronic4you.at",
-            }
-            if link_el:
-                href = link_el.attributes.get("href", "")
-                if href and not href.startswith("http"):
-                    href = f"https://www.electronic4you.at{href}"
-                result["url"] = href
-            if price_el:
-                result["price"] = _parse_price(price_el.text(strip=True))
-            results.append(result)
-    return results
-
-
-async def search_etec(client: httpx.AsyncClient, query: str) -> list[dict]:
-    """Search e-tec.at for products."""
-    domain = "e-tec.at"
-    search_url = f"https://www.e-tec.at/search?q={query}"
-    html = await fetch_page(client, search_url, domain)
-    if not html:
-        return []
-    return _parse_etec_results(html)
-
-
-def _parse_etec_results(html: str) -> list[dict]:
-    """Parse e-tec.at search results."""
-    tree = HTMLParser(html)
-    results = []
-    for node in tree.css(".product-item, article.product, .productList-item"):
-        name_el = node.css_first("h2, h3, .product-name, .product-title")
-        price_el = node.css_first(".price, .product-price")
-        link_el = node.css_first("a[href]")
-        if name_el:
-            result = {
-                "name": name_el.text(strip=True),
-                "url": "",
-                "price": None,
-                "retailer": "E-Tec",
-            }
-            if link_el:
-                href = link_el.attributes.get("href", "")
-                if href and not href.startswith("http"):
-                    href = f"https://www.e-tec.at{href}"
-                result["url"] = href
-            if price_el:
-                result["price"] = _parse_price(price_el.text(strip=True))
-            results.append(result)
-    return results
-
-
 def _parse_price(text: str) -> float | None:
-    """Parse a price string like '€ 1.299,00' or '1299.00' into a float."""
-    import re
-    text = text.replace("€", "").replace("\xa0", "").strip()
+    """Parse a price string like 'EUR 1.299,00' or '1299.00' into a float."""
+    text = text.replace("EUR", "").replace("€", "").replace("\xa0", "").replace(",-", ",00").replace(",\u2013", ",00").strip()
     # Handle European format: 1.299,00
     match = re.search(r'([\d.]+),(\d{2})', text)
     if match:
@@ -215,69 +56,362 @@ def _parse_price(text: str) -> float | None:
     return None
 
 
-SCRAPERS = {
-    "Expert AT": search_expert_at,
-    "Cyberport AT": search_cyberport_at,
-    "electronic4you.at": search_electronic4you,
-    "E-Tec": search_etec,
-}
+# ---------------------------------------------------------------------------
+# expert.at - Nuxt.js SSR parsing
+# ---------------------------------------------------------------------------
+
+def _parse_expert_nuxt_values(values_raw: str) -> list:
+    """Parse the NUXT function arguments into a list of values."""
+    values = []
+    i = 0
+    length = len(values_raw)
+    while i < length:
+        c = values_raw[i]
+        if c in ' \n\t':
+            i += 1
+            continue
+        if c == ',':
+            i += 1
+            continue
+        if c == '"':
+            j = i + 1
+            while j < length:
+                if values_raw[j] == '\\':
+                    j += 2
+                elif values_raw[j] == '"':
+                    break
+                else:
+                    j += 1
+            values.append(values_raw[i + 1:j].replace('\\u002F', '/'))
+            i = j + 1
+        elif c in '0123456789.-':
+            j = i
+            while j < length and values_raw[j] not in ',)':
+                j += 1
+            val = values_raw[i:j].strip()
+            try:
+                values.append(float(val) if '.' in val else int(val))
+            except ValueError:
+                values.append(val)
+            i = j
+        elif values_raw[i:i + 4] == 'true':
+            values.append(True)
+            i += 4
+        elif values_raw[i:i + 5] == 'false':
+            values.append(False)
+            i += 5
+        elif values_raw[i:i + 4] == 'null':
+            values.append(None)
+            i += 4
+        elif values_raw[i:i + 4] == 'void':
+            j = i
+            while j < length and values_raw[j] != ',':
+                j += 1
+            values.append(None)
+            i = j
+        else:
+            j = i
+            while j < length and values_raw[j] != ',':
+                j += 1
+            values.append(values_raw[i:j].strip())
+            i = j
+    return values
 
 
-async def scrape_product(source: Product) -> list[Match]:
-    """Search all hidden retailers for a single source product."""
-    matches = []
-    queries = _build_search_queries(source)
+def _parse_expert_results(html: str) -> list[dict]:
+    """Parse expert.at search results from __NUXT__ SSR data."""
+    match = re.search(
+        r'window\.__NUXT__\s*=\s*\(function\(([^)]*)\)\{return (.*)\}\((.*)\)\)',
+        html, re.DOTALL,
+    )
+    if not match:
+        return []
 
-    async with httpx.AsyncClient() as client:
-        for retailer_name, search_fn in SCRAPERS.items():
-            for query in queries:
-                results = await search_fn(client, query)
-                for r in results:
-                    # Generate a reference for scraped products
-                    ref = f"SCRAPED_{retailer_name.replace(' ', '_')}_{hash(r['url']) % 10**8:08d}"
-                    matches.append(Match(
-                        source_reference=source.reference,
-                        target_reference=ref,
-                        target_name=r["name"],
-                        target_retailer=retailer_name,
-                        target_url=r.get("url", ""),
-                        target_price=r.get("price"),
-                        confidence=0.7,
-                        method="scrape",
-                    ))
-                if results:
-                    break  # Found results with this query, skip remaining queries
+    params = match.group(1).split(',')
+    template = match.group(2)
+    values_raw = match.group(3)
 
-    return matches
+    values = _parse_expert_nuxt_values(values_raw)
+    var_map = {}
+    for idx, p in enumerate(params):
+        p = p.strip()
+        if idx < len(values):
+            var_map[p] = values[idx]
+
+    results = []
+    for m in re.finditer(
+        r'\{id:"(\d+)",name:"([^"]+)",description:"([^"]*)".*?priceRegular:(\w+).*?path:"([^"]+)"\}',
+        template,
+    ):
+        pid = m.group(1)
+        name = m.group(2).replace('\\u002F', '/').replace('\\"', '"')
+        desc = m.group(3).replace('\\u002F', '/').replace('\\"', '"')
+        price_var = m.group(4)
+        path = m.group(5).replace('\\u002F', '/')
+
+        price = var_map.get(price_var, price_var)
+        if isinstance(price, str):
+            try:
+                price = float(price)
+            except ValueError:
+                price = None
+
+        full_name = f"{name} - {desc}" if desc else name
+        results.append({
+            'name': full_name,
+            'url': f"https://www.expert.at{path}",
+            'price': float(price) if price is not None else None,
+            'retailer': 'Expert AT',
+        })
+
+    return results
+
+
+def search_expert_at(query: str) -> list[dict]:
+    """Search expert.at for products."""
+    _rate_limit_sync('expert.at')
+    search_url = f"https://www.expert.at/shop?q={quote_plus(query)}"
+    try:
+        r = cffi_requests.get(search_url, impersonate='chrome', timeout=15)
+        if r.status_code == 200:
+            return _parse_expert_results(r.text)
+    except Exception:
+        pass
+    return []
+
+
+# ---------------------------------------------------------------------------
+# electronic4you.at - curl_cffi + HTML parsing
+# ---------------------------------------------------------------------------
+
+def _parse_electronic4you_results(html: str) -> list[dict]:
+    """Parse electronic4you.at search results from HTML."""
+    tree = HTMLParser(html)
+    results = []
+    for node in tree.css('li.item.flip-container'):
+        name_el = node.css_first('a.product-image')
+        price_el = node.css_first('.price')
+
+        name = name_el.attributes.get('title', '') if name_el else ''
+        url = name_el.attributes.get('href', '') if name_el else ''
+        price_text = price_el.text(strip=True) if price_el else ''
+
+        if name:
+            results.append({
+                'name': name,
+                'url': url,
+                'price': _parse_price(price_text) if price_text else None,
+                'retailer': 'electronic4you.at',
+            })
+    return results
+
+
+def search_electronic4you(query: str) -> list[dict]:
+    """Search electronic4you.at for products."""
+    _rate_limit_sync('electronic4you.at')
+    search_url = f"https://www.electronic4you.at/catalogsearch/result/?q={quote_plus(query)}"
+    try:
+        r = cffi_requests.get(search_url, impersonate='chrome', timeout=15)
+        if r.status_code == 200:
+            return _parse_electronic4you_results(r.text)
+    except Exception:
+        pass
+    return []
+
+
+# ---------------------------------------------------------------------------
+# geizhals.at - Price aggregator (covers e-tec.at, cyberport.at, and others)
+# ---------------------------------------------------------------------------
+
+def _parse_geizhals_results(html: str, target_retailers: dict[str, str] | None = None) -> list[dict]:
+    """Parse geizhals.at product page for offers from target retailers."""
+    if target_retailers is None:
+        target_retailers = {
+            'e-tec': 'E-Tec',
+            'cyberport': 'Cyberport AT',
+            'expert': 'Expert AT',
+            'electronic4you': 'electronic4you.at',
+        }
+
+    tree = HTMLParser(html)
+    results = []
+    seen_retailers = set()
+
+    # Get product name from page title
+    title_el = tree.css_first('title')
+    page_title = title_el.text() if title_el else ''
+    # Clean title: "Samsung QE50Q7F ab EUR 401,91 (2026) | Preisvergleich..." -> "Samsung QE50Q7F"
+    product_name = re.sub(r'\s*ab\s.*', '', page_title).strip()
+
+    for offer in tree.css('.offer'):
+        merchant_el = offer.css_first('.merchant__logo-caption')
+        if not merchant_el:
+            continue
+        merchant = merchant_el.text(strip=True)
+
+        for key, display_name in target_retailers.items():
+            if key in merchant.lower() and display_name not in seen_retailers:
+                price_el = offer.css_first('.gh_price')
+                link_el = offer.css_first('.offer__clickout a, .offer__price-link')
+
+                price_text = price_el.text(strip=True) if price_el else ''
+                link = ''
+                if link_el:
+                    href = link_el.attributes.get('href', '')
+                    if href:
+                        link = href if href.startswith('http') else f'https://geizhals.at{href}'
+
+                results.append({
+                    'name': product_name,
+                    'url': link,
+                    'price': _parse_price(price_text) if price_text else None,
+                    'retailer': display_name,
+                })
+                seen_retailers.add(display_name)
+                break
+
+    return results
+
+
+def search_geizhals(query: str, only_retailers: list[str] | None = None) -> list[dict]:
+    """Search geizhals.at and extract offers from target retailers."""
+    _rate_limit_sync('geizhals.at')
+    search_url = f"https://geizhals.at/?fs={quote_plus(query)}"
+    try:
+        r = cffi_requests.get(search_url, impersonate='chrome', timeout=15)
+        if r.status_code == 200:
+            target_retailers = None
+            if only_retailers:
+                all_retailers = {
+                    'e-tec': 'E-Tec',
+                    'cyberport': 'Cyberport AT',
+                    'expert': 'Expert AT',
+                    'electronic4you': 'electronic4you.at',
+                }
+                target_retailers = {k: v for k, v in all_retailers.items() if v in only_retailers}
+            return _parse_geizhals_results(r.text, target_retailers)
+    except Exception:
+        pass
+    return []
+
+
+# ---------------------------------------------------------------------------
+# Unified scraper interface
+# ---------------------------------------------------------------------------
+
+def _get_all_eans(source: Product) -> list[str]:
+    """Extract all EAN/GTIN codes from a product."""
+    eans = []
+    if source.ean:
+        eans.append(source.ean)
+    if source.specifications:
+        for key in ('GTIN', 'EAN-Code'):
+            val = source.specifications.get(key)
+            if val and val not in eans:
+                eans.append(val)
+    return eans
 
 
 def _build_search_queries(source: Product) -> list[str]:
-    """Build search queries in priority order."""
+    """Build search queries in priority order: EAN first, then model/name."""
     queries = []
-    if source.ean:
-        queries.append(source.ean)
-    # Brand + model number
+
+    # EAN/GTIN codes
+    eans = _get_all_eans(source)
+    queries.extend(eans)
+
+    # Model number
     from .fuzzy_match import extract_model_number
-    model = extract_model_number(source.name)
+    model = extract_model_number(source)
     if model and source.brand:
         queries.append(f"{source.brand} {model}")
-    # Full name
-    queries.append(source.name)
+    elif model:
+        queries.append(model)
+
+    # Shortened product name (first ~60 chars, remove noise)
+    name = source.name
+    # Remove common noise from product names
+    name = re.sub(r'\s*\|.*$', '', name)
+    name = re.sub(r'\s*online kaufen.*$', '', name, flags=re.IGNORECASE)
+    name = re.sub(r'\s*\((?:\d+["\']|.*?cm)\)', '', name)
+    short_name = name[:80].strip()
+    if short_name and short_name not in queries:
+        queries.append(short_name)
+
     return queries
 
 
-async def scrape_all(sources: list[Product], max_concurrent: int = 3) -> list[Match]:
-    """Scrape all hidden retailers for all source products."""
-    semaphore = asyncio.Semaphore(max_concurrent)
-    all_matches = []
+def scrape_product(source: Product) -> list[dict]:
+    """Search all hidden retailers for a single source product.
 
-    async def _scrape_one(source: Product):
-        async with semaphore:
-            return await scrape_product(source)
+    Returns list of dicts with keys: name, url, price, retailer, query_used.
+    """
+    queries = _build_search_queries(source)
+    all_results = []
+    retailers_found: dict[str, list[dict]] = {}
 
-    tasks = [_scrape_one(s) for s in sources]
-    results = await asyncio.gather(*tasks)
-    for result in results:
-        all_matches.extend(result)
+    for query in queries:
+        # Expert AT - direct search
+        if 'Expert AT' not in retailers_found:
+            results = search_expert_at(query)
+            if results:
+                retailers_found['Expert AT'] = results
+                all_results.extend(results)
 
-    return all_matches
+        # electronic4you.at - direct search
+        if 'electronic4you.at' not in retailers_found:
+            results = search_electronic4you(query)
+            if results:
+                retailers_found['electronic4you.at'] = results
+                all_results.extend(results)
+
+        # Geizhals fallback for e-tec and cyberport (only search with EANs)
+        missing = [r for r in ['E-Tec', 'Cyberport AT'] if r not in retailers_found]
+        if missing and (query.isdigit() and len(query) >= 8):
+            results = search_geizhals(query, only_retailers=missing)
+            for r in results:
+                if r['retailer'] not in retailers_found:
+                    retailers_found[r['retailer']] = [r]
+                    all_results.append(r)
+
+        # Stop early if we found results from all retailers
+        if len(retailers_found) >= 4:
+            break
+
+    # Tag results with the source reference for tracking
+    for r in all_results:
+        r['source_reference'] = source.reference
+
+    return all_results
+
+
+def scrape_all(sources: list[Product]) -> list[dict]:
+    """Scrape all hidden retailers for all source products.
+
+    Returns flat list of result dicts.
+    """
+    all_results = []
+    for i, source in enumerate(sources):
+        print(f"  Scraping [{i+1}/{len(sources)}] {source.name[:50]}...")
+        results = scrape_product(source)
+        print(f"    Found {len(results)} results from {len(set(r['retailer'] for r in results))} retailers")
+        all_results.extend(results)
+    return all_results
+
+
+def results_to_matches(results: list[dict]) -> list[Match]:
+    """Convert scraper results to Match objects."""
+    matches = []
+    for r in results:
+        ref = f"SCRAPED_{r['retailer'].replace(' ', '_')}_{hash(r.get('url', r['name'])) % 10**8:08d}"
+        matches.append(Match(
+            source_reference=r['source_reference'],
+            target_reference=ref,
+            target_name=r['name'],
+            target_retailer=r['retailer'],
+            target_url=r.get('url', ''),
+            target_price=r.get('price'),
+            confidence=0.7,
+            method='scrape',
+        ))
+    return matches
