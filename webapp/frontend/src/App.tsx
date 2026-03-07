@@ -2,6 +2,7 @@ import { Routes, Route, NavLink } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Products from './pages/Products'
 import Matching from './pages/Matching'
+import Chat from './pages/Chat'
 
 export default function App() {
   return (
@@ -43,6 +44,17 @@ export default function App() {
             </span>
             Matching
           </NavLink>
+          <NavLink to="/chat">
+            <span className="nav-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="1" y="1" width="16" height="12" rx="3"/>
+                <path d="M5 16L8 13H10L13 16"/>
+                <line x1="5" y1="6" x2="13" y2="6"/>
+                <line x1="5" y1="9" x2="10" y2="9"/>
+              </svg>
+            </span>
+            Chat
+          </NavLink>
         </nav>
         <div className="sidebar-footer">
           Zenline Hackathon 2026
@@ -53,6 +65,7 @@ export default function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/products" element={<Products />} />
           <Route path="/matching" element={<Matching />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </main>
     </div>
