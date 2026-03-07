@@ -35,7 +35,7 @@ export function StrategyProvider({ children }: { children: ReactNode }) {
     })
   }
 
-  const enableAll = () => setEnabledStrategies(new Set(STRATEGIES.map((s) => s.id)))
+  const enableAll = () => setEnabledStrategies(new Set(STRATEGIES.filter((s) => s.implemented).map((s) => s.id)))
   const disableAll = () => setEnabledStrategies(new Set())
 
   return (

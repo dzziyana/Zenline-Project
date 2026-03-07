@@ -31,28 +31,40 @@
   --info: #6b8dae;
   --info-bg: rgba(107, 141, 174, 0.08);
 
-  /* Strategy pastel colors */
+  /* Strategy pastel colors — ordered for max contrast between adjacent cards */
   --strategy-ean: #d6e5d8;
   --strategy-ean-border: #b5d1b8;
   --strategy-ean-accent: #5a8a5e;
   --strategy-model_number: #f5e6d3;
   --strategy-model_number-border: #e8cfa8;
   --strategy-model_number-accent: #c4903d;
+  --strategy-model_series: #d5dfe8;
+  --strategy-model_series-border: #b3c8d8;
+  --strategy-model_series-accent: #4a7a9e;
+  --strategy-product_line: #eddce5;
+  --strategy-product_line-border: #dcc0d2;
+  --strategy-product_line-accent: #9e5a7e;
+  --strategy-product_type: #f2ead5;
+  --strategy-product_type-border: #e4d4a8;
+  --strategy-product_type-accent: #a08830;
+  --strategy-screen_size: #d0e4e4;
+  --strategy-screen_size-border: #a8d0d0;
+  --strategy-screen_size-accent: #488080;
   --strategy-fuzzy: #e5dcee;
   --strategy-fuzzy-border: #cfc0de;
   --strategy-fuzzy-accent: #7e5ea8;
-  --strategy-embedding: #f0dcd0;
-  --strategy-embedding-border: #e0c2ad;
-  --strategy-embedding-accent: #b87350;
-  --strategy-vision: #d5dfe8;
-  --strategy-vision-border: #b3c8d8;
-  --strategy-vision-accent: #5e7f9a;
-  --strategy-llm: #e8d5e0;
-  --strategy-llm-border: #d4b5c8;
-  --strategy-llm-accent: #9e6b87;
-  --strategy-scrape: #dce6d0;
-  --strategy-scrape-border: #c4d4ae;
-  --strategy-scrape-accent: #6e8b4e;
+  --strategy-scrape: #f0dcd0;
+  --strategy-scrape-border: #e0c2ad;
+  --strategy-scrape-accent: #b87350;
+  --strategy-embedding: #d8e4ef;
+  --strategy-embedding-border: #b5ccdf;
+  --strategy-embedding-accent: #5e7f9a;
+  --strategy-vision: #e8e0d0;
+  --strategy-vision-border: #d5c8ad;
+  --strategy-vision-accent: #8e7340;
+  --strategy-llm: #e0d5e8;
+  --strategy-llm-border: #c8b5d8;
+  --strategy-llm-accent: #7e5ea0;
 
   /* Layout */
   --sidebar-width: 260px;
@@ -1248,6 +1260,26 @@ a {
   --_bg: var(--strategy-model_number);
   --_border: var(--strategy-model_number-border);
   --_accent: var(--strategy-model_number-accent);
+}
+.strategy-card[data-strategy="model_series"] {
+  --_bg: var(--strategy-model_series);
+  --_border: var(--strategy-model_series-border);
+  --_accent: var(--strategy-model_series-accent);
+}
+.strategy-card[data-strategy="product_line"] {
+  --_bg: var(--strategy-product_line);
+  --_border: var(--strategy-product_line-border);
+  --_accent: var(--strategy-product_line-accent);
+}
+.strategy-card[data-strategy="product_type"] {
+  --_bg: var(--strategy-product_type);
+  --_border: var(--strategy-product_type-border);
+  --_accent: var(--strategy-product_type-accent);
+}
+.strategy-card[data-strategy="screen_size"] {
+  --_bg: var(--strategy-screen_size);
+  --_border: var(--strategy-screen_size-border);
+  --_accent: var(--strategy-screen_size-accent);
 }
 .strategy-card[data-strategy="fuzzy"] {
   --_bg: var(--strategy-fuzzy);

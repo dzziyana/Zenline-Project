@@ -371,164 +371,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Method Breakdown + Confidence Distribution */}
-        {d && (d.methods.length > 0 || d.match_count > 0) && (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "16px",
-              marginBottom: "24px",
-            }}
-          >
-            {/* Method breakdown */}
-            <div className="card">
-              <div className="card-header">
-                <span className="card-title">{t("card.methods")}</span>
-              </div>
-              {d.methods.length > 0 ? (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                  }}
-                >
-                  {d.methods.map((m) => {
-                    const pct =
-                      d.match_count > 0 ? (m.count / d.match_count) * 100 : 0;
-                    return (
-                      <div
-                        key={m.method}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "12px",
-                        }}
-                      >
-                        <span
-                          style={{
-                            minWidth: "100px",
-                            fontSize: "0.84rem",
-                            fontWeight: 500,
-                            color: "var(--stone-700)",
-                          }}
-                        >
-                          {m.label}
-                        </span>
-                        <div
-                          style={{
-                            flex: 1,
-                            height: "6px",
-                            background: "var(--cream-200)",
-                            borderRadius: "3px",
-                            overflow: "hidden",
-                          }}
-                        >
-                          <div
-                            style={{
-                              width: `${pct}%`,
-                              height: "100%",
-                              background: "var(--accent)",
-                              borderRadius: "3px",
-                              transition: "width 0.3s",
-                            }}
-                          />
-                        </div>
-                        <span
-                          className="mono"
-                          style={{ minWidth: "40px", textAlign: "right" }}
-                        >
-                          {m.count}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <p style={{ color: "var(--stone-500)", fontSize: "0.875rem" }}>
-                  Run matching to see breakdown
-                </p>
-              )}
-            </div>
-
-            {/* Confidence distribution */}
-            <div className="card">
-              <div className="card-header">
-                <span className="card-title">{t("card.confidence")}</span>
-              </div>
-              {d.match_count > 0 ? (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                  }}
-                >
-                  {(["excellent", "high", "medium", "low"] as const).map(
-                    (level) => {
-                      const count = d.confidence_distribution[level];
-                      const pct =
-                        d.match_count > 0 ? (count / d.match_count) * 100 : 0;
-                      return (
-                        <div
-                          key={level}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "12px",
-                          }}
-                        >
-                          <span
-                            style={{
-                              minWidth: "80px",
-                              fontSize: "0.84rem",
-                              fontWeight: 500,
-                              color: "var(--stone-700)",
-                              textTransform: "capitalize",
-                            }}
-                          >
-                            {level}
-                          </span>
-                          <div
-                            style={{
-                              flex: 1,
-                              height: "6px",
-                              background: "var(--cream-200)",
-                              borderRadius: "3px",
-                              overflow: "hidden",
-                            }}
-                          >
-                            <div
-                              style={{
-                                width: `${pct}%`,
-                                height: "100%",
-                                background: CONF_COLORS[level],
-                                borderRadius: "3px",
-                                transition: "width 0.3s",
-                              }}
-                            />
-                          </div>
-                          <span
-                            className="mono"
-                            style={{ minWidth: "40px", textAlign: "right" }}
-                          >
-                            {count}
-                          </span>
-                        </div>
-                      );
-                    },
-                  )}
-                </div>
-              ) : (
-                <p style={{ color: "var(--stone-500)", fontSize: "0.875rem" }}>
-                  No matches yet
-                </p>
-              )}
-            </div>
-          </div>
-        )}
-
         {/* Top Brands */}
         {d && d.brands.length > 0 && (
           <div className="card" style={{ marginBottom: "24px" }}>
@@ -619,7 +461,7 @@ export default function Dashboard() {
                   marginLeft: "10px",
                 }}
               >
-                {enabledStrategies.size} / {STRATEGIES.length}{" "}
+                {STRATEGIES.filter(s => s.implemented && enabledStrategies.has(s.id)).length} / {STRATEGIES.filter(s => s.implemented).length}{" "}
                 {t("strategies.active")}
               </span>
             </div>
@@ -803,6 +645,164 @@ export default function Dashboard() {
             )}
           </div>
         </div>
+
+        {/* Method Breakdown + Confidence Distribution */}
+        {d && (d.methods.length > 0 || d.match_count > 0) && (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "16px",
+              marginTop: "24px",
+            }}
+          >
+            {/* Method breakdown */}
+            <div className="card">
+              <div className="card-header">
+                <span className="card-title">{t("card.methods")}</span>
+              </div>
+              {d.methods.length > 0 ? (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}
+                >
+                  {d.methods.map((m) => {
+                    const pct =
+                      d.match_count > 0 ? (m.count / d.match_count) * 100 : 0;
+                    return (
+                      <div
+                        key={m.method}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "12px",
+                        }}
+                      >
+                        <span
+                          style={{
+                            minWidth: "100px",
+                            fontSize: "0.84rem",
+                            fontWeight: 500,
+                            color: "var(--stone-700)",
+                          }}
+                        >
+                          {m.label}
+                        </span>
+                        <div
+                          style={{
+                            flex: 1,
+                            height: "6px",
+                            background: "var(--cream-200)",
+                            borderRadius: "3px",
+                            overflow: "hidden",
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: `${pct}%`,
+                              height: "100%",
+                              background: "var(--accent)",
+                              borderRadius: "3px",
+                              transition: "width 0.3s",
+                            }}
+                          />
+                        </div>
+                        <span
+                          className="mono"
+                          style={{ minWidth: "40px", textAlign: "right" }}
+                        >
+                          {m.count}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p style={{ color: "var(--stone-500)", fontSize: "0.875rem" }}>
+                  Run matching to see breakdown
+                </p>
+              )}
+            </div>
+
+            {/* Confidence distribution */}
+            <div className="card">
+              <div className="card-header">
+                <span className="card-title">{t("card.confidence")}</span>
+              </div>
+              {d.match_count > 0 ? (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}
+                >
+                  {(["excellent", "high", "medium", "low"] as const).map(
+                    (level) => {
+                      const count = d.confidence_distribution[level];
+                      const pct =
+                        d.match_count > 0 ? (count / d.match_count) * 100 : 0;
+                      return (
+                        <div
+                          key={level}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "12px",
+                          }}
+                        >
+                          <span
+                            style={{
+                              minWidth: "80px",
+                              fontSize: "0.84rem",
+                              fontWeight: 500,
+                              color: "var(--stone-700)",
+                              textTransform: "capitalize",
+                            }}
+                          >
+                            {level}
+                          </span>
+                          <div
+                            style={{
+                              flex: 1,
+                              height: "6px",
+                              background: "var(--cream-200)",
+                              borderRadius: "3px",
+                              overflow: "hidden",
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: `${pct}%`,
+                                height: "100%",
+                                background: CONF_COLORS[level],
+                                borderRadius: "3px",
+                                transition: "width 0.3s",
+                              }}
+                            />
+                          </div>
+                          <span
+                            className="mono"
+                            style={{ minWidth: "40px", textAlign: "right" }}
+                          >
+                            {count}
+                          </span>
+                        </div>
+                      );
+                    },
+                  )}
+                </div>
+              ) : (
+                <p style={{ color: "var(--stone-500)", fontSize: "0.875rem" }}>
+                  No matches yet
+                </p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
