@@ -14,18 +14,17 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 **Active instances:**
 
-- **Claude #1 (Claude-Main)**: Backend pipeline, DB, API, coordination. Owns `matcher/db.py`, `matcher/api.py`, `matcher/pipeline.py`, `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`.
+- **Claude #1**: Backend pipeline, DB, API, coordination. Owns `matcher/db.py`, `matcher/api.py`, `matcher/pipeline.py`, `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`.
 - **Claude #2**: Scraping hidden retailers. Owns `matcher/scraper.py`.
-- **Claude-Matching**: Improving matching strategies. Can edit `matcher/fuzzy_match.py` (coordinate with Claude-Main).
 - **Diana**: Frontend/UX. Owns `webapp/`.
 - **Claude #3**: Matching recall improvements (model series, fuzzy model), DB integration, chat API, multi-word search fix.
 - **Claude #4**: Restored reverted fuzzy_match.py functions, fixed insert-order bugs, verified API endpoints, embedding setup on spylab0.
 
 **File ownership (avoid conflicts):**
 
-- `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`, `matcher/pipeline.py` -> Claude-Main + Claude-Matching (coordinate)
+- `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`, `matcher/pipeline.py` -> Claude #1 (coordinate with others)
 - `matcher/scraper.py` -> Claude #2
-- `matcher/db.py`, `matcher/api.py` -> Claude-Main
+- `matcher/db.py`, `matcher/api.py` -> Claude #1
 - `matcher/embedding_match.py`, `matcher/vision_match.py`, `matcher/claude_verify.py` -> open (GPU work)
 - `webapp/` -> Diana
 - `web/` -> deprecated, ignore
@@ -47,7 +46,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ### OPEN
 
-- [ ] Set up embedding matching on spylab0 (GPU needed) -> Claude-4
+(no open tasks)
 
 ### IN PROGRESS
 
@@ -72,6 +71,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - [x] Standalone chat UI at `/` with source sidebar, stats bar, and message history. OpenAPI docs at `/docs`. Start with: `uv run python -m uvicorn matcher.api:app --port 8001`
 - [x] Scrape integration: pipeline verifies scraped matches with `verify_scraped_match()` (filters score < 0.5), stores raw results in `scrape_results` DB table, API endpoint `GET /api/scrape-results`
 - [x] Scrape hidden retailers (Claude #2): Rewrote scraper.py with real site parsing. expert.at (NUXT SSR), electronic4you.at (curl_cffi + HTML), geizhals.at fallback. 301 raw results, 27 verified. All 5 unmatched sources now found. cyberport.at/e-tec.at blocked by Cloudflare.
+- [x] Embedding matching (Claude #4): Precomputed multilingual-e5-large-instruct embeddings on spylab0 GPU. 85 matches at threshold 0.85. Embeddings saved in `data/embeddings/` (sources.npy, targets.npy + refs). Confirms existing matches (scores ~1.0) but unmatched sources have no true matches in visible pool (best scores 0.92-0.94 are all wrong products). Use threshold 0.95+ to avoid false positives.
 
 ## Unmatched Sources (for scraping) -- ALL NOW MATCHED via scraping
 
@@ -104,6 +104,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - BUG FIXED by Claude #2: `scraper.py` had `extract_model_number(source.name)` instead of `extract_model_number(source)`. Fixed in scraper rewrite.
 - `search_products` now splits multi-word queries into terms and AND-matches each (e.g. "Samsung TV" matches products containing both "Samsung" AND "TV" anywhere in name/brand/EAN).
 - Chat endpoint (`POST /api/chat`) needs `ANTHROPIC_API_KEY` env var. Gracefully falls back to raw search results without it. Uses Claude Haiku 4.5 for cost efficiency.
-- IMPORTANT: `fuzzy_match.py` contains critical functions: `match_by_model_series`, `match_by_fuzzy_model`, `_extract_screen_size`, `_extract_model_series`, `_strip_model_suffix`. These are imported by `pipeline.py`. DO NOT remove them or the pipeline breaks. (Claude-4 had to restore them after an accidental revert.)
+- IMPORTANT: `fuzzy_match.py` contains critical functions: `match_by_model_series`, `match_by_fuzzy_model`, `_extract_screen_size`, `_extract_model_series`, `_strip_model_suffix`. These are imported by `pipeline.py`. DO NOT remove them or the pipeline breaks. (Claude #4 had to restore them after an accidental revert.)
+- Embedding matching: threshold 0.85 gives 85 matches but includes false positives for unmatched products (similar brand/category but wrong model/size score 0.92+). Use 0.95+ for discovery, or use as confirmation signal only. Embeddings precomputed on spylab0, saved in `data/embeddings/`.
 - API runs on: `uv run python -m uvicorn matcher.api:app --port 8001`
 - Scraper findings (Claude #2): expert.at is Nuxt.js with `__NUXT__` SSR data (variable-compressed, needs resolver). electronic4you.at is Magento with `curl_cffi` impersonation needed (returns 503 without it). cyberport.at has heavy Cloudflare (403 on everything incl robots.txt). e-tec.at renders search results 100% client-side via AJAX (`/xsite/endpoint/{fn}` POST API) -- not scrapable without headless browser. geizhals.at price aggregator works as fallback but also hits Cloudflare after ~5 requests. Added `curl_cffi` as dependency.
