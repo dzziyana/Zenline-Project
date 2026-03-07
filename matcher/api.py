@@ -325,6 +325,7 @@ def download_submission(category: str = Query("tv_audio")):
 def run_pipeline_endpoint(
     category: str = Query("TV & Audio"),
     scrape: bool = Query(False),
+    strategies: str | None = Query(None, description="Comma-separated strategy IDs (e.g. ean,model_number,fuzzy,scrape)"),
 ):
     """Trigger a pipeline run. Requires API key if MATCHER_API_KEY is set."""
     from .pipeline import load_products, run_matching, dedupe_matches
@@ -338,9 +339,10 @@ def run_pipeline_endpoint(
     if not source_path.exists() or not target_path.exists():
         return JSONResponse(status_code=404, content={"error": f"Data not found for category: {category}"})
 
+    strategy_set = set(strategies.split(",")) if strategies else None
     sources = load_products(source_path)
     targets = load_products(target_path)
-    matches = run_matching(sources, targets, do_scrape=scrape)
+    matches = run_matching(sources, targets, do_scrape=scrape, strategies=strategy_set)
 
     conn = _get_db()
     try:
@@ -675,6 +677,7 @@ def run_match_for_category(
     category: str,
     useLlm: bool = Query(False),
     fuzzyThreshold: float = Query(75.0),
+    strategies: str | None = Query(None, description="Comma-separated strategy IDs"),
 ):
     """Run matching for a category and return results in frontend format."""
     from .pipeline import load_products, run_matching
@@ -687,9 +690,11 @@ def run_match_for_category(
     if not source_path.exists() or not target_path.exists():
         return JSONResponse(status_code=404, content={"error": f"Data not found for category: {category}"})
 
+    strategy_set = set(strategies.split(",")) if strategies else None
+    do_scrape = "scrape" in strategy_set if strategy_set else False
     sources = load_products(source_path)
     targets = load_products(target_path)
-    matches = run_matching(sources, targets, do_scrape=False)
+    matches = run_matching(sources, targets, do_scrape=do_scrape, strategies=strategy_set)
 
     conn = _get_db()
     try:
