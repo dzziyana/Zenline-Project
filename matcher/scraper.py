@@ -13,6 +13,7 @@ import asyncio
 import json
 import re
 import time
+from pathlib import Path
 from urllib.parse import quote_plus
 
 from curl_cffi import requests as cffi_requests
@@ -398,13 +399,8 @@ def _is_relevant(source: Product, result: dict) -> bool:
         # (verification will filter out false positives)
         return True
 
-    # No brand or model match in name - still allow through for non-TV products
-    # since the pipeline's verify_scraped_match (threshold 0.6) handles precision.
-    # For TV products, require brand or model match to avoid phones/tablets.
-    src_size_m = re.search(r'(\d{2,3})\s*(?:Zoll|"|\'\')', source.name, re.IGNORECASE)
-    if src_size_m:
-        return False
-    return True
+    # No brand or model match - not relevant
+    return False
 
 
 def scrape_product(source: Product) -> list[dict]:
@@ -453,17 +449,59 @@ def scrape_product(source: Product) -> list[dict]:
     return all_results
 
 
-def scrape_all(sources: list[Product]) -> list[dict]:
+CACHE_DIR = Path("data/scrape_cache")
+CACHE_MAX_AGE = 3600  # 1 hour
+
+
+def _load_cache(source_ref: str) -> list[dict] | None:
+    """Load cached scrape results for a source reference, if fresh enough."""
+    cache_file = CACHE_DIR / f"{source_ref}.json"
+    if not cache_file.exists():
+        return None
+    try:
+        data = json.loads(cache_file.read_text())
+        if time.time() - data.get("timestamp", 0) > CACHE_MAX_AGE:
+            return None
+        return data["results"]
+    except (json.JSONDecodeError, KeyError):
+        return None
+
+
+def _save_cache(source_ref: str, results: list[dict]):
+    """Save scrape results to cache."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    cache_file = CACHE_DIR / f"{source_ref}.json"
+    cache_file.write_text(json.dumps({
+        "timestamp": time.time(),
+        "results": results,
+    }, ensure_ascii=False))
+
+
+def scrape_all(sources: list[Product], use_cache: bool = True) -> list[dict]:
     """Scrape all hidden retailers for all source products.
+
+    If use_cache is True, returns cached results for sources scraped within
+    the last hour, only re-scraping sources with no cache or stale cache.
 
     Returns flat list of result dicts.
     """
     all_results = []
+    cached_count = 0
     for i, source in enumerate(sources):
+        if use_cache:
+            cached = _load_cache(source.reference)
+            if cached is not None:
+                cached_count += 1
+                all_results.extend(cached)
+                continue
         print(f"  Scraping [{i+1}/{len(sources)}] {source.name[:50]}...")
         results = scrape_product(source)
         print(f"    Found {len(results)} results from {len(set(r['retailer'] for r in results))} retailers")
         all_results.extend(results)
+        if use_cache:
+            _save_cache(source.reference, results)
+    if cached_count:
+        print(f"  Used cache for {cached_count}/{len(sources)} sources")
     return all_results
 
 
