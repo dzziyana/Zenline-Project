@@ -203,11 +203,30 @@ def get_unmatched_sources(conn: sqlite3.Connection) -> list[dict]:
     return [dict(r) for r in rows]
 
 
+_METHOD_DISPLAY = {
+    "ean": "EAN",
+    "model_number": "Model Number",
+    "model_series": "Model Series",
+    "product_line": "Product Line",
+    "product_type": "Product Type",
+    "screen_size": "Screen Size",
+    "fuzzy_model": "Fuzzy Model",
+    "fuzzy_name": "Fuzzy Name",
+    "scrape": "Scrape",
+}
+
+
+def _display_method(method: str) -> str:
+    return _METHOD_DISPLAY.get(method, method.replace("_", " ").title())
+
+
 def get_stats(conn: sqlite3.Connection) -> dict:
-    source_count = conn.execute("SELECT COUNT(*) FROM products WHERE is_source = 1").fetchone()[0]
+    source_count_db = conn.execute("SELECT COUNT(*) FROM products WHERE is_source = 1").fetchone()[0]
+    # Some sources share references with targets (insert-order issue), so use max of DB count and match count
+    sources_matched = conn.execute("SELECT COUNT(DISTINCT source_reference) FROM matches").fetchone()[0]
+    source_count = max(source_count_db, sources_matched)
     target_count = conn.execute("SELECT COUNT(*) FROM products WHERE is_source = 0").fetchone()[0]
     match_count = conn.execute("SELECT COUNT(*) FROM matches").fetchone()[0]
-    sources_matched = conn.execute("SELECT COUNT(DISTINCT source_reference) FROM matches").fetchone()[0]
 
     methods = conn.execute(
         "SELECT method, COUNT(*) as cnt FROM matches GROUP BY method ORDER BY cnt DESC"
@@ -233,7 +252,7 @@ def get_stats(conn: sqlite3.Connection) -> dict:
         "target_count": target_count,
         "match_count": match_count,
         "sources_matched": sources_matched,
-        "methods": {r["method"]: r["cnt"] for r in methods},
+        "methods": {_display_method(r["method"]): r["cnt"] for r in methods},
         "retailers": [r["retailer"] for r in retailers],
         "confidence_histogram": confidence_histogram,
     }
