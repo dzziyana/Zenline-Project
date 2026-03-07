@@ -425,9 +425,10 @@ When the user asks about products, you receive search results as context. Use th
 Be concise and format product info clearly. Use markdown for formatting.
 
 Available data:
-- Categories: TV & Audio, Small Appliances
+- Categories: TV & Audio, Small Appliances, Large Appliances
 - TV brands: Samsung, LG, Sharp, TCL, CHIQ, PEAQ, Xiaomi, Sony, Philips, Hisense, Sonos, JBL, Bose, Sennheiser
-- Appliance brands: Tefal, Beurer, WMF, Braun, Oral-B, Clatronic, SEVERIN, Rommelsbacher, SILVA, Kenwood, REMINGTON, KOENIC, GASTROBACK, JONR, Mova
+- Small Appliance brands: Tefal, Beurer, WMF, Braun, Oral-B, Clatronic, SEVERIN, Rommelsbacher, SILVA, Kenwood, REMINGTON, KOENIC, GASTROBACK, JONR, Mova
+- Large Appliance brands: Siemens, AEG, BEKO, Gorenje, Exquisit, Hoover, CASO, Grafner, STEBA, Bosch, Miele, Whirlpool, Bauknecht, Neff, Electrolux, LG, Sharp, MEDION, TELEFUNKEN, OK.
 - Retailers: Amazon AT, MediaMarkt AT (visible); Expert AT, electronic4you.at, Cyberport AT, E-Tec AT (scraped)
 
 Matching strategies available: EAN matching, model number extraction, fuzzy name matching, embedding similarity, CLIP vision matching, LLM verification, web scraping.
@@ -441,7 +442,7 @@ _STOP_WORDS = {"find", "show", "search", "list", "get", "me", "all", "the", "a",
                 "an", "in", "for", "of", "with", "and", "or", "is", "are", "my",
                 "what", "which", "where", "how", "can", "do", "does", "please",
                 "i", "want", "need", "looking", "any", "some", "about",
-                "small", "appliances", "appliance", "products", "product",
+                "small", "large", "appliances", "appliance", "products", "product",
                 "category", "categories", "audio", "tv"}
 
 
