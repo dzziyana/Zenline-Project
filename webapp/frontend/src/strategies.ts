@@ -86,7 +86,7 @@ export const STRATEGIES: Strategy[] = [
       "Semantic similarity using multilingual sentence embeddings and FAISS index.",
     priority: 9,
     defaultEnabled: false,
-    implemented: false,
+    implemented: true,
   },
   {
     id: "vision",
