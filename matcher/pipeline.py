@@ -9,8 +9,9 @@ from pathlib import Path
 from rich.console import Console
 from rich.table import Table
 
+from .db import get_connection, init_db, insert_matches, insert_products, log_pipeline_run
 from .ean_match import match_by_ean
-from .fuzzy_match import match_by_fuzzy_name, match_by_model_number
+from .fuzzy_match import match_by_fuzzy_model, match_by_fuzzy_name, match_by_model_number, match_by_model_series
 from .models import Match, Product, SubmissionEntry
 from .scraper import scrape_all
 
@@ -85,16 +86,30 @@ def run_matching(
     console.print(f"  Found {len(model_matches)} model number matches")
     all_matches.extend(model_matches)
 
-    # Stage 3: Fuzzy name matching
-    console.print("[bold cyan]Stage 3:[/] Fuzzy name matching...")
+    # Stage 3: Model series + size matching
+    console.print("[bold cyan]Stage 3:[/] Model series + size matching...")
+    already = {(m.source_reference, m.target_reference) for m in all_matches}
+    series_matches = match_by_model_series(sources, targets, already_matched=already)
+    console.print(f"  Found {len(series_matches)} model series matches")
+    all_matches.extend(series_matches)
+
+    # Stage 4: Fuzzy model matching
+    console.print("[bold cyan]Stage 4:[/] Fuzzy model matching...")
+    already = {(m.source_reference, m.target_reference) for m in all_matches}
+    fuzzy_model_matches = match_by_fuzzy_model(sources, targets, already_matched=already)
+    console.print(f"  Found {len(fuzzy_model_matches)} fuzzy model matches")
+    all_matches.extend(fuzzy_model_matches)
+
+    # Stage 5: Fuzzy name matching
+    console.print("[bold cyan]Stage 5:[/] Fuzzy name matching...")
     already = {(m.source_reference, m.target_reference) for m in all_matches}
     fuzzy_matches = match_by_fuzzy_name(sources, targets, threshold=82.0, already_matched=already)
     console.print(f"  Found {len(fuzzy_matches)} fuzzy matches")
     all_matches.extend(fuzzy_matches)
 
-    # Stage 4: Web scraping
+    # Stage 6: Web scraping
     if do_scrape:
-        console.print("[bold cyan]Stage 4:[/] Scraping hidden retailers...")
+        console.print("[bold cyan]Stage 6:[/] Scraping hidden retailers...")
         scrape_matches = asyncio.run(scrape_all(sources))
         console.print(f"  Found {len(scrape_matches)} scraped matches")
         all_matches.extend(scrape_matches)
@@ -126,6 +141,17 @@ def run_pipeline(
 
     matches = run_matching(sources, targets, do_scrape=do_scrape)
     print_summary(matches, sources)
+
+    # Persist to database
+    console.print("\n[dim]Saving to database...[/]")
+    conn = get_connection()
+    init_db(conn)
+    insert_products(conn, targets, is_source=False)
+    insert_products(conn, sources, is_source=True)
+    insert_matches(conn, matches)
+    log_pipeline_run(conn, category or "unknown", len(sources), len(targets), matches)
+    conn.close()
+    console.print("[dim]Database updated.[/]")
 
     submission = build_submission(matches)
     output_path.parent.mkdir(parents=True, exist_ok=True)
