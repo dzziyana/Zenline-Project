@@ -796,7 +796,7 @@ PRODUCT_TYPES: dict[str, list[str]] = {
     "vacuum_generic": ["staubsauger", "vacuum cleaner", "sauger"],
     "meat_grinder": ["fleischwolf", "meat grinder"],
     # Microwave BEFORE sandwich_grill ("3-in-1 Mikrowelle" is a microwave, not a sandwich grill)
-    "microwave": ["mikrowelle", "microwave"],
+    "microwave": ["mikrowelle", "microwave", "microondas"],
     "sandwich_grill": ["sandwichmaker", "sandwich maker", "sandwichtoaster",
                        "sandwich-toaster", "kontaktgrill", "waffeleisen und sandwichmaker",
                        "3-in-1", "3 in 1"],
@@ -883,8 +883,11 @@ PRODUCT_TYPES: dict[str, list[str]] = {
 }
 
 
-def _classify_product_type(name: str) -> str | None:
-    """Classify a product into a type based on keyword matching."""
+def _classify_product_type(name: str, specs: dict | None = None) -> str | None:
+    """Classify a product into a type based on keyword matching.
+
+    Falls back to specs['Produkttyp'] when name-based classification fails.
+    """
     nl = name.lower()
     for ptype, keywords in PRODUCT_TYPES.items():
         for kw in keywords:
@@ -900,6 +903,117 @@ def _classify_product_type(name: str) -> str | None:
     if ("backofen" in nl or "herd" in nl or "stove" in nl or "oven" in nl) and "herdanschluss" not in nl and "herd-anschluss" not in nl:
         if re.search(r'\d+\s*l[,\s)]', nl):
             return "herd_set"
+
+    # Fallback: Beko-style stove descriptions (Italian/multi-language)
+    if "elektroofen" in nl or ("platte" in nl and "gasbrenner" in nl):
+        return "herd_set"
+
+    # Fallback: aquastop/panzerschlauch for washing machines
+    if "aquastop" in nl or "wasserstop" in nl or "panzerschlauch" in nl:
+        return "aquastop_hose"
+
+    # Fallback: Siemens SN prefix = dishwasher
+    if nl.startswith("siemens sn"):
+        return "dishwasher"
+
+    # Fallback: Kochthermometer / Lebensmittel-Thermometer
+    if "kochthermometer" in nl or "lebensmittel-thermometer" in nl:
+        return "thermometer"
+
+    # Fallback: Outlet Hose Extension / Ablaufschlauch in English
+    if "outlet hose extension" in nl:
+        return "drain_hose"
+
+    # Fallback: Xavax Cooker Extractor Activated Carbon Filters
+    if "cooker extractor" in nl and "filter" in nl:
+        return "range_hood_filter"
+
+    # Fallback: Geräteanschlusstülle (device connection fitting)
+    if "geräteanschlusstülle" in nl or "geraeteanschlusstulle" in nl:
+        return "plumbing_fitting"
+
+    # Fallback: Verlängerung für Zulaufschlauch
+    if "verlängerung" in nl and "zulauf" in nl:
+        return "aquastop_hose"
+    if "verlaenger" in nl and "zulauf" in nl:
+        return "aquastop_hose"
+    # Abbreviated: VERLAENGER.ZUL
+    if "verlaenger" in nl and ".zul" in nl:
+        return "aquastop_hose"
+
+    # Fallback: Schlauchanschluss = plumbing fitting
+    if "schlauchanschluss" in nl:
+        return "plumbing_fitting"
+
+    # Fallback: Tiefkühltruhe/Kühlraum thermometer
+    if "tiefkühltruhe" in nl and "thermometer" in nl:
+        return "thermometer"
+    if "kühlraum" in nl and "thermometer" in nl:
+        return "thermometer"
+
+    # Fallback: Wasserzu- und Ablaufverlängerung
+    if "wasserzu" in nl and "ablauf" in nl:
+        return "drain_hose"
+
+    # Fallback: Verbinder for Ablaufschläuche
+    if "verbinder" in nl and "ablaufschläuche" in nl:
+        return "plumbing_fitting"
+    if "verbinder" in nl and "ablaufschlaeuche" in nl:
+        return "plumbing_fitting"
+
+    # Fallback: Wasserschlauch as Verlängerung
+    if "wasserschlauch" in nl and ("verlängerung" in nl or "verlaengerung" in nl):
+        return "aquastop_hose"
+
+    # Fallback: Built-in Larder = cold appliance
+    if "larder" in nl:
+        return "cold_appliance"
+
+    # Fallback: use specs Produkttyp when name-based classification fails
+    if specs:
+        pt = (specs.get("Produkttyp") or "").lower()
+        _specs_type_map = {
+            "geschirrspüler": "dishwasher",
+            "kühl- gefrierkombination": "cold_appliance",
+            "kühlgefrierkombination": "cold_appliance",
+            "kochfeld": "cooktop",
+            "built-in larder": "cold_appliance",
+            "dampfgar-ofen": "microwave",
+            "thermometer": "thermometer",
+            "fleischthermometer": "thermometer",
+            "ablaufschlauch": "drain_hose",
+            "backofen": "herd_set",
+            "geräteunterlage": "stacking_kit",
+            "unterbausockel": "stacking_kit",
+        }
+        if pt in _specs_type_map:
+            return _specs_type_map[pt]
+
+        # Deeper specs-based inference for generic page names
+        specs_str = str(specs).lower()
+        if ("spül" in specs_str or "geschirr" in specs_str) and "programme" in specs_str:
+            return "dishwasher"
+        if "waschmaschine" in specs_str and "schleuder" in specs_str:
+            return "washing_machine"
+        if "kühl" in specs_str and "gefrier" in specs_str:
+            return "cold_appliance"
+        if "kochfeld" in specs_str and "kochzonen" in specs_str:
+            return "cooktop"
+        if "mikrowelle" in specs_str:
+            return "microwave"
+        # Metal frame for Waschmaschine/Trockner = stacking kit
+        verwendung = (specs.get("Verwendungszweck") or "").lower()
+        if "trockner" in verwendung and "waschmaschine" in verwendung:
+            return "stacking_kit"
+        # Wasserzu/Ablauf verlängerung in specs
+        if "wasserzu" in specs_str and "ablauf" in specs_str:
+            return "drain_hose"
+        # Panzer-Zulaufschlauch in Produkttyp
+        if "panzer" in pt and "zulauf" in pt:
+            return "aquastop_hose"
+        # Verlängerung + Zulauf in specs
+        if "verlängerung" in specs_str and "zulauf" in specs_str:
+            return "aquastop_hose"
 
     return None
 
@@ -924,12 +1038,12 @@ def match_by_product_type(
     for t in targets:
         if valid_target_refs and t.reference not in valid_target_refs:
             continue
-        ptype = _classify_product_type(t.name)
+        ptype = _classify_product_type(t.name, t.specifications)
         if ptype:
             type_index.setdefault(ptype, []).append(t)
 
     for source in sources:
-        src_type = _classify_product_type(source.name)
+        src_type = _classify_product_type(source.name, source.specifications)
         if not src_type:
             continue
 
