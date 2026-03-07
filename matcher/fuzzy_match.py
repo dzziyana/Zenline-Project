@@ -30,13 +30,17 @@ def _extract_model_from_name(name: str) -> str | None:
     skip = {"smart", "full", "google", "android", "qled", "oled", "ultra",
             "zoll", "inch", "2024", "2025", "2026", "direct", "dolby",
             "vision", "premium", "fernseher", "audio", "mini", "hdr10",
-            "hdr10+", "bluetooth", "tizen", "webos", "wifi",
-            "500ml", "250ml", "1000ml", "750ml", "100ml", "200ml",
-            "800w", "1000w", "1300w", "1550w", "2200w", "700w", "500w",
-            "150w", "1500w", "3000w"}
+            "hdr10+", "bluetooth", "tizen", "webos", "wifi"}
+    # Pattern for number+unit (e.g. 500ml, 1300W, 15bar, 1.7l)
+    unit_pattern = re.compile(
+        r'^\d+[.,]?\d*(?:ml|l|w|watt|bar|cm|mm|kg|g|v|min|liter|gramm)$',
+        re.IGNORECASE,
+    )
     for c in candidates:
         c_lower = c.lower()
         if c_lower in skip:
+            continue
+        if unit_pattern.match(c):
             continue
         has_digit = any(ch.isdigit() for ch in c)
         has_letter = any(ch.isalpha() for ch in c)
