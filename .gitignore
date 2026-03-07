@@ -6,3 +6,4 @@ data/
 !data/target_products_*.json
 *.db
 .venv/
+COORDINATION.md
