@@ -1,6 +1,7 @@
 import { Routes, Route, NavLink } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Products from './pages/Products'
+import ProductDetail from './pages/ProductDetail'
 import Matching from './pages/Matching'
 import Chat from './pages/Chat'
 
@@ -64,6 +65,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:ref" element={<ProductDetail />} />
           <Route path="/matching" element={<Matching />} />
           <Route path="/chat" element={<Chat />} />
         </Routes>

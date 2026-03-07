@@ -117,9 +117,35 @@ def product_detail(reference: str):
     conn = _get_db()
     try:
         product = get_product(conn, reference)
+        matches = get_matches_for_source(conn, reference) if product else []
+        if not product:
+            # Fallback: search JSON data files
+            from .models import Product
+            data_dir = Path("data")
+            for f in data_dir.glob("*_products_*.json"):
+                with open(f) as fh:
+                    data = json.load(fh)
+                for d in data:
+                    if d.get("reference") == reference:
+                        p = Product.from_dict(d)
+                        product = {
+                            "reference": p.reference,
+                            "name": p.name,
+                            "brand": p.brand,
+                            "ean": p.ean,
+                            "category": p.category,
+                            "price": p.price_eur,
+                            "price_eur": p.price_eur,
+                            "image_url": d.get("image_url"),
+                            "url": d.get("url"),
+                            "retailer": d.get("retailer"),
+                            "specifications": d.get("specifications", {}),
+                        }
+                        break
+                if product:
+                    break
         if not product:
             return JSONResponse(status_code=404, content={"error": "Product not found"})
-        matches = get_matches_for_source(conn, reference)
         return {"product": product, "matches": matches}
     finally:
         conn.close()
@@ -595,6 +621,11 @@ def get_source_products(category: str):
             "ean": p.ean,
             "category": p.category,
             "price": p.price_eur,
+            "price_eur": p.price_eur,
+            "image_url": d.get("image_url"),
+            "url": d.get("url"),
+            "retailer": d.get("retailer"),
+            "specifications": d.get("specifications", {}),
         })
     return {"products": products}
 

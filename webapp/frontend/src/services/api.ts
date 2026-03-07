@@ -38,6 +38,21 @@ export async function getSourceProducts(
   return data.products;
 }
 
+export async function getAllSourceProducts(): Promise<{
+  sources: SourceProduct[];
+  total: number;
+}> {
+  const catRes = await fetch(`${BASE_URL}/categories`);
+  const { categories } = await catRes.json();
+  const all: SourceProduct[] = [];
+  for (const cat of categories) {
+    const res = await fetch(`${BASE_URL}/products/source/${cat}`);
+    const data = await res.json();
+    if (data.products) all.push(...data.products);
+  }
+  return { sources: all, total: all.length };
+}
+
 export async function getTargetProducts(
   category: string,
 ): Promise<TargetProduct[]> {
