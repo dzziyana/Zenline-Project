@@ -29,7 +29,8 @@ def _extract_model_from_name(name: str) -> str | None:
     # Filter out pure words, pure numbers, years, sizes
     skip = {"smart", "full", "google", "android", "qled", "oled", "ultra",
             "zoll", "inch", "2024", "2025", "2026", "direct", "dolby",
-            "vision", "premium", "fernseher", "audio", "mini"}
+            "vision", "premium", "fernseher", "audio", "mini", "hdr10",
+            "hdr10+", "bluetooth", "tizen", "webos", "wifi"}
     for c in candidates:
         c_lower = c.lower()
         if c_lower in skip:
