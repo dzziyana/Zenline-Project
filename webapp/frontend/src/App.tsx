@@ -9,6 +9,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Matching from "./pages/Matching";
 import Chat from "./pages/Chat";
 import Trends from "./pages/Trends";
+import Scraping from "./pages/Scraping";
 
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -236,6 +237,26 @@ export default function App() {
             </span>
             {t("nav.chat")}
           </NavLink>
+          <NavLink to="/scraping">
+            <span className="nav-icon">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="9" cy="9" r="7" />
+                <ellipse cx="9" cy="9" rx="3" ry="7" />
+                <line x1="2" y1="7" x2="16" y2="7" />
+                <line x1="2" y1="11" x2="16" y2="11" />
+              </svg>
+            </span>
+            {t("nav.scraping")}
+          </NavLink>
         </nav>
         <div className="sidebar-toggles">
           <div className="lang-toggle">
@@ -332,6 +353,7 @@ export default function App() {
             <Route path="/matching" element={<Matching />} />
             <Route path="/trends" element={<Trends />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/scraping" element={<Scraping />} />
           </Routes>
         </ErrorBoundary>
       </main>
