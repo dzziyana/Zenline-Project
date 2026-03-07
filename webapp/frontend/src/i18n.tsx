@@ -29,10 +29,10 @@ const UI_TRANSLATIONS: Record<string, Record<Lang, string>> = {
     en: "Browse, search, and inspect source products and their matches",
     de: "Quellprodukte und ihre Übereinstimmungen durchsuchen und untersuchen",
   },
-  "chat.title": { en: "Chat", de: "Chat" },
+  "chat.title": { en: "Text search", de: "Chat-Textsuche" },
   "chat.subtitle": {
-    en: "Ask questions about products, matches, or search the catalog",
-    de: "Fragen zu Produkten, Matches oder dem Katalog stellen",
+    en: "Make queries about products, matches, or search the catalog",
+    de: "Suchanfragen zu Produkten, Matches oder dem Katalog stellen",
   },
 
   // Stats
