@@ -10,10 +10,12 @@ BRAND_MAP = {
     "samsung electronics gmbh": "Samsung",
     "samsung": "Samsung",
     "imtron gmbh": "PEAQ",
+    "peaq": "PEAQ",
     "tcl": "TCL",
     "sharp": "Sharp",
     "xiaomi": "Xiaomi",
     "changhong": "CHIQ",
+    "chiq": "CHIQ",
     "lg electronics": "LG",
     "lg": "LG",
     "sony": "Sony",
@@ -23,6 +25,23 @@ BRAND_MAP = {
     "jbl": "JBL",
     "sonos": "Sonos",
     "bose": "Bose",
+    "sonero": "sonero",
+    "deleyCON": "deleyCON",
+    "deleycon": "deleyCON",
+    "goobay": "Goobay",
+    "ancable": "Ancable",
+    "hama": "Hama",
+    "dyon": "DYON",
+    "telefunken": "TELEFUNKEN",
+    "thomson": "Thomson",
+    "grundig": "GRUNDIG",
+    "jvc": "JVC",
+    "kiano": "Kiano",
+    "medion": "MEDION",
+    "toshiba": "Toshiba",
+    "soundcore": "soundcore",
+    "strong": "STRONG",
+    "cello": "Cello",
     # Small Appliances
     "gastroback": "GASTROBACK",
     "tefal": "Tefal",
@@ -88,10 +107,23 @@ class Product:
         # which can be a parent company e.g. "Imtron GmbH" for both KOENIC and PEAQ)
         if not brand:
             name_lower = d.get("name", "").lower()
+            # Only match brand at start of name or as standalone word (not in descriptions
+            # like "Samsung Tizen OS" when the product is actually a DYON TV)
             for key, val in BRAND_MAP.items():
-                if name_lower.startswith(key) or f" {key} " in name_lower:
+                if name_lower.startswith(key):
                     brand = val
                     break
+            # Second pass: match brand as standalone word but NOT after prepositions
+            # like "mit", "für", "with", "for" which indicate compatibility, not brand
+            if not brand:
+                import re as _re
+                for key, val in BRAND_MAP.items():
+                    # Match " brand " but not after common prepositions
+                    pattern = rf'(?<!\bmit )(?<!\bfür )(?<!\bfor )(?<!\bwith )\b{_re.escape(key)}\b'
+                    m = _re.search(pattern, name_lower)
+                    if m and m.start() < 30:  # brand should appear early in the name
+                        brand = val
+                        break
 
         # Fall back to specs fields
         if not brand:

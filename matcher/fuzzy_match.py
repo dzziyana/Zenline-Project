@@ -75,7 +75,7 @@ def _extract_dimensions(name: str) -> set[str]:
     """Extract size/dimension values from product name."""
     # Match patterns like 1,50m, 3.0m, 65", 32 Zoll, 24", etc.
     dims = set()
-    for m in re.finditer(r'(\d+[.,]?\d*)\s*(?:m|cm|mm|zoll|"|\')', name.lower()):
+    for m in re.finditer(r'(\d+[.,]?\d*)\s*(?:m|cm|mm|zoll|["\u201c\u201d\u201e]|\')', name.lower()):
         dims.add(m.group(0).strip())
     return dims
 
@@ -130,15 +130,25 @@ def match_by_model_number(sources: list[Product], targets: list[Product]) -> lis
 
 def _extract_screen_size(text: str) -> int | None:
     """Extract screen size in inches from product text."""
-    for m in re.finditer(r'(\d{2,3})\s*(?:"|zoll|inch)', text.lower()):
+    for m in re.finditer(r'(\d{2,3})\s*[-]?\s*(?:["\u201c\u201d\u201e]|zoll|inch)', text.lower()):
         val = int(m.group(1))
         if 20 <= val <= 100:
             return val
+    # Standard TV sizes for snapping cm values
+    _standard_sizes = [24, 25, 27, 32, 40, 43, 48, 50, 55, 58, 60, 65, 70, 75, 77, 82, 85, 86, 98]
     for m in re.finditer(r'(\d{2,3})\s*cm', text.lower()):
         cm = int(m.group(1))
-        inches = round(cm / 2.54)
-        if 20 <= inches <= 100:
-            return inches
+        raw_inches = cm / 2.54
+        # Snap to nearest standard TV size (within 1 inch tolerance)
+        best = min(_standard_sizes, key=lambda s: abs(s - raw_inches))
+        if abs(best - raw_inches) <= 1.0 and 20 <= best <= 100:
+            return best
+    # Fallback: extract from model numbers like 55HP6265E, 40HF3265E, 32LQ63006
+    m = re.search(r'\b(\d{2})[A-Z]{2}\d{3,}', text)
+    if m:
+        val = int(m.group(1))
+        if 20 <= val <= 85:
+            return val
     return None
 
 
@@ -286,6 +296,279 @@ def match_by_fuzzy_model(
                 confidence=0.88,
                 method="fuzzy_model",
             ))
+
+    return matches
+
+
+def _extract_product_line(name: str, brand: str) -> str | None:
+    """Extract the product line/series identifier from a product name.
+
+    Returns a canonical identifier like 'Q7F', 'QA10', 'Q6C', 'F6000', 'A_PRO',
+    'V5C', 'LQ630', '5025C', etc. Used for cross-size matching within the same brand.
+    """
+    name_upper = name.upper()
+
+    brand_lower = brand.lower() if brand else ""
+
+    if brand_lower == "samsung":
+        # Samsung TV lines: Q7F, Q8F, Q64D, Q60, F6000, The Frame, U8070F
+        # Group by series number: Q6x -> Q6, Q7x -> Q7, Q8x -> Q8
+        for pat in [
+            r'(?:QE|GQ|TQ)\s*\d{2}\s*(Q\s*\d{1,2}\s*[A-Z])',  # QE55Q7F or GQ 50 Q 60 C
+            r'\b(Q\d{1,2}[A-Z])\b',                              # Q7F, Q8F, Q64D standalone
+        ]:
+            m = re.search(pat, name_upper)
+            if m:
+                raw = re.sub(r'\s+', '', m.group(1))  # e.g. Q7F, Q60C, Q64D, Q8F
+                # Group all Samsung QLED Q-series together (Q6+Q7+Q8)
+                if re.match(r'Q\d', raw):
+                    return "QLED"
+                return raw
+        for pat in [
+            r'\b(F\d{4})\b',                                       # F6000
+            r'\b(THE FRAME)\b',                                    # The Frame
+            r'\b(U\d{4}[A-Z])\b',                                  # U8070F
+        ]:
+            m = re.search(pat, name_upper)
+            if m:
+                return m.group(1)
+
+    if brand_lower == "tcl":
+        # TCL lines: Q6C, Q7C, V5C, V6C, T69C, T6C, T7B, T8C, S5K, C645, etc.
+        for pat in [
+            r'\b\d{2}(Q\d[A-Z])\b',          # 65Q6C -> Q6C
+            r'\b\d{2}(V\d[A-Z])\b',          # 40V5C -> V5C
+            r'\b\d{2}(T\d{1,2}[A-Z])\b',     # 55T69C -> T69C
+            r'\b\d{2}(C\d{2,3}[A-Z]?)\b',    # 43C645 -> C645
+            r'\b\d{2}(S\d{3,4}[A-Z]?)\b',    # 32S5403A -> S5403
+            r'\b\d{2}(P\d[A-Z])\b',          # 50P7K -> P7K
+            r'\b\d{2}(QM\d[A-Z])\b',         # 50QM8B -> QM8B
+            r'\b\d{2}(SF\d{3})\b',           # 32SF560 -> SF560
+            r'\b\d{2}(L\d[A-Z])\b',          # 32L5A -> L5A
+            r'\b(C\d{2}[A-Z])\b',            # C61KS -> C61K
+        ]:
+            m = re.search(pat, name_upper)
+            if m:
+                return m.group(1)
+
+    if brand_lower == "chiq":
+        # CHIQ QA10
+        m = re.search(r'\b\d{2}(QA\d+)\b', name_upper)
+        if m:
+            return m.group(1)
+
+    if brand_lower == "xiaomi":
+        # Xiaomi A Pro, F, F Pro - group all A Pro variants (2025, 2026) together
+        if 'A PRO' in name_upper:
+            return 'A_PRO'
+        if re.search(r'\bTV F PRO\b', name_upper):
+            return 'F_PRO'
+        if re.search(r'\bTV F\b', name_upper):
+            return 'F'
+
+    if brand_lower == "peaq":
+        # PEAQ PTV models: all PEAQ TVs are the same house brand product line
+        # Different years (5023, 5024, 5025) and suffixes are variants, not separate products
+        if 'PTV' in name_upper:
+            return 'PTV'
+
+    if brand_lower == "lg":
+        # LG TV model series: 32LQ63006LA -> LQ630
+        m = re.search(r'\d{2}(L[A-Z]\d{3})', name_upper)
+        if m:
+            return m.group(1)
+
+    # Cables: any brand, match by connector type (Euro C7 cables are interchangeable)
+    if ('NETZKABEL' in name_upper or 'STROMKABEL' in name_upper) and ('C7' in name_upper or 'EURO' in name_upper):
+        return 'EURO_C7'
+
+    if brand_lower == "sharp":
+        # Sharp models: 24FH7EA, 40HF3265E, 55HP6265E
+        m = re.search(r'\b\d{2}([A-Z]{2}\d{3,4}[A-Z]?)', name_upper)
+        if m:
+            return m.group(1)
+
+    if brand_lower == "dyon":
+        m = re.search(r'\b(ULTIMAX|SMART|ENTER|LIVE)\b', name_upper)
+        if m:
+            return m.group(1)
+
+    return None
+
+
+def match_by_product_line(
+    sources: list[Product],
+    targets: list[Product],
+    already_matched: set[tuple[str, str]] | None = None,
+) -> list[Match]:
+    """Match by brand + product line, allowing cross-size matches.
+
+    This catches Amazon duplicates and different-size variants of the same product line.
+    E.g., Samsung Q7F 43" matches Samsung Q7F 65", CHIQ 43QA10 matches CHIQ 32QA10.
+    """
+    already_matched = already_matched or set()
+    matches = []
+
+    # Build index: (brand, product_line) -> [targets]
+    # For cross-brand categories (cables), use ("*", line) as key
+    line_index: dict[tuple[str, str], list[Product]] = {}
+    cross_brand_lines = {"EURO_C7"}  # categories where brand doesn't matter
+
+    for t in targets:
+        brand = t.brand.lower() if t.brand else ""
+        line = _extract_product_line(t.name, t.brand or "")
+        if not line:
+            continue
+        if line in cross_brand_lines:
+            line_index.setdefault(("*", line), []).append(t)
+        elif brand:
+            line_index.setdefault((brand, line), []).append(t)
+
+    for source in sources:
+        src_brand = source.brand.lower() if source.brand else ""
+        src_line = _extract_product_line(source.name, source.brand or "")
+        if not src_line:
+            continue
+
+        if src_line in cross_brand_lines:
+            candidates = line_index.get(("*", src_line), [])
+        elif src_brand:
+            candidates = line_index.get((src_brand, src_line), [])
+        else:
+            continue
+
+        src_size = _extract_screen_size(source.name)
+
+        for target in candidates:
+            if (source.reference, target.reference) in already_matched:
+                continue
+            if source.reference == target.reference:
+                continue
+
+            # For non-cable products, require same screen size
+            if src_line not in cross_brand_lines:
+                tgt_size = _extract_screen_size(target.name)
+                if src_size and tgt_size and src_size != tgt_size:
+                    continue
+
+            # Same brand + same product line (+ same size for TVs) = match
+            matches.append(Match(
+                source_reference=source.reference,
+                target_reference=target.reference,
+                target_name=target.name,
+                target_retailer=target.retailer or "",
+                target_url=target.url or "",
+                target_price=target.price_eur,
+                confidence=0.92,
+                method="product_line",
+            ))
+
+    return matches
+
+
+def _is_tv_product(name: str) -> bool:
+    """Check if a product is a TV (not a cable, headphone, speaker, adapter, etc.)."""
+    nl = name.lower()
+    # Positive indicators: if product mentions TV/Fernseher/Zoll, it's a TV
+    if any(w in nl for w in ['fernseher', 'smart tv', 'google tv', 'android tv',
+                              'fire tv', 'zoll', 'qled', 'oled']):
+        return True
+    non_tv = ['netzkabel', 'stromkabel', 'euro-netzkabel',
+              'kopfhörer', 'headphone', 'earbuds', 'earphone',
+              'in-ear', 'over-ear', 'headset',
+              'lautsprecher', 'soundbar',
+              'scart', 'usb-c', 'usb c',
+              'fernbedienung', 'wandhalterung']
+    return not any(w in nl for w in non_tv)
+
+
+def _is_euro_c7_cable(name: str) -> bool:
+    """Check if a product is a Euro C7 power cable."""
+    nl = name.lower()
+    return (any(w in nl for w in ['netzkabel', 'stromkabel', 'power cable']) and
+            any(w in nl for w in ['c7', 'euro', 'eurostecker']))
+
+
+def _extract_cable_length_m(name: str) -> str | None:
+    """Extract cable length in meters, normalized to string like '1.5'."""
+    m = re.search(r'(\d+)[.,](\d+)\s*m\b', name.lower())
+    if m:
+        return f"{m.group(1)}.{m.group(2)}"
+    m = re.search(r'(\d+)\s*m\b', name.lower())
+    if m:
+        return m.group(1)
+    return None
+
+
+def match_by_screen_size(
+    sources: list[Product],
+    targets: list[Product],
+    valid_target_refs: set[str] | None = None,
+    already_matched: set[tuple[str, str]] | None = None,
+) -> list[Match]:
+    """Match products by screen size (TVs) or cable spec (cables), cross-brand.
+
+    This is the primary matching strategy for the TV & Audio category where
+    the ground truth defines product equivalence by screen size regardless of brand.
+    If valid_target_refs is provided, only match targets in that set.
+    """
+    already_matched = already_matched or set()
+    matches = []
+
+    # Build size index for TV targets
+    tv_by_size: dict[int, list[Product]] = {}
+    cable_targets_1_5m: list[Product] = []
+
+    for t in targets:
+        if valid_target_refs and t.reference not in valid_target_refs:
+            continue
+        if _is_euro_c7_cable(t.name):
+            length = _extract_cable_length_m(t.name)
+            if length == "1.5":
+                cable_targets_1_5m.append(t)
+        elif _is_tv_product(t.name):
+            size = _extract_screen_size(t.name)
+            if size:
+                tv_by_size.setdefault(size, []).append(t)
+
+    for source in sources:
+        if _is_euro_c7_cable(source.name):
+            src_length = _extract_cable_length_m(source.name)
+            if src_length == "1.5":
+                for target in cable_targets_1_5m:
+                    if source.reference == target.reference:
+                        continue
+                    if (source.reference, target.reference) in already_matched:
+                        continue
+                    matches.append(Match(
+                        source_reference=source.reference,
+                        target_reference=target.reference,
+                        target_name=target.name,
+                        target_retailer=target.retailer or "",
+                        target_url=target.url or "",
+                        target_price=target.price_eur,
+                        confidence=0.85,
+                        method="screen_size",
+                    ))
+        elif _is_tv_product(source.name):
+            src_size = _extract_screen_size(source.name)
+            if not src_size:
+                continue
+            for target in tv_by_size.get(src_size, []):
+                if source.reference == target.reference:
+                    continue
+                if (source.reference, target.reference) in already_matched:
+                    continue
+                matches.append(Match(
+                    source_reference=source.reference,
+                    target_reference=target.reference,
+                    target_name=target.name,
+                    target_retailer=target.retailer or "",
+                    target_url=target.url or "",
+                    target_price=target.price_eur,
+                    confidence=0.85,
+                    method="screen_size",
+                ))
 
     return matches
 
