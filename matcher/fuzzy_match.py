@@ -30,7 +30,10 @@ def _extract_model_from_name(name: str) -> str | None:
     skip = {"smart", "full", "google", "android", "qled", "oled", "ultra",
             "zoll", "inch", "2024", "2025", "2026", "direct", "dolby",
             "vision", "premium", "fernseher", "audio", "mini", "hdr10",
-            "hdr10+", "bluetooth", "tizen", "webos", "wifi"}
+            "hdr10+", "bluetooth", "tizen", "webos", "wifi",
+            "500ml", "250ml", "1000ml", "750ml", "100ml", "200ml",
+            "800w", "1000w", "1300w", "1550w", "2200w", "700w", "500w",
+            "150w", "1500w", "3000w"}
     for c in candidates:
         c_lower = c.lower()
         if c_lower in skip:
@@ -329,6 +332,43 @@ def match_by_fuzzy_name(
     return matches
 
 
+def _extract_short_model_codes(name: str) -> list[str]:
+    """Extract short model codes like 'EK 3163', 'ST 3477', 'WK 1100' from product names.
+
+    These are common in small appliances but too short for extract_model_number.
+    """
+    codes = []
+    skip_prefixes = {
+        "BPA", "USB", "LED", "LCD", "EUR", "UHD", "MAX", "RPM", "MIN", "IN",
+    }
+    for m in re.finditer(r'\b([A-Z]{1,3})\s*[-]?\s*(\d{2,5}[A-Z]?)\b', name):
+        prefix = m.group(1)
+        number = m.group(2)
+        if prefix in skip_prefixes:
+            continue
+        after = name[m.end():]
+        if re.match(
+            r'\s*(?:watt|w\b|bar|cm|mm|kg|liter|l\b|ml|gramm|g\b|min\b|v\b)',
+            after,
+            re.IGNORECASE,
+        ):
+            continue
+        code = f"{prefix} {number}".upper()
+        codes.append(code)
+    for m in re.finditer(r'\b(\d{5,6})\b', name):
+        val = m.group(1)
+        if val in ("2024", "2025", "2026"):
+            continue
+        after = name[m.end():]
+        if not re.match(
+            r'\s*(?:watt|w\b|bar|cm|mm|kg|liter|l\b|ml|gramm|g\b)',
+            after,
+            re.IGNORECASE,
+        ):
+            codes.append(val)
+    return codes
+
+
 def verify_scraped_match(source: Product, scraped_name: str) -> float:
     """Score how well a scraped product name matches a source product.
 
@@ -337,21 +377,41 @@ def verify_scraped_match(source: Product, scraped_name: str) -> float:
     src_model = extract_model_number(source)
     src_name = normalize_name(source.name)
     scraped_norm = normalize_name(scraped_name)
+    scraped_upper = scraped_name.upper()
 
     # Check if model number appears in scraped name
-    if src_model and src_model.upper() in scraped_name.upper():
+    if src_model and src_model.upper() in scraped_upper:
         return 0.95
+
+    # Check short model codes (e.g. "EK 3163", "ST 3477", "WK 1100")
+    src_codes = _extract_short_model_codes(source.name)
+    for code in src_codes:
+        if code in scraped_upper or code.replace(" ", "") in scraped_upper:
+            return 0.95
 
     # Check brand presence
     brand_present = source.brand and source.brand.lower() in scraped_name.lower()
+
+    # If source has a model code but it's NOT in the scraped name,
+    # require a high fuzzy score — the scraped result is likely a different product
+    has_model_code = bool(src_model) or bool(src_codes)
+    scraped_codes = _extract_short_model_codes(scraped_name)
+    model_in_scraped = False
+    if src_model and src_model.upper() in scraped_upper:
+        model_in_scraped = True
+    for code in src_codes:
+        if code in scraped_upper or code.replace(" ", "") in scraped_upper:
+            model_in_scraped = True
 
     # Check screen size match
     src_size = _extract_screen_size(source.name)
     scraped_size = _extract_screen_size(scraped_name)
     size_match = src_size and scraped_size and src_size == scraped_size
 
-    # Fuzzy name score
-    fuzzy_score = fuzz.token_sort_ratio(src_name, scraped_norm) / 100.0
+    # Fuzzy name score (use best of sort and set ratios)
+    sort_score = fuzz.token_sort_ratio(src_name, scraped_norm) / 100.0
+    set_score = fuzz.token_set_ratio(src_name, scraped_norm) / 100.0
+    fuzzy_score = max(sort_score, set_score)
 
     # Combine signals
     score = fuzzy_score
@@ -361,5 +421,13 @@ def verify_scraped_match(source: Product, scraped_name: str) -> float:
         score = min(score + 0.05, 1.0)
     if brand_present and size_match and fuzzy_score >= 0.5:
         score = max(score, 0.85)
+
+    # Penalize when source has a recognizable model code but scraped result
+    # doesn't contain it. Skip penalty for long numeric-only model numbers
+    # (likely internal part numbers, not product identifiers).
+    if has_model_code and not model_in_scraped and brand_present:
+        is_internal_number = src_model and src_model.isdigit() and len(src_model) >= 6
+        if not is_internal_number:
+            score = min(score, 0.55)
 
     return min(score, 1.0)

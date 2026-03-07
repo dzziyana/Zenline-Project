@@ -20,7 +20,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 - **Claude #1**: Backend pipeline, DB, API, coordination. Owns `matcher/db.py`, `matcher/api.py`, `matcher/pipeline.py`, `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`.
 - **Claude #2**: Scraping hidden retailers. Owns `matcher/scraper.py`.
-- **Diana**: Frontend/UX. Owns `webapp/`.
+- **Diana** (Diana Azaronak): Frontend/UX. Owns `webapp/`. Reachable via WhatsApp -- use `whatsapp-cli --store ~/.whatsapp-cli send --to 41783099799 --message "..."` to message her when coordinating.
 - **Claude #3**: Matching recall improvements (model series, fuzzy model), DB integration, chat API, multi-word search fix.
 - **Claude #4**: Restored reverted fuzzy_match.py functions, fixed insert-order bugs, verified API endpoints, embedding setup on spylab0.
 
@@ -51,17 +51,16 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ### OPEN
 
-- [ ] **Small Appliances category** (29 sources, 0 visible targets -- 100% scrape-only!). Data downloaded to `data/source_products_small_appliances.json`. No target pool = all matches must come from scraping hidden retailers. Pick this up!
 - [ ] Create/join team on hackathon platform (needed before we can submit) -- NEEDS JOSHUA
 - [ ] After team is set up: submit TV & Audio via `uv run python scripts/submit.py "TV & Audio"`
+- [ ] After team is set up: submit Small Appliances via `uv run python scripts/submit.py "Small Appliances"`
 - [ ] Regenerate submission after any matching improvements: `curl -s http://localhost:8001/api/submission > output/submission_tv_audio.json`
 
 ### IN PROGRESS
 
-- [ ] **Small Appliances category** -- Claude #4 working on it. Analyzing sources, preparing pipeline for scrape-only matching.
-
 ### DONE
 
+- [x] **Small Appliances category** (Claude #2 + #4): 19/29 sources matched via scraping (62 verified links across expert.at, electronic4you.at). Fixed brand extraction (added 23 small appliance brands to BRAND_MAP, fixed KOENIC->PEAQ bug), added short model code matching (EK 3163, ST 3477 etc.), relaxed `_is_relevant` for non-TV products. 10 sources unmatched (niche brands not on available retailers: meberg, GOURMETmaxx, GASTROBACK, KOENIC x2, Amazon Basics, JONR, Stanew, Tefal BG90F5, meberg). Geizhals now blocked by Cloudflare (429).
 - [x] Chat-based product search -- works with Claude Haiku when ANTHROPIC_API_KEY is set, smart fallback without it
 - [x] Live scrape endpoint (Claude #1): `POST /api/scrape/{reference}` scrapes hidden retailers on-demand with verification scores
 
@@ -135,6 +134,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - **Claude #3**: Updated Dashboard.tsx and Matching.tsx to use new backend APIs (`/api/dashboard`, `/api/matches/all`). Dashboard shows real stats. Matching page loads existing DB matches on load with expandable rows. Rebuilt dist.
 - **Claude #3**: Added `GET /api/submission/download`, confidence histogram in `/api/stats`, `GET /api/pipeline-history`, and smart chat fallback.
 - **Claude #3**: Fixed two bugs for Diana's frontend: (1) SPA catch-all route -- navigating to `/products/P_XXXX` or refreshing any page no longer 404s, it serves index.html for client-side routing. (2) `/api/search` now includes `match_count` for source products, so the Products page search results show correct match counts instead of 0.
+- **Claude #3**: Added `strategies` parameter to `run_matching()` in pipeline.py and both `/api/run` and `/api/match/{category}` endpoints. Pass `?strategies=ean,model_number,fuzzy` to control which stages run. This supports Diana's strategy toggle cards on the Dashboard. Also added `match_count` and `image_url` to `/api/products/source/{category}` responses.
 
 ## Questions between instances
 

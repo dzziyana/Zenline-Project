@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 
 
 BRAND_MAP = {
+    # TV & Audio
     "samsung electronics gmbh": "Samsung",
     "samsung": "Samsung",
     "imtron gmbh": "PEAQ",
@@ -22,6 +23,29 @@ BRAND_MAP = {
     "jbl": "JBL",
     "sonos": "Sonos",
     "bose": "Bose",
+    # Small Appliances
+    "gastroback": "GASTROBACK",
+    "tefal": "Tefal",
+    "clatronic": "Clatronic",
+    "kenwood": "Kenwood",
+    "beurer": "Beurer",
+    "remington": "REMINGTON",
+    "koenic": "KOENIC",
+    "severin elektrogeräte gmbh": "SEVERIN",
+    "severin": "SEVERIN",
+    "rommelsbacher": "Rommelsbacher",
+    "silva homeline": "SILVA",
+    "silva-homeline": "SILVA",
+    "silva": "SILVA",
+    "wmf": "WMF",
+    "braun": "Braun",
+    "oral-b": "Oral-B",
+    "meberg": "meberg",
+    "gourmetmaxx": "GOURMETmaxx",
+    "jonr": "JONR",
+    "mova": "Mova",
+    "stanew": "Stanew",
+    "amazon basics": "Amazon Basics",
 }
 
 
@@ -55,19 +79,24 @@ class Product:
         if not ean:
             ean = specs.get("GTIN") or specs.get("EAN-Code") or specs.get("EAN")
 
-        # Extract brand from multiple possible fields
+        # Extract brand - try explicit field first, then name, then specs
         brand = d.get("brand") or ""
-        if not brand:
-            brand = specs.get("Hersteller") or specs.get("Marke") or specs.get("Brand") or ""
-        brand = _normalize_brand(brand)
+        if brand:
+            brand = _normalize_brand(brand)
 
-        # If brand still empty, try to infer from product name
+        # Try to infer from product name (more reliable than specs like Hersteller
+        # which can be a parent company e.g. "Imtron GmbH" for both KOENIC and PEAQ)
         if not brand:
             name_lower = d.get("name", "").lower()
             for key, val in BRAND_MAP.items():
                 if name_lower.startswith(key) or f" {key} " in name_lower:
                     brand = val
                     break
+
+        # Fall back to specs fields
+        if not brand:
+            brand = specs.get("Marke") or specs.get("Hersteller") or specs.get("Brand") or ""
+            brand = _normalize_brand(brand)
 
         return cls(
             reference=d.get("reference", ""),
