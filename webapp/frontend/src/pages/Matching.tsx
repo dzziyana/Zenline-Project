@@ -726,7 +726,7 @@ export default function Matching() {
               justifyContent: "center",
               zIndex: 100,
             }}
-            onClick={() => setExplain(null)}
+            onMouseDown={() => setExplain(null)}
           >
             <div
               className="card"
@@ -736,7 +736,7 @@ export default function Matching() {
                 maxHeight: "80vh",
                 overflow: "auto",
               }}
-              onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
             >
               <div className="card-header">
                 <span className="card-title">{t("matching.explanation")}</span>

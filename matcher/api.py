@@ -205,6 +205,25 @@ def explain_match(source_ref: str, target_ref: str):
                 if source and target:
                     break
 
+        # Last resort: construct from matches table metadata
+        if not source or not target:
+            for ref, role in [(source_ref, "source"), (target_ref, "target")]:
+                if role == "source" and source:
+                    continue
+                if role == "target" and target:
+                    continue
+                row = conn.execute(
+                    "SELECT target_reference, target_name, target_retailer, target_price FROM matches WHERE target_reference = ? LIMIT 1",
+                    (ref,)
+                ).fetchone()
+                if row:
+                    d = dict(row)
+                    product = {"reference": d["target_reference"], "name": d["target_name"] or ref, "brand": "", "ean": "", "category": "", "specifications": {}}
+                    if role == "source":
+                        source = product
+                    else:
+                        target = product
+
         if not source or not target:
             return JSONResponse(status_code=404, content={"error": "Product not found"})
 
