@@ -491,26 +491,32 @@ class ChatRequest(BaseModel):
     history: list[dict] = []
 
 
-CHAT_SYSTEM_PROMPT = """You are a product matching assistant for an Austrian electronics retail comparison tool called Zenline.
-You help users search for products, find matches, understand matching results, and discuss market trends.
+CHAT_SYSTEM_PROMPT = """You are the AI assistant for Zenline Product Matcher, a tool that matches source electronics products to equivalent competitor listings across Austrian retailers.
 
-You have access to a catalog of source products (the products we want to find matches for) and target products (from competitor retailers like Amazon AT, MediaMarkt AT, expert.at, cyberport.at, electronic4you.at, e-tec.at).
+Your role: Help users explore products, understand matches, compare prices, and get insights from the matching pipeline.
 
-When the user asks about products, you receive search results as context. Use them to give specific, helpful answers.
-Be concise and format product info clearly. Use markdown for formatting.
+## What you know
+- **3 categories**: TV & Audio (17 sources, 561 targets), Small Appliances (29 sources, 1666 targets), Large Appliances (44 sources, 3543 targets)
+- **6 retailers**: Amazon AT, MediaMarkt AT (visible pool); Expert AT, electronic4you.at, Cyberport AT, E-Tec (scraped from web)
+- **9 matching strategies** (in priority order):
+  1. EAN/GTIN exact barcode match (highest confidence)
+  2. Model number extraction + exact match within brand
+  3. Model series matching (e.g. Samsung Q7F series across sizes)
+  4. Product line matching (same product line, different sizes)
+  5. Cross-brand screen size matching (all 43" TVs grouped)
+  6. Product type matching (all microwaves, all dishwashers, etc.)
+  7. Fuzzy model number matching with region variant handling
+  8. Fuzzy product name similarity (token sort ratio)
+  9. Web scraping of hidden retailers by EAN/model/name
 
-Available data:
-- Categories: TV & Audio, Small Appliances, Large Appliances
-- TV brands: Samsung, LG, Sharp, TCL, CHIQ, PEAQ, Xiaomi, Sony, Philips, Hisense, Sonos, JBL, Bose, Sennheiser
-- Small Appliance brands: Tefal, Beurer, WMF, Braun, Oral-B, Clatronic, SEVERIN, Rommelsbacher, SILVA, Kenwood, REMINGTON, KOENIC, GASTROBACK, JONR, Mova
-- Large Appliance brands: Siemens, AEG, BEKO, Gorenje, Exquisit, Hoover, CASO, Grafner, STEBA, Bosch, Miele, Whirlpool, Bauknecht, Neff, Electrolux, LG, Sharp, MEDION, TELEFUNKEN, OK.
-- Retailers: Amazon AT, MediaMarkt AT (visible); Expert AT, electronic4you.at, Cyberport AT, E-Tec AT (scraped)
-
-Matching strategies available: EAN matching, model number extraction, fuzzy name matching, embedding similarity, CLIP vision matching, LLM verification, web scraping.
-
-You can also discuss market trends, recommend products, compare specifications, and help users understand pricing across retailers.
-
-Respond in the same language the user writes in (German or English). Be friendly and helpful."""
+## How to respond
+- Use **markdown** formatting: bold for product names, tables for comparisons, bullet points for lists
+- When showing products, include: name, brand, price (if available), retailer, and reference ID
+- When showing matches, include: the match method and confidence score
+- Keep answers concise but informative. Lead with the answer, not the explanation.
+- If search results contain relevant products, reference them specifically
+- For price comparisons, highlight the cheapest option
+- Respond in the same language the user writes in (German or English)"""
 
 
 _STOP_WORDS = {"find", "show", "search", "list", "get", "me", "all", "the", "a",
@@ -828,9 +834,55 @@ def _format_smart_fallback(query: str, search_context: str, stats: dict) -> str:
         finally:
             conn.close()
 
+    # Compare brands (e.g. "compare Samsung vs LG")
+    if "compare" in q or " vs " in q or " versus " in q:
+        import re as _re
+        brand_match = _re.search(r'(\w+)\s+(?:vs|versus|compared? to|gegen)\s+(\w+)', q, _re.IGNORECASE)
+        if brand_match:
+            brand_a, brand_b = brand_match.group(1).upper(), brand_match.group(2).upper()
+            conn = _get_db()
+            try:
+                lines = [f"**{brand_a} vs {brand_b}:**\n"]
+                for brand in [brand_a, brand_b]:
+                    src_count = conn.execute(
+                        "SELECT COUNT(*) FROM products WHERE UPPER(brand) = ? AND is_source = 1", (brand,)
+                    ).fetchone()[0]
+                    tgt_count = conn.execute(
+                        "SELECT COUNT(*) FROM products WHERE UPPER(brand) = ? AND is_source = 0", (brand,)
+                    ).fetchone()[0]
+                    match_count = conn.execute(
+                        "SELECT COUNT(*) FROM matches m JOIN products p ON m.source_reference = p.reference WHERE UPPER(p.brand) = ?", (brand,)
+                    ).fetchone()[0]
+                    avg_conf = conn.execute(
+                        "SELECT AVG(m.confidence) FROM matches m JOIN products p ON m.source_reference = p.reference WHERE UPPER(p.brand) = ?", (brand,)
+                    ).fetchone()[0]
+                    lines.append(f"**{brand}**: {src_count} source products, {tgt_count} target products, {match_count} matches" +
+                                 (f", avg confidence {avg_conf:.2f}" if avg_conf else ""))
+                return "\n".join(lines)
+            finally:
+                conn.close()
+
+    # Price/cheapest questions
+    if any(w in q for w in ["cheapest", "cheap", "price", "preis", "guenstig", "billig", "teuer", "expensive"]):
+        if search_context and "No products found" not in search_context:
+            return f"**Price comparison:**\n\n{search_context}\n\n*Prices shown are from the product's retailer listing. Check the product detail for cross-retailer price comparisons.*"
+
+    # Help / what can you do
+    if any(w in q for w in ["help", "hilfe", "what can", "was kannst"]):
+        return (
+            "**I can help you with:**\n\n"
+            "- **Search products**: \"Show me Samsung TVs\", \"Find toasters\"\n"
+            "- **Check matches**: \"Show unmatched products\", \"How was this product matched?\"\n"
+            "- **Compare brands**: \"Compare Samsung vs LG\"\n"
+            "- **View stats**: \"Show me an overview\", \"Which brands have the most matches?\"\n"
+            "- **Explore strategies**: \"What matching strategies are used?\"\n"
+            "- **Product categories**: \"Show me washing machines\", \"List all microwaves\"\n\n"
+            "Just type your question in English or German!"
+        )
+
     # Default: format search results nicely
     if "No products found" in search_context:
-        return f"I couldn't find any products matching \"{query}\". Try searching by brand name, model number, or EAN."
+        return f"I couldn't find any products matching \"{query}\". Try searching by brand name, model number, or product type (e.g. \"Samsung TV\", \"Mikrowelle\", \"Geschirrspueler\")."
 
     return f"**Search results for \"{query}\":**\n\n{search_context}"
 
