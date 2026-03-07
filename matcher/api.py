@@ -249,6 +249,9 @@ def search(
                                   retailer=retailer, source_only=source_only)
         for r in results:
             r["specifications"] = json.loads(r.get("specifications", "{}"))
+            if r.get("is_source"):
+                matches = get_matches_for_source(conn, r["reference"])
+                r["match_count"] = len(matches)
         return {"results": results, "total": len(results), "query": q}
     finally:
         conn.close()
@@ -1098,6 +1101,18 @@ loadSidebar();
 </script>
 </body>
 </html>"""
+
+# SPA catch-all: serve index.html for client-side routes (must be after all API routes)
+@app.get("/{full_path:path}", response_class=HTMLResponse)
+def spa_fallback(full_path: str):
+    """Serve React index.html for all non-API paths (SPA client-side routing)."""
+    if full_path.startswith("api/"):
+        return JSONResponse(status_code=404, content={"error": "Not found"})
+    index = _WEBAPP_DIST / "index.html"
+    if index.exists():
+        return index.read_text()
+    return _CHAT_HTML
+
 
 # Mount React frontend static assets (must be after all API routes)
 if _WEBAPP_DIST.exists():
