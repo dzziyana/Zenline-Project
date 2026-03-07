@@ -71,52 +71,63 @@ def run_matching(
     targets: list[Product],
     do_scrape: bool = True,
     brand_filter: str | None = None,
+    strategies: set[str] | None = None,
 ) -> list[Match]:
     """Run the full matching pipeline.
 
     If brand_filter is set, only match sources of that brand.
+    If strategies is set, only run the specified strategies (e.g. {"ean", "model_number", "fuzzy", "scrape"}).
     """
     if brand_filter:
         sources = [s for s in sources if s.brand and s.brand.lower() == brand_filter.lower()]
         console.print(f"[dim]Brand filter: {brand_filter} ({len(sources)} sources)[/]")
 
+    enabled = strategies or {"ean", "model_number", "model_series", "fuzzy_model", "fuzzy", "scrape", "embedding", "vision", "llm"}
+    if strategies:
+        console.print(f"[dim]Strategies: {', '.join(sorted(enabled))}[/]")
+
     all_matches: list[Match] = []
 
     # Stage 1: EAN matching
-    console.print("[bold cyan]Stage 1:[/] EAN exact matching...")
-    ean_matches = match_by_ean(sources, targets)
-    console.print(f"  Found {len(ean_matches)} EAN matches")
-    all_matches.extend(ean_matches)
+    if "ean" in enabled:
+        console.print("[bold cyan]Stage 1:[/] EAN exact matching...")
+        ean_matches = match_by_ean(sources, targets)
+        console.print(f"  Found {len(ean_matches)} EAN matches")
+        all_matches.extend(ean_matches)
 
     # Stage 2: Model number matching
-    console.print("[bold cyan]Stage 2:[/] Model number matching...")
-    model_matches = match_by_model_number(sources, targets)
-    console.print(f"  Found {len(model_matches)} model number matches")
-    all_matches.extend(model_matches)
+    if "model_number" in enabled:
+        console.print("[bold cyan]Stage 2:[/] Model number matching...")
+        model_matches = match_by_model_number(sources, targets)
+        console.print(f"  Found {len(model_matches)} model number matches")
+        all_matches.extend(model_matches)
 
     # Stage 3: Model series + size matching
-    console.print("[bold cyan]Stage 3:[/] Model series + size matching...")
-    already = {(m.source_reference, m.target_reference) for m in all_matches}
-    series_matches = match_by_model_series(sources, targets, already_matched=already)
-    console.print(f"  Found {len(series_matches)} model series matches")
-    all_matches.extend(series_matches)
+    if "model_series" in enabled or "model_number" in enabled:
+        console.print("[bold cyan]Stage 3:[/] Model series + size matching...")
+        already = {(m.source_reference, m.target_reference) for m in all_matches}
+        series_matches = match_by_model_series(sources, targets, already_matched=already)
+        console.print(f"  Found {len(series_matches)} model series matches")
+        all_matches.extend(series_matches)
 
     # Stage 4: Fuzzy model matching
-    console.print("[bold cyan]Stage 4:[/] Fuzzy model matching...")
-    already = {(m.source_reference, m.target_reference) for m in all_matches}
-    fuzzy_model_matches = match_by_fuzzy_model(sources, targets, already_matched=already)
-    console.print(f"  Found {len(fuzzy_model_matches)} fuzzy model matches")
-    all_matches.extend(fuzzy_model_matches)
+    if "fuzzy" in enabled or "fuzzy_model" in enabled:
+        console.print("[bold cyan]Stage 4:[/] Fuzzy model matching...")
+        already = {(m.source_reference, m.target_reference) for m in all_matches}
+        fuzzy_model_matches = match_by_fuzzy_model(sources, targets, already_matched=already)
+        console.print(f"  Found {len(fuzzy_model_matches)} fuzzy model matches")
+        all_matches.extend(fuzzy_model_matches)
 
     # Stage 5: Fuzzy name matching
-    console.print("[bold cyan]Stage 5:[/] Fuzzy name matching...")
-    already = {(m.source_reference, m.target_reference) for m in all_matches}
-    fuzzy_matches = match_by_fuzzy_name(sources, targets, threshold=82.0, already_matched=already)
-    console.print(f"  Found {len(fuzzy_matches)} fuzzy matches")
-    all_matches.extend(fuzzy_matches)
+    if "fuzzy" in enabled or "fuzzy_name" in enabled:
+        console.print("[bold cyan]Stage 5:[/] Fuzzy name matching...")
+        already = {(m.source_reference, m.target_reference) for m in all_matches}
+        fuzzy_matches = match_by_fuzzy_name(sources, targets, threshold=82.0, already_matched=already)
+        console.print(f"  Found {len(fuzzy_matches)} fuzzy matches")
+        all_matches.extend(fuzzy_matches)
 
     # Stage 6: Web scraping with verification
-    if do_scrape:
+    if do_scrape and "scrape" in enabled:
         console.print("[bold cyan]Stage 6:[/] Scraping hidden retailers...")
         source_by_ref = {s.reference: s for s in sources}
         scrape_results = scrape_all(sources)
