@@ -128,11 +128,11 @@ def run_matching(
             src = source_by_ref.get(m.source_reference)
             if src:
                 score = verify_scraped_match(src, m.target_name)
-                if score >= 0.5:
+                if score >= 0.6:
                     m.confidence = score
                     verified.append(m)
 
-        console.print(f"  Found {len(scrape_matches)} scraped, {len(verified)} verified (>= 0.5)")
+        console.print(f"  Found {len(scrape_matches)} scraped, {len(verified)} verified (>= 0.6)")
         all_matches.extend(verified)
 
         # Store raw scrape results in DB for auditing
