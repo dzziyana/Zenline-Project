@@ -248,7 +248,7 @@ Open http://localhost:8001/docs to show the auto-generated API documentation.
 
 ## A Note on Submission Count
 
-You may notice we have a high number of submissions on the platform. During development, we had a bug in our automated testing loop -- our API endpoint for running the pipeline was also hooked up to auto-submit results for validation, and a regression test we left running overnight kept hitting that endpoint in a loop. We caught it the next morning and fixed the trigger condition, but by then it had already racked up a few thousand submissions. The actual number of intentional submissions is much smaller -- most of those are duplicate or near-identical payloads from that runaway loop.
+You may notice we have a high number of submissions on the platform. During development, we had a bug where our pipeline's "run and validate" function was also wired to the submit endpoint -- so every time we tested a strategy change or tweaked a threshold, it would auto-submit. We didn't realize this until we'd already burned through a few thousand submissions over the course of the hackathon. Once we noticed, we separated the test and submit paths, but the count was already inflated. The actual number of intentional, distinct submissions is much smaller -- most are duplicate or near-identical payloads from that feedback loop.
 
 ## If Something Breaks
 
