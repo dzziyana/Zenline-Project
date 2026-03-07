@@ -5,6 +5,7 @@ import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
 import Matching from './pages/Matching'
 import Chat from './pages/Chat'
+import Trends from './pages/Trends'
 
 export default function App() {
   const { lang, setLang } = useI18n()
@@ -48,6 +49,15 @@ export default function App() {
             </span>
             Matching
           </NavLink>
+          <NavLink to="/trends">
+            <span className="nav-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="2 14 6 8 10 11 16 3"/>
+                <polyline points="12 3 16 3 16 7"/>
+              </svg>
+            </span>
+            Trends
+          </NavLink>
           <NavLink to="/chat">
             <span className="nav-icon">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -80,6 +90,7 @@ export default function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/products/:ref" element={<ProductDetail />} />
           <Route path="/matching" element={<Matching />} />
+          <Route path="/trends" element={<Trends />} />
           <Route path="/chat" element={<Chat />} />
         </Routes>
       </main>

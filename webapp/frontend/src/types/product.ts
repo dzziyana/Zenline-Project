@@ -156,3 +156,29 @@ export interface ChatResponse {
   reply: string;
   search_results: string;
 }
+
+export interface TrendInsight {
+  product_name: string;
+  brand: string;
+  category: string;
+  trend_score: number;
+  qualities: string[];
+  sentiment: "positive" | "neutral" | "negative";
+  sources: string[];
+  summary: string;
+}
+
+export interface TrendArticle {
+  title: string;
+  snippet: string;
+  source: string;
+  url: string;
+  category: string;
+}
+
+export interface TrendsResponse {
+  insights: TrendInsight[];
+  articles: TrendArticle[];
+  total_articles: number;
+  sources_scraped: string[];
+}

@@ -214,6 +214,16 @@ export async function getSimilar(
   return res.json();
 }
 
+// ---- Trends ----
+
+export async function getTrends(
+  refresh = false,
+): Promise<import("../types/product").TrendsResponse> {
+  const params = refresh ? "?refresh=true" : "";
+  const res = await fetch(`${BASE_URL}/trends${params}`);
+  return res.json();
+}
+
 // ---- Export ----
 
 export async function getSubmission(): Promise<unknown[]> {

@@ -426,6 +426,36 @@ def _chat_search(query: str) -> str:
         conn.close()
 
 
+_trends_cache: dict = {}
+_trends_cache_time: float = 0
+
+@app.get("/api/trends")
+def get_trends(refresh: bool = Query(False)):
+    """Get trending products from tech journals and social media."""
+    global _trends_cache, _trends_cache_time
+    import time as _time
+
+    # Cache for 10 minutes unless refresh requested
+    if not refresh and _trends_cache and (_time.time() - _trends_cache_time) < 600:
+        return _trends_cache
+
+    from .trends import scrape_trends
+
+    # Get known brands from data files
+    brands = set()
+    data_dir = Path("data")
+    for f in data_dir.glob("source_products_*.json"):
+        with open(f) as fh:
+            for p in json.load(fh):
+                if p.get("brand"):
+                    brands.add(p["brand"])
+
+    result = scrape_trends(sorted(brands) if brands else None)
+    _trends_cache = result
+    _trends_cache_time = _time.time()
+    return result
+
+
 @app.post("/api/chat")
 def chat(req: ChatRequest):
     """Chat-based product search using Claude Haiku."""
