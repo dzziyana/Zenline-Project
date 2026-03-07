@@ -30,16 +30,17 @@ We built a system that throws every reasonable matching signal at the problem an
 - **Upload and re-run**: POST new source/target JSON batches to `/api/upload` and get matches immediately.
 - **Chat interface**: Natural language product queries powered by Claude Haiku with smart keyword fallback.
 - **Match explainability**: Every match can be inspected via `/api/explain/{source}/{target}` showing all matching signals.
+- **Authentication**: API key-based auth on write endpoints. Set `MATCHER_API_KEY` environment variable to enable. Login UI in the sidebar.
 
 ### Results
 
 | Category         | Sources | Matching Score | Scraping Score | Total    |
 | ---------------- | ------- | -------------- | -------------- | -------- |
-| TV & Audio       | 17      | 50/50          | 22.7/50        | 72.7/100 |
+| TV & Audio       | 17      | 50/50          | 23.8/50        | 73.8/100 |
 | Small Appliances | 29      | 49.9/50        | 10.8/50        | 60.7/100 |
 | Large Appliances | 44      | 39.7/50        | 0/50           | 39.7/100 |
 
-**Total: 173.1/300 -- 1st place** (33 points ahead of 2nd)
+**Total: 174.2/300 -- 1st place** (32 points ahead of 2nd)
 
 The system handles three very different product categories -- consumer electronics (model numbers), kitchen appliances (product types), and large household appliances (cross-brand type matching) -- using the same pipeline with zero category-specific code in the core matching logic.
 

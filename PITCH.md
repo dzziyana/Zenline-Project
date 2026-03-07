@@ -92,7 +92,7 @@ SQLite Database (data/matcher.db)
     |-- pipeline_runs   Execution history (category, timestamp, match counts)
 ```
 
-The frontend communicates with the backend via a REST API (a standard web interface where the frontend sends HTTP requests and gets JSON responses back). All product data, matches, and scrape results are persisted in SQLite (a lightweight file-based database) -- the pipeline can be re-run without losing previous results. The API supports optional API key authentication on write endpoints (so only authorized users can modify data) while keeping read endpoints open for anyone to query.
+The frontend communicates with the backend via a REST API (a standard web interface where the frontend sends HTTP requests and gets JSON responses back). All product data, matches, and scrape results are persisted in SQLite (a lightweight file-based database) -- the pipeline can be re-run without losing previous results. The API supports API key authentication on write endpoints (so only authorized users can modify data) while keeping read endpoints open for anyone to query. The sidebar includes a login modal where users enter their API key -- it's validated server-side and persisted in the browser, with the key automatically included in all write requests.
 
 ### What Makes It Generalizable
 
@@ -126,6 +126,7 @@ The system handles three very different product categories -- consumer electroni
 - **Natural language chat** powered by Claude Haiku 4.5 (Anthropic's fast, cost-efficient LLM). Users can ask questions like "show me unmatched Samsung TVs" and get formatted answers based on the database contents.
 - **Full audit trail** -- every match records its method and confidence, every scrape result is logged with raw data. Nothing is a black box.
 - **RESTful API** with 15+ endpoints, auto-generated interactive documentation at `/docs` (via OpenAPI/Swagger -- an industry standard for API documentation), and optional API key authentication
+- **API key authentication** with login UI in the sidebar -- write endpoints are protected, read endpoints stay open
 - **React dashboard** with live stats, expandable match details, confidence distribution charts, and strategy toggle controls
 
 ---
