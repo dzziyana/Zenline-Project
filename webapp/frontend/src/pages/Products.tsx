@@ -1,22 +1,33 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { searchProducts, getAllSourceProducts, getBrands } from '../services/api'
+import { searchProducts, getAllSourceProducts, getBrands, getTrends } from '../services/api'
 import { useI18n } from '../i18n'
-import type { SourceProduct, BrandEntry } from '../types/product'
+import type { SourceProduct, BrandEntry, TrendInsight } from '../types/product'
 
 export default function Products() {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
   const [sources, setSources] = useState<SourceProduct[]>([])
   const [search, setSearch] = useState('')
   const [searchResults, setSearchResults] = useState<SourceProduct[] | null>(null)
   const [brands, setBrands] = useState<BrandEntry[]>([])
   const [brandFilter, setBrandFilter] = useState('')
   const [tab, setTab] = useState<'all' | 'unmatched'>('all')
+  const [trendInsights, setTrendInsights] = useState<TrendInsight[]>([])
 
   useEffect(() => {
     getAllSourceProducts().then((d) => setSources(d.sources)).catch(() => {})
     getBrands().then((d) => setBrands(d.brands)).catch(() => {})
+    getTrends().then((d) => setTrendInsights(d.insights || [])).catch(() => {})
   }, [])
+
+  // Map brand names (lowercased) to their trend info
+  const trendByBrand = useMemo(() => {
+    const map: Record<string, TrendInsight> = {}
+    for (const t of trendInsights) {
+      map[t.brand.toLowerCase()] = t
+    }
+    return map
+  }, [trendInsights])
 
   const doSearch = useCallback((q: string) => {
     if (!q.trim()) {
@@ -93,13 +104,24 @@ export default function Products() {
               {brandFiltered.slice(0, 60).map((p) => {
                 const price = p.price_eur ?? p.price
                 const mc = p.match_count ?? 0
+                const trend = p.brand ? trendByBrand[p.brand.toLowerCase()] : null
                 return (
                   <Link
                     key={p.reference}
                     to={`/products/${p.reference}`}
-                    className="product-card"
+                    className={`product-card${trend ? ' product-card--trending' : ''}`}
                     style={{ textDecoration: 'none' }}
                   >
+                    {trend && (
+                      <div className="product-trending-badge">
+                        <svg width="12" height="12" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="2 14 6 8 10 11 16 3"/>
+                          <polyline points="12 3 16 3 16 7"/>
+                        </svg>
+                        {lang === 'de' ? 'Trend' : 'Trending'}
+                        <span className="product-trending-score">{trend.trend_score}</span>
+                      </div>
+                    )}
                     <div className="product-card-image">
                       {p.image_url ? (
                         <img src={p.image_url} alt={p.name} />
@@ -116,6 +138,13 @@ export default function Products() {
                     <div className="product-card-body">
                       <div className="product-card-brand">{p.brand ?? 'Unknown'}</div>
                       <div className="product-card-name">{p.name}</div>
+                      {trend && (
+                        <div className="product-trend-qualities">
+                          {trend.qualities.slice(0, 2).map((q, i) => (
+                            <span key={i} className="trend-quality-tag small">{q}</span>
+                          ))}
+                        </div>
+                      )}
                       <div className="product-card-footer">
                         {p.retailer && <span className="badge badge-info" style={{ fontSize: '0.7rem' }}>{p.retailer}</span>}
                         {price != null && <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>&euro;{price.toFixed(2)}</span>}

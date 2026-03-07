@@ -99,6 +99,36 @@ REDDIT_QUERIES = [
 ]
 
 
+def _scrape_duckduckgo_news(query: str, max_results: int = 8) -> list[TrendArticle]:
+    """Scrape DuckDuckGo news search - more reliable than Google."""
+    url = f"https://html.duckduckgo.com/html/?q={quote_plus(query)}"
+    html = _fetch(url, "duckduckgo.com")
+    if not html:
+        return []
+
+    tree = HTMLParser(html)
+    articles = []
+
+    for node in tree.css("div.result, div.links_main"):
+        title_el = node.css_first("a.result__a, h2 a")
+        snippet_el = node.css_first("a.result__snippet, div.result__snippet")
+
+        title = title_el.text(strip=True) if title_el else ""
+        snippet = snippet_el.text(strip=True) if snippet_el else ""
+        href = title_el.attributes.get("href", "") if title_el else ""
+
+        if title and len(title) > 10:
+            articles.append(TrendArticle(
+                title=title,
+                snippet=snippet[:300],
+                source="Web",
+                url=href,
+                category="news",
+            ))
+
+    return articles[:max_results]
+
+
 def _scrape_google_news(query: str, max_results: int = 5) -> list[TrendArticle]:
     """Scrape Google News search results."""
     url = f"https://www.google.com/search?q={quote_plus(query)}&tbm=nws&num={max_results}"
@@ -159,6 +189,152 @@ def _scrape_reddit(subreddit: str, query: str, max_results: int = 5) -> list[Tre
                 source=f"r/{subreddit}",
                 url=href,
                 category="social",
+            ))
+
+    return articles[:max_results]
+
+
+def _scrape_the_verge(query: str, max_results: int = 5) -> list[TrendArticle]:
+    """Scrape The Verge search results."""
+    url = f"https://www.theverge.com/search?q={quote_plus(query)}"
+    html = _fetch(url, "theverge.com")
+    if not html:
+        return []
+
+    tree = HTMLParser(html)
+    articles = []
+
+    for node in tree.css("div.flex, article, li.duet--search--result"):
+        title_el = node.css_first("a h2, h2 a, h3 a, a.font-bold, a[data-analytics-link]")
+        snippet_el = node.css_first("p, div.leading-relaxed")
+
+        title = title_el.text(strip=True) if title_el else ""
+        snippet = snippet_el.text(strip=True) if snippet_el else ""
+
+        href = ""
+        if title_el:
+            link = title_el if title_el.tag == "a" else title_el.parent
+            if link and link.tag == "a":
+                href = link.attributes.get("href", "")
+            else:
+                link = node.css_first("a[href]")
+                href = link.attributes.get("href", "") if link else ""
+
+        if href and not href.startswith("http"):
+            href = f"https://www.theverge.com{href}"
+
+        if title and len(title) > 10:
+            articles.append(TrendArticle(
+                title=title,
+                snippet=snippet[:300],
+                source="The Verge",
+                url=href,
+                category="news",
+            ))
+
+    return articles[:max_results]
+
+
+def _scrape_verge_recent(max_results: int = 8) -> list[TrendArticle]:
+    """Scrape recent The Verge tech articles from category pages."""
+    articles = []
+    for path in ["/tech", "/reviews"]:
+        url = f"https://www.theverge.com{path}"
+        html = _fetch(url, "theverge.com")
+        if not html:
+            continue
+
+        tree = HTMLParser(html)
+        for node in tree.css("a[href*='/20']"):
+            h2 = node.css_first("h2, h3, span")
+            if not h2:
+                continue
+            title = h2.text(strip=True)
+            href = node.attributes.get("href", "")
+            if href and not href.startswith("http"):
+                href = f"https://www.theverge.com{href}"
+
+            p = node.css_first("p")
+            snippet = p.text(strip=True) if p else ""
+
+            if title and len(title) > 15:
+                articles.append(TrendArticle(
+                    title=title,
+                    snippet=snippet[:300],
+                    source="The Verge",
+                    url=href,
+                    category="news",
+                ))
+
+    return articles[:max_results]
+
+
+def _scrape_wired(query: str, max_results: int = 5) -> list[TrendArticle]:
+    """Scrape Wired search results."""
+    url = f"https://www.wired.com/search/?q={quote_plus(query)}&sort=score"
+    html = _fetch(url, "wired.com")
+    if not html:
+        return []
+
+    tree = HTMLParser(html)
+    articles = []
+
+    for node in tree.css("li[class*='summary-item'], div[class*='SummaryItem']"):
+        title_el = node.css_first("h2 a, h3 a, a[class*='summary-item']")
+        snippet_el = node.css_first("p[class*='description'], div[class*='dek']")
+
+        title = title_el.text(strip=True) if title_el else ""
+        snippet = snippet_el.text(strip=True) if snippet_el else ""
+        href = ""
+        if title_el and title_el.tag == "a":
+            href = title_el.attributes.get("href", "")
+        elif title_el:
+            link = title_el.parent if title_el.parent and title_el.parent.tag == "a" else node.css_first("a[href]")
+            href = link.attributes.get("href", "") if link else ""
+        if href and not href.startswith("http"):
+            href = f"https://www.wired.com{href}"
+
+        if title and len(title) > 10:
+            articles.append(TrendArticle(
+                title=title,
+                snippet=snippet[:300],
+                source="Wired",
+                url=href,
+                category="review",
+            ))
+
+    return articles[:max_results]
+
+
+def _scrape_cnet(query: str, max_results: int = 5) -> list[TrendArticle]:
+    """Scrape CNET search results."""
+    url = f"https://www.cnet.com/search/?query={quote_plus(query)}"
+    html = _fetch(url, "cnet.com")
+    if not html:
+        return []
+
+    tree = HTMLParser(html)
+    articles = []
+
+    for node in tree.css("div.searchResult, article, li[class*='item']"):
+        title_el = node.css_first("h3 a, h2 a, a.title, a[data-type]")
+        snippet_el = node.css_first("p, div.dek, span.description")
+
+        title = title_el.text(strip=True) if title_el else ""
+        snippet = snippet_el.text(strip=True) if snippet_el else ""
+        href = ""
+        if title_el and title_el.tag == "a":
+            href = title_el.attributes.get("href", "")
+        if href and not href.startswith("http"):
+            href = f"https://www.cnet.com{href}"
+
+        if title and len(title) > 10:
+            articles.append(TrendArticle(
+                title=title,
+                snippet=snippet[:300],
+                source="CNET",
+                url=href,
+                category="review",
             ))
 
     return articles[:max_results]
@@ -364,13 +540,55 @@ def scrape_trends(brands: list[str] | None = None) -> dict:
     console = Console()
 
     all_articles: list[TrendArticle] = []
+    sources_used: list[str] = []
+
+    # DuckDuckGo news search (most reliable)
+    console.print("[dim]Scraping DuckDuckGo News...[/]")
+    for q in ["best TV 2025 2026 review", "best headphones earbuds 2025 2026", "trending electronics OLED QLED"]:
+        articles = _scrape_duckduckgo_news(q, max_results=5)
+        all_articles.extend(articles)
+        console.print(f"  [dim]{q}: {len(articles)} results[/]")
+    if any(a.source == "Web" for a in all_articles):
+        sources_used.append("DuckDuckGo")
+
+    # The Verge
+    console.print("[dim]Scraping The Verge...[/]")
+    for q in ["best TV 2025", "best headphones 2025", "Samsung LG Sony"]:
+        articles = _scrape_the_verge(q, max_results=4)
+        all_articles.extend(articles)
+        console.print(f"  [dim]The Verge search: {len(articles)} articles[/]")
+    recent = _scrape_verge_recent(max_results=6)
+    all_articles.extend(recent)
+    console.print(f"  [dim]The Verge recent: {len(recent)} articles[/]")
+    if any(a.source == "The Verge" for a in all_articles):
+        sources_used.append("The Verge")
+
+    # Wired
+    console.print("[dim]Scraping Wired...[/]")
+    for q in ["best TV 2025", "best headphones 2025"]:
+        articles = _scrape_wired(q, max_results=4)
+        all_articles.extend(articles)
+        console.print(f"  [dim]Wired: {len(articles)} articles[/]")
+    if any(a.source == "Wired" for a in all_articles):
+        sources_used.append("Wired")
+
+    # CNET
+    console.print("[dim]Scraping CNET...[/]")
+    for q in ["best TV 2025", "best wireless earbuds"]:
+        articles = _scrape_cnet(q, max_results=4)
+        all_articles.extend(articles)
+        console.print(f"  [dim]CNET: {len(articles)} articles[/]")
+    if any(a.source == "CNET" for a in all_articles):
+        sources_used.append("CNET")
 
     # Google News
     console.print("[dim]Scraping Google News...[/]")
-    for q in TECH_QUERIES[:4]:
+    for q in TECH_QUERIES[:3]:
         articles = _scrape_google_news(q, max_results=3)
         all_articles.extend(articles)
         console.print(f"  [dim]{q}: {len(articles)} articles[/]")
+    if any(a.category == "news" and a.source not in ("Web", "The Verge", "Wired", "CNET") for a in all_articles):
+        sources_used.append("Google News")
 
     # Reddit
     console.print("[dim]Scraping Reddit...[/]")
@@ -378,6 +596,8 @@ def scrape_trends(brands: list[str] | None = None) -> dict:
         articles = _scrape_reddit(sub, q, max_results=3)
         all_articles.extend(articles)
         console.print(f"  [dim]r/{sub}: {len(articles)} posts[/]")
+    if any(a.category == "social" for a in all_articles):
+        sources_used.append("Reddit")
 
     # TechRadar
     console.print("[dim]Scraping TechRadar...[/]")
@@ -385,6 +605,8 @@ def scrape_trends(brands: list[str] | None = None) -> dict:
         articles = _scrape_techradar(q, max_results=3)
         all_articles.extend(articles)
         console.print(f"  [dim]TechRadar: {len(articles)} articles[/]")
+    if any(a.source == "TechRadar" for a in all_articles):
+        sources_used.append("TechRadar")
 
     # RTINGS
     console.print("[dim]Scraping RTINGS...[/]")
@@ -392,8 +614,10 @@ def scrape_trends(brands: list[str] | None = None) -> dict:
         articles = _scrape_rtings(q, max_results=3)
         all_articles.extend(articles)
         console.print(f"  [dim]RTINGS: {len(articles)} articles[/]")
+    if any(a.source == "RTINGS" for a in all_articles):
+        sources_used.append("RTINGS")
 
-    console.print(f"[bold]Total articles scraped: {len(all_articles)}[/]")
+    console.print(f"[bold]Total articles scraped: {len(all_articles)} from {len(sources_used)} sources[/]")
 
     # Deduplicate by title
     seen_titles: set[str] = set()
@@ -412,7 +636,7 @@ def scrape_trends(brands: list[str] | None = None) -> dict:
 
     return {
         "insights": [asdict(i) for i in insights],
-        "articles": [asdict(a) for a in unique_articles[:20]],
+        "articles": [asdict(a) for a in unique_articles[:25]],
         "total_articles": len(unique_articles),
-        "sources_scraped": ["Google News", "Reddit", "TechRadar", "RTINGS"],
+        "sources_scraped": sources_used or ["DuckDuckGo", "The Verge", "Wired", "CNET", "Reddit", "TechRadar", "RTINGS"],
     }

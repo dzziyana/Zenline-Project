@@ -8,14 +8,14 @@ import Chat from './pages/Chat'
 import Trends from './pages/Trends'
 
 export default function App() {
-  const { lang, setLang } = useI18n()
+  const { lang, setLang, t } = useI18n()
 
   return (
     <div className="app-layout">
       <aside className="sidebar">
         <div className="sidebar-brand">
           <h1>Zenline</h1>
-          <span>Product Matcher</span>
+          <span>{t('sidebar.subtitle')}</span>
         </div>
         <nav className="sidebar-nav">
           <NavLink to="/">
@@ -27,7 +27,7 @@ export default function App() {
                 <rect x="10" y="7" width="7" height="7" rx="1.5"/>
               </svg>
             </span>
-            Dashboard
+            {t('nav.dashboard')}
           </NavLink>
           <NavLink to="/products">
             <span className="nav-icon">
@@ -37,7 +37,7 @@ export default function App() {
                 <line x1="7" y1="7" x2="7" y2="16"/>
               </svg>
             </span>
-            Products
+            {t('nav.products')}
           </NavLink>
           <NavLink to="/matching">
             <span className="nav-icon">
@@ -47,7 +47,7 @@ export default function App() {
                 <line x1="7.5" y1="7.5" x2="10.5" y2="10.5"/>
               </svg>
             </span>
-            Matching
+            {t('nav.matching')}
           </NavLink>
           <NavLink to="/trends">
             <span className="nav-icon">
@@ -56,7 +56,7 @@ export default function App() {
                 <polyline points="12 3 16 3 16 7"/>
               </svg>
             </span>
-            Trends
+            {t('nav.trends')}
           </NavLink>
           <NavLink to="/chat">
             <span className="nav-icon">
@@ -67,7 +67,7 @@ export default function App() {
                 <line x1="5" y1="9" x2="10" y2="9"/>
               </svg>
             </span>
-            Chat
+            {t('nav.chat')}
           </NavLink>
         </nav>
         <div className="lang-toggle">
@@ -81,7 +81,7 @@ export default function App() {
           >DE</button>
         </div>
         <div className="sidebar-footer">
-          Zenline Hackathon 2026
+          {t('sidebar.footer')}
         </div>
       </aside>
       <main className="main-content">

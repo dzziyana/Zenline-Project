@@ -59,6 +59,40 @@ const UI_TRANSLATIONS: Record<string, Record<Lang, string>> = {
   'filter.search': { en: 'Search by name, brand, or EAN...', de: 'Nach Name, Marke oder EAN suchen...' },
   'filter.no_products': { en: 'No products found', de: 'Keine Produkte gefunden' },
 
+  // Sidebar nav
+  'nav.dashboard': { en: 'Dashboard', de: 'Dashboard' },
+  'nav.products': { en: 'Products', de: 'Produkte' },
+  'nav.matching': { en: 'Matching', de: 'Abgleich' },
+  'nav.trends': { en: 'Trends', de: 'Trends' },
+  'nav.chat': { en: 'Chat', de: 'Chat' },
+  'sidebar.subtitle': { en: 'Product Matcher', de: 'Produktabgleich' },
+  'sidebar.footer': { en: 'Zenline Hackathon 2026', de: 'Zenline Hackathon 2026' },
+
+  // Strategy names
+  'strategy.ean.name': { en: 'EAN Barcode', de: 'EAN-Barcode' },
+  'strategy.ean.desc': { en: 'Exact match on EAN/GTIN barcodes. Highest confidence, no ambiguity.', de: 'Exakter Abgleich über EAN/GTIN-Barcodes. Höchste Konfidenz, keine Mehrdeutigkeit.' },
+  'strategy.model_number.name': { en: 'Model Number', de: 'Modellnummer' },
+  'strategy.model_number.desc': { en: 'Extracts model identifiers from product names and matches within brand.', de: 'Extrahiert Modellkennungen aus Produktnamen und gleicht innerhalb der Marke ab.' },
+  'strategy.fuzzy.name': { en: 'Fuzzy Name', de: 'Fuzzy-Name' },
+  'strategy.fuzzy.desc': { en: 'Token-based fuzzy string matching on product names with brand filtering.', de: 'Tokenbasierter unscharfer Zeichenkettenabgleich auf Produktnamen mit Markenfilter.' },
+  'strategy.embedding.name': { en: 'Embedding', de: 'Embedding' },
+  'strategy.embedding.desc': { en: 'Semantic similarity using multilingual sentence embeddings and FAISS index.', de: 'Semantische Ähnlichkeit mittels mehrsprachiger Satz-Embeddings und FAISS-Index.' },
+  'strategy.vision.name': { en: 'Vision / CLIP', de: 'Vision / CLIP' },
+  'strategy.vision.desc': { en: 'Compares product images using CLIP embeddings for visual similarity.', de: 'Vergleicht Produktbilder mittels CLIP-Embeddings für visuelle Ähnlichkeit.' },
+  'strategy.llm.name': { en: 'LLM Verify', de: 'LLM-Prüfung' },
+  'strategy.llm.desc': { en: 'Claude AI reviews uncertain matches and confirms or rejects them.', de: 'Claude AI überprüft unsichere Treffer und bestätigt oder verwirft sie.' },
+  'strategy.scrape.name': { en: 'Web Scrape', de: 'Web-Scraping' },
+  'strategy.scrape.desc': { en: 'Scrapes hidden retailers for additional matches.', de: 'Durchsucht versteckte Händler nach zusätzlichen Treffern.' },
+
+  // Strategy hints
+  'hint.all_off': { en: "Everything's off! Enable a few strategies and see what matches pop up.", de: 'Alles deaktiviert! Aktivieren Sie einige Strategien und sehen Sie, welche Treffer auftauchen.' },
+  'hint.all_on': { en: "All engines running! Try disabling a few to see which ones pull the most weight.", de: 'Alle Engines laufen! Deaktivieren Sie einige, um zu sehen, welche am meisten beitragen.' },
+  'hint.ean_only': { en: 'EAN-only is precise but narrow. Add Fuzzy or Embedding to catch more matches.', de: 'Nur EAN ist präzise, aber eng. Fügen Sie Fuzzy oder Embedding hinzu, um mehr Treffer zu finden.' },
+  'hint.no_llm': { en: 'Tip: Enable LLM Verify to let Claude double-check uncertain matches.', de: 'Tipp: Aktivieren Sie die LLM-Prüfung, damit Claude unsichere Treffer überprüft.' },
+  'hint.no_vision': { en: "You've got text embeddings on. Try adding Vision for image-based matching too!", de: 'Text-Embeddings sind aktiv. Probieren Sie auch Vision für bildbasiertes Matching!' },
+  'hint.scrape_no_ean': { en: 'Scraping works best with EAN enabled -- scraped products often have barcodes.', de: 'Scraping funktioniert am besten mit EAN -- gescrapte Produkte haben oft Barcodes.' },
+  'hint.nice_combo': { en: 'Nice combo! Toggle strategies on and off to experiment with precision vs. recall.', de: 'Gute Kombi! Strategien ein- und ausschalten, um Präzision vs. Recall zu testen.' },
+
   // Common
   'common.brand': { en: 'Brand', de: 'Marke' },
   'common.price': { en: 'Price', de: 'Preis' },

@@ -1,4 +1,4 @@
-package com.zenline.model;
+transpackage com.zenline.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

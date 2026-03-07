@@ -6,13 +6,13 @@ import { useI18n } from '../i18n'
 import type { DashboardStats } from '../types/product'
 
 const STRATEGY_HINTS = [
-  { condition: (ids: Set<string>) => ids.size === 0, text: "Everything's off! Enable a few strategies and see what matches pop up.", icon: '~' },
-  { condition: (ids: Set<string>) => ids.size === STRATEGIES.length, text: "All engines running! Try disabling a few to see which ones pull the most weight.", icon: '>' },
-  { condition: (ids: Set<string>) => ids.has('ean') && ids.size === 1, text: "EAN-only is precise but narrow. Add Fuzzy or Embedding to catch more matches.", icon: '+' },
-  { condition: (ids: Set<string>) => !ids.has('llm') && ids.size >= 3, text: "Tip: Enable LLM Verify to let Claude double-check uncertain matches.", icon: '?' },
-  { condition: (ids: Set<string>) => !ids.has('vision') && ids.has('embedding'), text: "You've got text embeddings on. Try adding Vision for image-based matching too!", icon: '*' },
-  { condition: (ids: Set<string>) => ids.has('scrape') && !ids.has('ean'), text: "Scraping works best with EAN enabled -- scraped products often have barcodes.", icon: '!' },
-  { condition: (ids: Set<string>) => ids.size >= 2 && ids.size <= 4, text: "Nice combo! Toggle strategies on and off to experiment with precision vs. recall.", icon: '~' },
+  { condition: (ids: Set<string>) => ids.size === 0, textKey: 'hint.all_off', icon: '~' },
+  { condition: (ids: Set<string>) => ids.size === STRATEGIES.length, textKey: 'hint.all_on', icon: '>' },
+  { condition: (ids: Set<string>) => ids.has('ean') && ids.size === 1, textKey: 'hint.ean_only', icon: '+' },
+  { condition: (ids: Set<string>) => !ids.has('llm') && ids.size >= 3, textKey: 'hint.no_llm', icon: '?' },
+  { condition: (ids: Set<string>) => !ids.has('vision') && ids.has('embedding'), textKey: 'hint.no_vision', icon: '*' },
+  { condition: (ids: Set<string>) => ids.has('scrape') && !ids.has('ean'), textKey: 'hint.scrape_no_ean', icon: '!' },
+  { condition: (ids: Set<string>) => ids.size >= 2 && ids.size <= 4, textKey: 'hint.nice_combo', icon: '~' },
 ]
 
 const STRATEGY_ICONS: Record<string, JSX.Element> = {
@@ -273,7 +273,7 @@ export default function Dashboard() {
           {hint && (
             <div className="strategy-hint">
               <span className="strategy-hint-icon">{hint.icon}</span>
-              <span>{hint.text}</span>
+              <span>{t(hint.textKey)}</span>
             </div>
           )}
           <div className="strategy-grid">
@@ -303,9 +303,9 @@ export default function Dashboard() {
                   <div className="strategy-body">
                     <div className="strategy-name">
                       <span className="strategy-priority">{s.priority}</span>
-                      {s.name}
+                      {t(`strategy.${s.id}.name`)}
                     </div>
-                    <p className="strategy-desc">{s.description}</p>
+                    <p className="strategy-desc">{t(`strategy.${s.id}.desc`)}</p>
                   </div>
                 </div>
               )
