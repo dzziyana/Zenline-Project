@@ -30,58 +30,97 @@ export default function Products() {
   )
 
   return (
-    <div>
-      <h1>Products</h1>
-
-      <div style={{ display: 'flex', gap: '1rem', margin: '1rem 0', alignItems: 'center' }}>
-        <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}
-          style={{ padding: '0.5rem', borderRadius: 4 }}>
-          {categories.map((c) => <option key={c} value={c}>{c}</option>)}
-        </select>
-
-        <button onClick={() => setTab('source')}
-          style={{ padding: '0.5rem 1rem', background: tab === 'source' ? '#1a1a2e' : '#ddd', color: tab === 'source' ? '#fff' : '#333', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
-          Source ({sources.length})
-        </button>
-        <button onClick={() => setTab('target')}
-          style={{ padding: '0.5rem 1rem', background: tab === 'target' ? '#1a1a2e' : '#ddd', color: tab === 'target' ? '#fff' : '#333', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
-          Target ({targets.length})
-        </button>
-
-        <input type="text" placeholder="Search by name, brand, or EAN..."
-          value={search} onChange={(e) => setSearch(e.target.value)}
-          style={{ padding: '0.5rem', borderRadius: 4, border: '1px solid #ccc', flex: 1 }} />
+    <>
+      <div className="page-header">
+        <h1>Products</h1>
+        <p>Browse and search source and target product catalogs</p>
       </div>
+      <div className="page-body">
+        <div className="toolbar">
+          <select
+            className="select-field"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff' }}>
-        <thead>
-          <tr style={{ background: '#eee', textAlign: 'left' }}>
-            <th style={{ padding: '0.5rem' }}>Reference</th>
-            <th style={{ padding: '0.5rem' }}>Name</th>
-            <th style={{ padding: '0.5rem' }}>Brand</th>
-            <th style={{ padding: '0.5rem' }}>EAN</th>
-            {tab === 'target' && <th style={{ padding: '0.5rem' }}>Retailer</th>}
-            <th style={{ padding: '0.5rem' }}>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filtered.slice(0, 100).map((p) => (
-            <tr key={p.reference} style={{ borderBottom: '1px solid #eee' }}>
-              <td style={{ padding: '0.5rem', fontFamily: 'monospace', fontSize: '0.85rem' }}>{p.reference}</td>
-              <td style={{ padding: '0.5rem' }}>{p.name}</td>
-              <td style={{ padding: '0.5rem' }}>{p.brand ?? '-'}</td>
-              <td style={{ padding: '0.5rem', fontFamily: 'monospace', fontSize: '0.85rem' }}>{p.ean ?? '-'}</td>
-              {tab === 'target' && <td style={{ padding: '0.5rem' }}>{(p as TargetProduct).retailer ?? '-'}</td>}
-              <td style={{ padding: '0.5rem' }}>{p.price != null ? `${p.price.toFixed(2)}` : '-'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {filtered.length > 100 && (
-        <p style={{ marginTop: '0.5rem', color: '#888' }}>
-          Showing 100 of {filtered.length} products. Use search to narrow down.
-        </p>
-      )}
-    </div>
+          <div className="divider" />
+
+          <div className="tab-group">
+            <button
+              className={`tab-btn ${tab === 'source' ? 'active' : ''}`}
+              onClick={() => setTab('source')}
+            >
+              Source ({sources.length})
+            </button>
+            <button
+              className={`tab-btn ${tab === 'target' ? 'active' : ''}`}
+              onClick={() => setTab('target')}
+            >
+              Target ({targets.length})
+            </button>
+          </div>
+
+          <input
+            type="text"
+            className="input-field search-field"
+            placeholder="Search by name, brand, or EAN..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        <div className="table-wrapper">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Reference</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>EAN</th>
+                {tab === 'target' && <th>Retailer</th>}
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={tab === 'target' ? 6 : 5}>
+                    <div className="empty-state">
+                      <h3>No products found</h3>
+                      <p>Try adjusting your search or select a different category.</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                filtered.slice(0, 100).map((p) => (
+                  <tr key={p.reference}>
+                    <td><span className="mono">{p.reference}</span></td>
+                    <td><span className="truncate" style={{ display: 'block' }}>{p.name}</span></td>
+                    <td>{p.brand ?? <span style={{ color: 'var(--cream-400)' }}>--</span>}</td>
+                    <td><span className="mono">{p.ean ?? '--'}</span></td>
+                    {tab === 'target' && (
+                      <td><span className="badge badge-info">{(p as TargetProduct).retailer ?? '--'}</span></td>
+                    )}
+                    <td>
+                      {p.price != null
+                        ? <span style={{ fontWeight: 500 }}>{p.price.toFixed(2)}</span>
+                        : <span style={{ color: 'var(--cream-400)' }}>--</span>
+                      }
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+          {filtered.length > 100 && (
+            <div className="table-footer">
+              Showing 100 of {filtered.length} products. Use search to narrow results.
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   )
 }

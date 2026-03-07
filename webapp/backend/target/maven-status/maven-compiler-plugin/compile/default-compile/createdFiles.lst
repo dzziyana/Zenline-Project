@@ -1,0 +1,9 @@
+com/zenline/model/SourceProductSubmission.class
+com/zenline/model/MatchRequest.class
+com/zenline/model/SourceProduct.class
+com/zenline/model/CompetitorMatch.class
+com/zenline/model/TargetProduct.class
+com/zenline/resource/ProductResource.class
+com/zenline/client/MatcherClient.class
+com/zenline/model/MatchResult.class
+com/zenline/service/ProductService.class
