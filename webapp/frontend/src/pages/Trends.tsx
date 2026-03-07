@@ -23,6 +23,7 @@ export default function Trends() {
   const [totalArticles, setTotalArticles] = useState(0)
   const [loading, setLoading] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  const [categoryFilter, setCategoryFilter] = useState('')
 
   const loadTrends = (refresh = false) => {
     setLoading(true)
@@ -42,7 +43,11 @@ export default function Trends() {
     loadTrends()
   }, [])
 
-  const topInsight = insights.length > 0 ? insights[0] : null
+  const categories = [...new Set(insights.map((i) => i.category).filter(Boolean))]
+  const filteredInsights = categoryFilter
+    ? insights.filter((i) => i.category === categoryFilter)
+    : insights
+  const topInsight = filteredInsights.length > 0 ? filteredInsights[0] : null
 
   return (
     <>
@@ -66,9 +71,22 @@ export default function Trends() {
               </span>
             )}
           </div>
+          {categories.length > 1 && (
+            <select
+              className="select-field"
+              style={{ marginLeft: 'auto', fontSize: '0.8rem' }}
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+            >
+              <option value="">{lang === 'de' ? 'Alle Kategorien' : 'All categories'}</option>
+              {categories.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          )}
           <button
             className="btn btn-secondary"
-            style={{ marginLeft: 'auto', padding: '6px 14px', fontSize: '0.8rem' }}
+            style={{ marginLeft: categories.length > 1 ? undefined : 'auto', padding: '6px 14px', fontSize: '0.8rem' }}
             onClick={() => loadTrends(true)}
             disabled={loading}
           >
@@ -132,7 +150,7 @@ export default function Trends() {
               {lang === 'de' ? 'Trendende Produkte' : 'Trending Products'}
             </h2>
             <div className="trend-grid">
-              {insights.map((t, i) => (
+              {filteredInsights.map((t, i) => (
                 <div key={i} className="trend-card">
                   <div className="trend-card-header">
                     <div className="trend-score-ring" data-score={t.trend_score}>

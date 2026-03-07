@@ -11,6 +11,7 @@ import type {
   MatchResult,
   ExplainResponse,
 } from "../types/product";
+import { useI18n } from "../i18n";
 
 function confidenceLevel(val: number) {
   if (val >= 0.85) return "high";
@@ -43,6 +44,7 @@ interface ExistingMatch {
 }
 
 export default function Matching() {
+  const { t } = useI18n();
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [useLlm, setUseLlm] = useState(false);
@@ -104,7 +106,7 @@ export default function Matching() {
       setResult(res);
       await refreshMatches();
     } catch {
-      alert("Matching failed. Is the matcher service running?");
+      alert(t('matching.failed'));
     } finally {
       setLoading(false);
     }
@@ -117,12 +119,15 @@ export default function Matching() {
     try {
       const res = await uploadAndRun(srcFile, tgtFile, uploadCat);
       setUploadMsg(
-        `${res.matches} matches found for ${res.sources} sources (${res.sources_matched} covered)`,
+        t('matching.upload_result')
+          .replace('{matches}', String(res.matches))
+          .replace('{sources}', String(res.sources))
+          .replace('{covered}', String(res.sources_matched)),
       );
       await refreshMatches();
       setTab("run");
     } catch {
-      setUploadMsg("Upload failed. Is the matcher service running?");
+      setUploadMsg(t('matching.upload_failed'));
     } finally {
       setLoading(false);
     }
@@ -133,7 +138,7 @@ export default function Matching() {
       const data = await getSubmission();
       setExportJson(JSON.stringify(data, null, 2));
     } catch {
-      setExportJson("Failed to export submission.");
+      setExportJson(t('matching.export_failed'));
     }
   };
 
@@ -187,8 +192,8 @@ export default function Matching() {
   return (
     <>
       <div className="page-header">
-        <h1>Matching Pipeline</h1>
-        <p>Run, upload, inspect, and export product matches</p>
+        <h1>{t('matching.title')}</h1>
+        <p>{t('matching.subtitle')}</p>
       </div>
       <div className="page-body">
         {/* Tab bar */}
@@ -198,13 +203,13 @@ export default function Matching() {
               className={`tab-btn ${tab === "run" ? "active" : ""}`}
               onClick={() => setTab("run")}
             >
-              Run & Results
+              {t('matching.tab_run')}
             </button>
             <button
               className={`tab-btn ${tab === "upload" ? "active" : ""}`}
               onClick={() => setTab("upload")}
             >
-              Upload Data
+              {t('matching.tab_upload')}
             </button>
             <button
               className={`tab-btn ${tab === "export" ? "active" : ""}`}
@@ -213,7 +218,7 @@ export default function Matching() {
                 handleExport();
               }}
             >
-              Export
+              {t('matching.tab_export')}
             </button>
           </div>
         </div>
@@ -238,7 +243,7 @@ export default function Matching() {
                 <div className="divider" />
 
                 <div className="range-group">
-                  <label>Fuzzy threshold</label>
+                  <label>{t('matching.fuzzy_threshold')}</label>
                   <input
                     type="range"
                     className="range-field"
@@ -258,7 +263,7 @@ export default function Matching() {
                     checked={useLlm}
                     onChange={(e) => setUseLlm(e.target.checked)}
                   />
-                  LLM fallback
+                  {t('matching.llm_fallback')}
                 </label>
 
                 <div style={{ flex: 1 }} />
@@ -269,7 +274,7 @@ export default function Matching() {
                   disabled={loading}
                 >
                   {loading && <span className="spinner" />}
-                  {loading ? "Running..." : "Run Matching"}
+                  {loading ? t('matching.running') : t('matching.run_btn')}
                 </button>
               </div>
             </div>
@@ -277,24 +282,24 @@ export default function Matching() {
             {totalSources > 0 && (
               <div className="stats-grid">
                 <div className="stat-card">
-                  <div className="stat-label">Source Products</div>
+                  <div className="stat-label">{t('matching.source_products')}</div>
                   <div className="stat-value">{totalSources}</div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-label">Total Matches</div>
+                  <div className="stat-label">{t('matching.total_matches')}</div>
                   <div className="stat-value">{totalMatches}</div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-label">Products Matched</div>
+                  <div className="stat-label">{t('matching.products_matched')}</div>
                   <div className="stat-value">{totalMatched}</div>
                   <div className="stat-note">
                     {totalSources > 0
-                      ? `${((totalMatched / totalSources) * 100).toFixed(0)}% coverage`
+                      ? `${((totalMatched / totalSources) * 100).toFixed(0)}% ${t('matching.coverage')}`
                       : ""}
                   </div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-label">Avg Matches/Source</div>
+                  <div className="stat-label">{t('matching.avg_matches')}</div>
                   <div className="stat-value">
                     {totalMatched > 0
                       ? (totalMatches / totalMatched).toFixed(1)
@@ -310,10 +315,10 @@ export default function Matching() {
                   <thead>
                     <tr>
                       <th style={{ width: "30px" }}></th>
-                      <th>Source</th>
-                      <th>Matches</th>
-                      <th>Best Method</th>
-                      <th>Confidence</th>
+                      <th>{t('matching.th_source')}</th>
+                      <th>{t('matching.th_matches')}</th>
+                      <th>{t('matching.th_best_method')}</th>
+                      <th>{t('matching.th_confidence')}</th>
                       <th style={{ width: "70px" }}></th>
                     </tr>
                   </thead>
@@ -433,7 +438,7 @@ export default function Matching() {
                                     );
                                   }}
                                 >
-                                  Explain
+                                  {t('matching.explain')}
                                 </button>
                               )}
                             </td>
@@ -476,7 +481,7 @@ export default function Matching() {
                                           rel="noopener noreferrer"
                                           style={{ color: "var(--accent)" }}
                                         >
-                                          View
+                                          {t('matching.view')}
                                         </a>
                                       </>
                                     )}
@@ -537,7 +542,7 @@ export default function Matching() {
                                       );
                                     }}
                                   >
-                                    Explain
+                                    {t('matching.explain')}
                                   </button>
                                 </td>
                               </tr>
@@ -568,10 +573,9 @@ export default function Matching() {
                       <line x1="25" y1="25" x2="22" y2="22" />
                     </svg>
                   </div>
-                  <h3>Ready to match</h3>
+                  <h3>{t('matching.ready_title')}</h3>
                   <p>
-                    Select a category, configure your parameters, and hit Run
-                    Matching to start the pipeline.
+                    {t('matching.ready_desc')}
                   </p>
                 </div>
               </div>
@@ -583,7 +587,7 @@ export default function Matching() {
         {tab === "upload" && (
           <div className="card">
             <div className="card-header">
-              <span className="card-title">Upload Source & Target JSON</span>
+              <span className="card-title">{t('matching.upload_title')}</span>
             </div>
             <div
               style={{
@@ -603,7 +607,7 @@ export default function Matching() {
                     marginBottom: "6px",
                   }}
                 >
-                  Source products JSON
+                  {t('matching.source_json')}
                 </label>
                 <input
                   type="file"
@@ -621,7 +625,7 @@ export default function Matching() {
                     marginBottom: "6px",
                   }}
                 >
-                  Target products JSON
+                  {t('matching.target_json')}
                 </label>
                 <input
                   type="file"
@@ -639,7 +643,7 @@ export default function Matching() {
                     marginBottom: "6px",
                   }}
                 >
-                  Category name
+                  {t('matching.category_name')}
                 </label>
                 <input
                   className="input-field"
@@ -655,7 +659,7 @@ export default function Matching() {
                 style={{ alignSelf: "flex-start" }}
               >
                 {loading && <span className="spinner" />}
-                {loading ? "Uploading..." : "Upload & Run Pipeline"}
+                {loading ? t('matching.uploading') : t('matching.upload_btn')}
               </button>
               {uploadMsg && (
                 <p style={{ fontSize: "0.875rem", color: "var(--stone-600)" }}>
@@ -670,14 +674,14 @@ export default function Matching() {
         {tab === "export" && (
           <div className="card">
             <div className="card-header">
-              <span className="card-title">Submission JSON</span>
+              <span className="card-title">{t('matching.submission_json')}</span>
               {exportJson && (
                 <button
                   className="btn btn-primary"
                   style={{ padding: "6px 14px", fontSize: "0.8rem" }}
                   onClick={handleDownload}
                 >
-                  Download JSON
+                  {t('matching.download_json')}
                 </button>
               )}
             </div>
@@ -701,7 +705,7 @@ export default function Matching() {
               </pre>
             ) : (
               <p style={{ color: "var(--stone-500)", fontSize: "0.875rem" }}>
-                Loading submission...
+                {t('matching.loading_submission')}
               </p>
             )}
           </div>
@@ -735,13 +739,13 @@ export default function Matching() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="card-header">
-                <span className="card-title">Match Explanation</span>
+                <span className="card-title">{t('matching.explanation')}</span>
                 <button
                   className="btn btn-secondary"
                   style={{ padding: "4px 12px", fontSize: "0.78rem" }}
                   onClick={() => setExplain(null)}
                 >
-                  Close
+                  {t('matching.close')}
                 </button>
               </div>
 
@@ -770,7 +774,7 @@ export default function Matching() {
                       marginBottom: "4px",
                     }}
                   >
-                    Source
+                    {t('matching.source')}
                   </div>
                   <div style={{ fontWeight: 500, fontSize: "0.875rem" }}>
                     {explain.source.name}
@@ -796,7 +800,7 @@ export default function Matching() {
                       marginBottom: "4px",
                     }}
                   >
-                    Target
+p                    {t('matching.target')}
                   </div>
                   <div style={{ fontWeight: 500, fontSize: "0.875rem" }}>
                     {explain.target.name}
@@ -818,7 +822,7 @@ export default function Matching() {
                 <span
                   className={`badge ${explain.matched ? "badge-success" : "badge-warning"}`}
                 >
-                  {explain.matched ? "Matched" : "Not matched"}
+                  {explain.matched ? t('matching.matched') : t('matching.not_matched')}
                 </span>
                 {explain.method && (
                   <span className={`badge ${methodBadge(explain.method)}`}>
@@ -827,13 +831,13 @@ export default function Matching() {
                 )}
                 {explain.confidence > 0 && (
                   <span className="mono">
-                    {(explain.confidence * 100).toFixed(0)}% confidence
+                    {(explain.confidence * 100).toFixed(0)}% {t('matching.confidence_label')}
                   </span>
                 )}
               </div>
 
               <div className="card-header" style={{ marginTop: "8px" }}>
-                <span className="card-title">Signals</span>
+                <span className="card-title">{t('matching.signals')}</span>
               </div>
               <div
                 style={{
@@ -844,10 +848,10 @@ export default function Matching() {
               >
                 {(
                   [
-                    ["EAN Match", explain.signals.ean_match],
-                    ["Brand Match", explain.signals.brand_match],
-                    ["Model Exact", explain.signals.model_exact],
-                    ["Series Match", explain.signals.series_match],
+                    [t('matching.ean_match'), explain.signals.ean_match],
+                    [t('matching.brand_match'), explain.signals.brand_match],
+                    [t('matching.model_exact'), explain.signals.model_exact],
+                    [t('matching.series_match'), explain.signals.series_match],
                   ] as [string, boolean][]
                 ).map(([label, val]) => (
                   <div
@@ -872,7 +876,7 @@ export default function Matching() {
                     <span
                       className={`badge ${val ? "badge-success" : "badge-warning"}`}
                     >
-                      {val ? "Yes" : "No"}
+                      {val ? t('matching.yes') : t('matching.no')}
                     </span>
                   </div>
                 ))}
@@ -892,7 +896,7 @@ export default function Matching() {
                       color: "var(--stone-700)",
                     }}
                   >
-                    Fuzzy (token sort)
+                    {t('matching.fuzzy_token_sort')}
                   </span>
                   <span className="mono">
                     {explain.signals.fuzzy_token_sort.toFixed(0)}%
@@ -914,7 +918,7 @@ export default function Matching() {
                       color: "var(--stone-700)",
                     }}
                   >
-                    Fuzzy (token set)
+                    {t('matching.fuzzy_token_set')}
                   </span>
                   <span className="mono">
                     {explain.signals.fuzzy_token_set.toFixed(0)}%
@@ -937,7 +941,7 @@ export default function Matching() {
                         color: "var(--stone-700)",
                       }}
                     >
-                      Model prefix chars
+                      {t('matching.model_prefix')}
                     </span>
                     <span className="mono">
                       {explain.signals.model_prefix_match}
@@ -968,8 +972,8 @@ export default function Matching() {
                       className={`badge ${explain.signals.screen_size.match ? "badge-success" : "badge-warning"}`}
                     >
                       {explain.signals.screen_size.match
-                        ? "Match"
-                        : "Mismatch"}
+                        ? t('matching.screen_match')
+                        : t('matching.screen_mismatch')}
                     </span>
                   </div>
                 )}
@@ -988,7 +992,7 @@ export default function Matching() {
                         color: "var(--stone-700)",
                       }}
                     >
-                      Shared EANs:{" "}
+                      {t('matching.shared_eans')}:{" "}
                     </span>
                     <span className="mono">
                       {explain.signals.ean_shared.join(", ")}
@@ -1024,7 +1028,7 @@ export default function Matching() {
                 style={{ width: "28px", height: "28px" }}
               />
               <p style={{ marginTop: "12px", color: "var(--stone-600)" }}>
-                Analyzing match signals...
+                {t('matching.analyzing')}
               </p>
             </div>
           </div>
