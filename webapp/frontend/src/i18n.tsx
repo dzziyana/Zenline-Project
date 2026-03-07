@@ -168,6 +168,7 @@ const UI_TRANSLATIONS: Record<string, Record<Lang, string>> = {
 // German spec key → English translation
 const SPEC_TRANSLATIONS: Record<string, string> = {
   // Display
+  'Art' : 'Type',
   'Bildschirmdiagonale': 'Screen Size',
   'Bildschirmdiagonale (cm/Zoll)': 'Screen Size (cm/inch)',
   'Bildschirmdiagonale (Zoll)': 'Screen Size (inches)',
@@ -249,6 +250,7 @@ const SPEC_TRANSLATIONS: Record<string, string> = {
   'Treiber': 'Driver',
   'Treibereinheit': 'Driver Unit',
   'Dynamischer Treiber': 'Dynamic Driver',
+  'Betriebslautstärke' : 'Operation noise level',
 
   // Battery & Power
   'Akkulaufzeit': 'Battery Life',
@@ -280,6 +282,9 @@ const SPEC_TRANSLATIONS: Record<string, string> = {
   'Energieeffizienzklasse (EU 2017/1369)': 'Energy Efficiency Class (EU)',
   'Energieeffizienzklasse (HDR)': 'Energy Efficiency (HDR)',
   'Energieeffizienzklasse (SDR)': 'Energy Efficiency (SDR)',
+  'Energieverbrauch/Jahr':'yearly energy expenditure',
+  'Ausstattung' : 'Features',
+  'Nutzinhalt Gefrierteil (in Liter)' : 'Freezer space (litres)',
 
   // Connectivity
   'HDMI Anschlüsse': 'HDMI Ports',

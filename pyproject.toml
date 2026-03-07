@@ -15,7 +15,6 @@ dependencies = [
     "jinja2",
     "playwright>=1.58.0",
     "python-dotenv>=1.2.2",
-    "numpy>=2.4.2",
 ]
 
 [tool.uv]
