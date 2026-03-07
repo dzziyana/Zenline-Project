@@ -341,6 +341,57 @@ def _build_search_queries(source: Product) -> list[str]:
     return queries
 
 
+def _is_relevant(source: Product, result: dict) -> bool:
+    """Check if a scraped result is plausibly the same product as the source.
+
+    Filters out obviously wrong results (e.g. a phone when searching for a TV).
+    """
+    from .fuzzy_match import extract_model_number
+
+    src_model = extract_model_number(source)
+    result_name = result['name'].upper()
+
+    # If the source model number appears in the result, it's relevant
+    if src_model and src_model.upper() in result_name:
+        return True
+
+    # If brand matches, check that result is the same product category and size
+    if source.brand and source.brand.upper() in result_name:
+        # Extract screen size from both
+        src_size_m = re.search(r'(\d{2,3})\s*(?:Zoll|"|\'\')', source.name, re.IGNORECASE)
+        # Also check specs for size
+        if not src_size_m and source.specifications:
+            diag = source.specifications.get('Bildschirmdiagonale (cm/Zoll)', '')
+            src_size_m = re.search(r'(\d{2,3})\s*Zoll', diag)
+        result_size_m = re.search(r'(\d{2,3})\s*(?:Zoll|"|\'\'|\\\"|cm)', result['name'], re.IGNORECASE)
+        # Also try to extract size from patterns like "LED-TV 98\" or "65\"
+        if not result_size_m:
+            result_size_m = re.search(r'(\d{2,3})[\\\"]', result['name'])
+
+        url = result.get('url', '').lower()
+        is_tv_url = any(kw in url for kw in ['fernseher', 'tv-', '/tv/', 'fernseh', 'led-tv', 'qled', 'oled'])
+
+        if src_size_m:
+            src_size = int(src_size_m.group(1))
+            # Source is a TV - result should also be a TV
+            tv_keywords = ['TV', 'LED', 'QLED', 'OLED', 'LCD', 'FERNSEHER', 'SMART TV', 'UHD', 'FULL HD']
+            is_tv_result = is_tv_url or any(kw in result_name for kw in tv_keywords)
+            if not is_tv_result:
+                return False
+            # If result has a size, it should be close to source size
+            if result_size_m:
+                result_size = int(result_size_m.group(1))
+                # Allow some tolerance (e.g. 32 vs 32, but not 32 vs 98)
+                if abs(src_size - result_size) > 5:
+                    return False
+            return True
+        # Non-TV source - just check brand match is sufficient
+        return True
+
+    # No brand or model match - not relevant
+    return False
+
+
 def scrape_product(source: Product) -> list[dict]:
     """Search all hidden retailers for a single source product.
 
@@ -354,16 +405,18 @@ def scrape_product(source: Product) -> list[dict]:
         # Expert AT - direct search
         if 'Expert AT' not in retailers_found:
             results = search_expert_at(query)
-            if results:
-                retailers_found['Expert AT'] = results
-                all_results.extend(results)
+            relevant = [r for r in results if _is_relevant(source, r)]
+            if relevant:
+                retailers_found['Expert AT'] = relevant
+                all_results.extend(relevant)
 
         # electronic4you.at - direct search
         if 'electronic4you.at' not in retailers_found:
             results = search_electronic4you(query)
-            if results:
-                retailers_found['electronic4you.at'] = results
-                all_results.extend(results)
+            relevant = [r for r in results if _is_relevant(source, r)]
+            if relevant:
+                retailers_found['electronic4you.at'] = relevant
+                all_results.extend(relevant)
 
         # Geizhals fallback for e-tec and cyberport (only search with EANs)
         missing = [r for r in ['E-Tec', 'Cyberport AT'] if r not in retailers_found]
