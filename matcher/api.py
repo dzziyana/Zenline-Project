@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, File, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -277,3 +277,93 @@ def chat(req: ChatRequest):
         reply = f"AI chat unavailable ({type(e).__name__}). Here are the raw search results:\n\n{search_context}"
 
     return {"reply": reply, "search_results": search_context}
+
+
+@app.post("/api/upload")
+async def upload_data(
+    sources: UploadFile = File(...),
+    targets: UploadFile = File(...),
+    category: str = Query("uploaded"),
+):
+    """Upload new source and target JSON files and run the pipeline."""
+    from .pipeline import load_products, run_matching
+    from .db import insert_products, insert_matches, log_pipeline_run
+    from .models import Product
+
+    data_dir = Path("data")
+    data_dir.mkdir(exist_ok=True)
+
+    safe_name = category.lower().replace(" & ", "_").replace(" ", "_")
+    src_path = data_dir / f"source_products_{safe_name}.json"
+    tgt_path = data_dir / f"target_products_{safe_name}.json"
+
+    src_content = await sources.read()
+    tgt_content = await targets.read()
+
+    src_path.write_bytes(src_content)
+    tgt_path.write_bytes(tgt_content)
+
+    source_list = [Product.from_dict(d) for d in json.loads(src_content)]
+    target_list = [Product.from_dict(d) for d in json.loads(tgt_content)]
+    matches = run_matching(source_list, target_list, do_scrape=False)
+
+    conn = _get_db()
+    try:
+        insert_products(conn, target_list, is_source=False)
+        insert_products(conn, source_list, is_source=True)
+        insert_matches(conn, matches)
+        log_pipeline_run(conn, category, len(source_list), len(target_list), matches)
+    finally:
+        conn.close()
+
+    matched_sources = len({m.source_reference for m in matches})
+    return {
+        "status": "complete",
+        "category": category,
+        "sources": len(source_list),
+        "targets": len(target_list),
+        "matches": len(matches),
+        "sources_matched": matched_sources,
+        "files_saved": [str(src_path), str(tgt_path)],
+    }
+
+
+@app.get("/api/brands")
+def list_brands():
+    """List all brands in the database."""
+    conn = _get_db()
+    try:
+        rows = conn.execute(
+            "SELECT brand, COUNT(*) as cnt, SUM(is_source) as source_cnt "
+            "FROM products WHERE brand != '' GROUP BY brand ORDER BY cnt DESC"
+        ).fetchall()
+        return {
+            "brands": [
+                {"brand": r["brand"], "product_count": r["cnt"], "source_count": r["source_cnt"]}
+                for r in rows
+            ]
+        }
+    finally:
+        conn.close()
+
+
+@app.get("/api/matches/by-brand/{brand}")
+def matches_by_brand(brand: str):
+    """Get all matches for sources of a specific brand."""
+    conn = _get_db()
+    try:
+        sources = conn.execute(
+            "SELECT * FROM products WHERE is_source = 1 AND brand LIKE ?",
+            (f"%{brand}%",)
+        ).fetchall()
+        result = []
+        for s in sources:
+            matches = get_matches_for_source(conn, s["reference"])
+            result.append({
+                "source": dict(s),
+                "matches": matches,
+                "match_count": len(matches),
+            })
+        return {"brand": brand, "sources": result, "total_sources": len(result)}
+    finally:
+        conn.close()
