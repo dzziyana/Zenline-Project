@@ -321,6 +321,9 @@ const SPEC_TRANSLATIONS: Record<string, string> = {
   'Höhe': 'Height',
   'Tiefe': 'Depth',
   'Tiefe ohne Standfuß': 'Depth without Stand',
+  "Grösse": 'Size',
+  "Größe": 'Size',
+  "Stückzahl": 'Quantity',
 
   // TV Features
   'SMART TV': 'Smart TV',
