@@ -607,6 +607,97 @@ def run_match_for_category(
     }
 
 
+@app.get("/api/dashboard")
+def dashboard():
+    """Comprehensive dashboard stats in a single call (for frontend)."""
+    conn = _get_db()
+    try:
+        stats = get_stats(conn)
+
+        # Methods breakdown with friendly names
+        method_labels = {
+            "ean": "EAN Exact",
+            "model_number": "Model Number",
+            "model_series": "Model Series",
+            "fuzzy_model": "Fuzzy Model",
+            "fuzzy_name": "Fuzzy Name",
+            "scrape": "Web Scraping",
+            "embedding": "Embedding",
+        }
+        methods = [
+            {"method": k, "label": method_labels.get(k, k), "count": v}
+            for k, v in stats.get("methods", {}).items()
+        ]
+
+        # Top brands by match count
+        brand_rows = conn.execute("""
+            SELECT p.brand, COUNT(DISTINCT m.source_reference) as matched_sources,
+                   COUNT(m.id) as total_matches
+            FROM products p
+            JOIN matches m ON p.reference = m.source_reference
+            WHERE p.is_source = 1 AND p.brand != ''
+            GROUP BY p.brand ORDER BY total_matches DESC
+        """).fetchall()
+        brands = [{"brand": r["brand"], "matched_sources": r["matched_sources"],
+                    "total_matches": r["total_matches"]} for r in brand_rows]
+
+        # Recent pipeline runs
+        runs = conn.execute(
+            "SELECT * FROM pipeline_runs ORDER BY created_at DESC LIMIT 5"
+        ).fetchall()
+        recent_runs = [dict(r) for r in runs]
+
+        # Confidence distribution
+        conf_rows = conn.execute("""
+            SELECT
+                SUM(CASE WHEN confidence >= 0.95 THEN 1 ELSE 0 END) as excellent,
+                SUM(CASE WHEN confidence >= 0.85 AND confidence < 0.95 THEN 1 ELSE 0 END) as high,
+                SUM(CASE WHEN confidence >= 0.70 AND confidence < 0.85 THEN 1 ELSE 0 END) as medium,
+                SUM(CASE WHEN confidence < 0.70 THEN 1 ELSE 0 END) as low
+            FROM matches
+        """).fetchone()
+        confidence_dist = dict(conf_rows) if conf_rows else {}
+
+        return {
+            "source_count": stats["source_count"],
+            "target_count": stats["target_count"],
+            "match_count": stats["match_count"],
+            "sources_matched": stats["sources_matched"],
+            "coverage_pct": round(stats["sources_matched"] / stats["source_count"] * 100, 1) if stats["source_count"] else 0,
+            "methods": methods,
+            "brands": brands,
+            "confidence_distribution": confidence_dist,
+            "retailers": stats.get("retailers", []),
+            "recent_runs": recent_runs,
+        }
+    finally:
+        conn.close()
+
+
+@app.get("/api/matches/all")
+def get_all_matches():
+    """Return all existing matches from DB without re-running the pipeline."""
+    conn = _get_db()
+    try:
+        sources = get_all_sources(conn)
+        result = []
+        for s in sources:
+            matches = get_matches_for_source(conn, s["reference"])
+            s["specifications"] = json.loads(s.get("specifications", "{}"))
+            result.append({
+                "source": s,
+                "matches": matches,
+            })
+        return {
+            "total_sources": len(sources),
+            "total_matched": sum(1 for r in result if r["matches"]),
+            "total_matches": sum(len(r["matches"]) for r in result),
+            "results": result,
+        }
+    finally:
+        conn.close()
+
+
 @app.get("/api/scrape-results")
 def get_scrape_results(source_reference: str | None = Query(None)):
     """View raw scrape results, optionally filtered by source."""
@@ -622,6 +713,89 @@ def get_scrape_results(source_reference: str | None = Query(None)):
                 "SELECT * FROM scrape_results ORDER BY created_at DESC LIMIT 100"
             ).fetchall()
         return {"results": [dict(r) for r in rows], "total": len(rows)}
+    finally:
+        conn.close()
+
+
+# ---------------------------------------------------------------------------
+# Embedding similarity endpoint (Claude #4)
+# ---------------------------------------------------------------------------
+
+_embeddings_cache: dict = {}
+
+
+def _load_embeddings():
+    """Load precomputed embeddings from data/embeddings/ (lazy, cached)."""
+    if _embeddings_cache:
+        return _embeddings_cache
+
+    embeddings_dir = Path("data/embeddings")
+    src_npy = embeddings_dir / "sources.npy"
+    tgt_npy = embeddings_dir / "targets.npy"
+
+    if not src_npy.exists() or not tgt_npy.exists():
+        return None
+
+    import numpy as np
+    from .embedding_match import load_embeddings
+
+    tgt_emb, tgt_refs = load_embeddings(embeddings_dir / "targets")
+    src_emb, src_refs = load_embeddings(embeddings_dir / "sources")
+
+    _embeddings_cache["target_embeddings"] = tgt_emb
+    _embeddings_cache["target_refs"] = tgt_refs
+    _embeddings_cache["source_embeddings"] = src_emb
+    _embeddings_cache["source_refs"] = src_refs
+    return _embeddings_cache
+
+
+@app.get("/api/similar/{reference}")
+def find_similar(reference: str, limit: int = Query(10, le=50), threshold: float = Query(0.80)):
+    """Find semantically similar products using precomputed embeddings."""
+    import numpy as np
+
+    cache = _load_embeddings()
+    if not cache:
+        return JSONResponse(status_code=503, content={"error": "Embeddings not available. Run precomputation on GPU first."})
+
+    # Find the reference in either source or target embeddings
+    query_emb = None
+    if reference in cache["source_refs"]:
+        idx = cache["source_refs"].index(reference)
+        query_emb = cache["source_embeddings"][idx]
+    elif reference in cache["target_refs"]:
+        idx = cache["target_refs"].index(reference)
+        query_emb = cache["target_embeddings"][idx]
+
+    if query_emb is None:
+        return JSONResponse(status_code=404, content={"error": f"No embedding found for {reference}"})
+
+    # Search against target embeddings
+    tgt_emb = cache["target_embeddings"]
+    scores = np.dot(tgt_emb, query_emb)
+    top_indices = np.argsort(-scores)[:limit]
+
+    conn = _get_db()
+    try:
+        results = []
+        for idx in top_indices:
+            score = float(scores[idx])
+            if score < threshold:
+                break
+            ref = cache["target_refs"][idx]
+            if ref == reference:
+                continue
+            product = get_product(conn, ref)
+            if product:
+                results.append({
+                    "reference": ref,
+                    "name": product["name"],
+                    "brand": product.get("brand", ""),
+                    "retailer": product.get("retailer", ""),
+                    "price": product.get("price_eur"),
+                    "similarity": round(score, 4),
+                })
+        return {"reference": reference, "similar": results, "count": len(results)}
     finally:
         conn.close()
 
