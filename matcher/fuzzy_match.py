@@ -9,7 +9,7 @@ from .models import Match, Product
 
 def extract_model_number(product: Product) -> str | None:
     """Extract model number from product name or specifications."""
-    specs = product.specifications
+    specs = product.specifications or {}
     # Check specs first — most reliable
     for key in ["Hersteller Modellnummer", "Modellnummer", "Modellbezeichnung",
                 "Modellname"]:

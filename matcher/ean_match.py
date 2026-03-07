@@ -8,7 +8,7 @@ def _get_eans(product: Product) -> list[str]:
     eans = []
     if product.ean:
         eans.append(product.ean.strip())
-    specs = product.specifications
+    specs = product.specifications or {}
     for key in ["GTIN", "EAN-Code", "EAN"]:
         if key in specs and specs[key]:
             val = specs[key].strip()
