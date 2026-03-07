@@ -1,60 +1,5 @@
 [
   {
-    "source_reference": "P_0A7A0D68",
-    "competitors": [
-      {
-        "reference": "P_0A7A0D68",
-        "competitor_retailer": "MediaMarkt AT",
-        "competitor_product_name": "SAMSUNG F6000 (2025) 32 Zoll FullHD Smart TV",
-        "competitor_url": "https://www.mediamarkt.at/de/product/_samsung-f6000-2025-32-zoll-fullhd-smart-tv-2026398.html",
-        "competitor_price": 299.0
-      }
-    ]
-  },
-  {
-    "source_reference": "P_3725B4AD",
-    "competitors": [
-      {
-        "reference": "P_3725B4AD",
-        "competitor_retailer": "MediaMarkt AT",
-        "competitor_product_name": "PEAQ PTV 32GF-5025C-B (2025) 32 Zoll Google Full HD Portable TV",
-        "competitor_url": "https://www.mediamarkt.at/de/product/_peaq-ptv-32gf-5025c-b-2025-32-zoll-google-full-hd-portable-tv-2022484.html",
-        "competitor_price": 249.99
-      }
-    ]
-  },
-  {
-    "source_reference": "P_887964FA",
-    "competitors": [
-      {
-        "reference": "P_887964FA",
-        "competitor_retailer": "MediaMarkt AT",
-        "competitor_product_name": "PEAQ PTV 43GQU-5024T 43 Zoll 4K QLED Smart Google TV online kaufen | MediaMarkt",
-        "competitor_url": "https://www.mediamarkt.at/de/product/_peaq-ptv-43gqu-5024t-43-zoll-4k-qled-smart-google-tv-1973369.html",
-        "competitor_price": 279.99
-      }
-    ]
-  },
-  {
-    "source_reference": "P_349C559B",
-    "competitors": [
-      {
-        "reference": "P_98168021",
-        "competitor_retailer": "Amazon AT",
-        "competitor_product_name": "XIAOMI A Pro, 65\" (165 cm), 4K UHD QLED, Smart TV, Google TV, Triple Tuner DVB-C/S/S2/T/T2, HDR10+, Game Boost 120Hz, MEMC, Sprachsteuerung mit, 2+8GB, Kompatibel mit Apple Airplay & Google Cast",
-        "competitor_url": "https://www.amazon.de/XIAOMI-Fernseher-Pro-Zoll-QLED/dp/B0F9XJV69Y/ref=sr_1_4?dib=eyJ2IjoiMSJ9.9FJDJgecqBcJH9heG6ChxXT0BUrVyK3T2tU1DBYE5XPhksAQi7ouAkSPTmRCMDpGUWVHLEiWFp3hK9wJ4TQvL4UMrfVaZwXoyAlAS3jo3weTQXwHjuamx3XY-j8s13hu7faEbVuMQslUhwshyy0TeZPCbc874LbbOxoup20R9O4AGWx49Z0FyL_7IzEOzMfOJ82jDUUvfxFqZa6DshAHNtfBclFXp-v0dcHHQUJ5iUQ.-GT4fUoyBWeHhn1SIgeywYwge5Nn7aNpMvKM_-X1bQ0&dib_tag=se&keywords=65+Zoll+QLED+Google+TV+4K&qid=1769471356&sr=8-4",
-        "competitor_price": 549.99
-      },
-      {
-        "reference": "P_349C559B",
-        "competitor_retailer": "Amazon AT",
-        "competitor_product_name": "XIAOMI A Pro, 65\" (165 cm), 4K UHD QLED, Smart TV, Google TV, Triple Tuner DVB-C/S/S2/T/T2, HDR10+, Game Boost 120Hz, MEMC, Sprachsteuerung mit, 2+8GB, Kompatibel mit Apple Airplay & Google Cast",
-        "competitor_url": "https://www.amazon.de/XIAOMI-Fernseher-Pro-Zoll-QLED/dp/B0F9XJV69Y/ref=sr_1_5?dib=eyJ2IjoiMSJ9.9FJDJgecqBcJH9heG6ChxXT0BUrVyK3T2tU1DBYE5XPhksAQi7ouAkSPTmRCMDpGJle4rfBk6lONoxZG2gslt8HoCAhcARycKC0hIuZj48WWjUuX0YbNQfplvgg8VaP3zC9TcunEQK72h3xptudvwSYng6We26ikPTkxiMtBGZ5T_eGQJdNxKJYdKEkvY1QeDHi4_yh5ZKELSVFujLTPm-zK6gnvS6vp146SzlIJkug.RyzJxVkq5fnHUGjQKVbgy5Pu5MqxJuBsp3f4s06vufs&dib_tag=se&keywords=65+Zoll+QLED+Google+TV+4K&qid=1769472519&sr=8-5",
-        "competitor_price": 549.99
-      }
-    ]
-  },
-  {
     "source_reference": "P_8AB09F37",
     "competitors": [
       {
@@ -65,11 +10,11 @@
         "competitor_price": null
       },
       {
-        "reference": "P_8AB09F37",
-        "competitor_retailer": "Amazon AT",
-        "competitor_product_name": "TCL 40V5C - 40\u201c Full HD Smart QLED Direct LED-Fernseher mit Android TV & HDR - Kompatibel mit Google Cast & Google Home, Schlankes Design",
-        "competitor_url": "https://www.amazon.de/TCL-40V5C-LED-Fernseher-Kompatibel-Schlankes/dp/B0F3XN9M4V/ref=sr_1_2?dib=eyJ2IjoiMSJ9.qxUPMJqZplxOBnd84PYxd-shdcKof3UVQc8rBQsu9qiYNimE2_d7WEizA135BJl8dXhEKxNfpDVrI6TkY9Rgm5PQgBZ9OtklynoMqeIw2X50YX3RfXz4JDkMuCqprmbSYxN9XJ7qImS-2izDy9z2T7JSmUQJwyoFsHqMyZng2GPmBLvLv0z0fd0e_LcuRTkLOwzDNbypiEiMWH9DWkRCKobCQUqZ1EWUiTC8nCrHp_g.ozAepfxhCak6rAHVKc0RWar-wpX5wWz35FYv2ukqlM4&dib_tag=se&keywords=40+Zoll+Google+TV+Full+HD&qid=1769470788&sr=8-2",
-        "competitor_price": 188.0
+        "reference": "SCRAPED_electronic4you.at_93750682",
+        "competitor_retailer": "electronic4you.at",
+        "competitor_product_name": "TCL 40V5C Full HD QLED TV",
+        "competitor_url": "https://www.electronic4you.at/tcl-40v5c-full-hd-qled-tv-270476.html",
+        "competitor_price": 359.0
       }
     ]
   },
@@ -96,6 +41,13 @@
         "competitor_product_name": "TCL 65 Zoll 65Q6C QLED Mini LED Fernseher, 4K HDR Premium, Dolby Vision IQ & Atmos, Onkyo 2.1, Smart Google TV, 144Hz Motion Clarity Pro, AMD FreeSync Premium Pro, HDMI 2.1, AirPlay 2",
         "competitor_url": "https://www.amazon.de/dp/B0DXQ27X44",
         "competitor_price": null
+      },
+      {
+        "reference": "SCRAPED_electronic4you.at_36222464",
+        "competitor_retailer": "electronic4you.at",
+        "competitor_product_name": "TCL 65Q6C 4K QD-Mini LED TV",
+        "competitor_url": "https://www.electronic4you.at/tcl-65q6c-4k-qd-mini-led-tv-270451.html",
+        "competitor_price": 999.0
       }
     ]
   },
@@ -117,23 +69,11 @@
         "competitor_price": null
       },
       {
-        "reference": "P_BBEE3A30",
-        "competitor_retailer": "Amazon AT",
-        "competitor_product_name": "CHIQ 43QA10 43 Zoll 4K UHD QLED Smart TV, QLED Pro, DLG 120Hz, MEMC, VRR, ALLM, HDR10, Dolby Audio, 3X HDMI 2.1, Wide Color Gamut, rahmenloses Metallgeh\u00e4use, Chromecast, Google Assistant",
-        "competitor_url": "https://www.amazon.de/CHIQ-43QA10-rahmenloses-Metallgeh%C3%A4use-Chromecast/dp/B0FQ5CS7QC/ref=sr_1_9?dib=eyJ2IjoiMSJ9.s8ntRGGk6MxTBYwkkRNKT--RydNiz0s2dwFz3kscvIji8-Iycya74eSd6euX6jyqBe0qRsDX1ghQsWoAFHEAtcR7OpApAjisnNcl5PcWmFsUM9PA6f9huG5APFKlOwxS8i9omVl9yuUQvuJBMcadNRwXLZIYzHBhum_xrfaFZV5KZQWDFv3DhUs-bywoIScCHcfibNgZ2i6KN9FxUpgf5MVi9NBTGOrIaAx0gXChfkw.tOYDy4-Ce8yCcevM8Gshw7Bn6CSC5-zbio_88ew23fc&dib_tag=se&keywords=43+Zoll+QLED+4K+Google+TV&qid=1769471051&sr=8-9",
-        "competitor_price": 249.9
-      }
-    ]
-  },
-  {
-    "source_reference": "P_BC5CBC54",
-    "competitors": [
-      {
-        "reference": "P_BC5CBC54",
-        "competitor_retailer": "Amazon AT",
-        "competitor_product_name": "Samsung QLED 4K Q64D Fernseher 65 Zoll, TV mit Quantum Prozessor Lite, 100% Farbvolumen, 4K Upscaling, Motion Xcelerator, Smart TV, GQ65Q64DAUXZG, Deutsches Modell",
-        "competitor_url": "https://www.amazon.de/Samsung-Fernseher-Farbvolumen-Xcelerator-GQ65Q64DAUXZG/dp/B0D1GTWJK9/ref=sr_1_10?dib=eyJ2IjoiMSJ9.9FJDJgecqBcJH9heG6ChxXT0BUrVyK3T2tU1DBYE5XPhksAQi7ouAkSPTmRCMDpGUWVHLEiWFp3hK9wJ4TQvL4UMrfVaZwXoyAlAS3jo3weWjUuX0YbNQfplvgg8VaP3zC9TcunEQK72h3xptudvwSYng6We26ikPTkxiMtBGZ4AGWx49Z0FyL_7IzEOzMfOuKVavclkuV3J5p3a-Ywk6kJ5F-1U823ofF_Hm0cQI7U.fQL4bblklkte0nyOoSSbgQpQWZyPReP2N-YHEq5oj3A&dib_tag=se&keywords=65+Zoll+QLED+Google+TV+4K&qid=1769470972&sr=8-10",
-        "competitor_price": 669.0
+        "reference": "SCRAPED_Expert_AT_30201816",
+        "competitor_retailer": "Expert AT",
+        "competitor_product_name": "Nabo 32LQ6000 inkl. 5 Jahre Herstellergarantie - Full HD HDR 1000 CMP QLED-TV 32\\",
+        "competitor_url": "https://www.expert.at/shop/tv-audio-video/fernseher/nabo-32lq6000-inkl.5-jahre-herstellergarantie~p3246664",
+        "competitor_price": 379.0
       }
     ]
   },
@@ -153,6 +93,13 @@
         "competitor_product_name": "TCL 40V5C - 40\u201c Full HD Smart QLED Direct LED-Fernseher mit Android TV & HDR - Kompatibel mit Google Cast & Google Home, Schlankes Design",
         "competitor_url": "https://www.amazon.de/TCL-40V5C-LED-Fernseher-Kompatibel-Schlankes/dp/B0F3XN9M4V/ref=sr_1_2?dib=eyJ2IjoiMSJ9.qxUPMJqZplxOBnd84PYxd-shdcKof3UVQc8rBQsu9qiYNimE2_d7WEizA135BJl8dXhEKxNfpDVrI6TkY9Rgm5PQgBZ9OtklynoMqeIw2X50YX3RfXz4JDkMuCqprmbSYxN9XJ7qImS-2izDy9z2T7JSmUQJwyoFsHqMyZng2GPmBLvLv0z0fd0e_LcuRTkLOwzDNbypiEiMWH9DWkRCKobCQUqZ1EWUiTC8nCrHp_g.ozAepfxhCak6rAHVKc0RWar-wpX5wWz35FYv2ukqlM4&dib_tag=se&keywords=40+Zoll+Google+TV+Full+HD&qid=1769470788&sr=8-2",
         "competitor_price": 188.0
+      },
+      {
+        "reference": "SCRAPED_electronic4you.at_93750682",
+        "competitor_retailer": "electronic4you.at",
+        "competitor_product_name": "TCL 40V5C Full HD QLED TV",
+        "competitor_url": "https://www.electronic4you.at/tcl-40v5c-full-hd-qled-tv-270476.html",
+        "competitor_price": 359.0
       }
     ]
   },
@@ -165,6 +112,13 @@
         "competitor_product_name": "Samsung QLED Q7F 4K Smart TV 55 Zoll (138 cm) mit AI-Vision, 100% Farbvolumen mit Quantum Dot, HDR10+, Q4 AI Prozessor, One UI Tizen, Wi-Fi, Bluetooth 5.3 und Motion...[L\u00e4nderversion Ungarisch]",
         "competitor_url": "https://www.amazon.de/Samsung-AI-Vision-Farbvolumen-Prozessor-L%C3%A4nderversion-Schwarz/dp/B0FM8SY9ZK/ref=sr_1_18?dib=eyJ2IjoiMSJ9.kXGYm9KILN-MFuOGIFMLDzj9YQfaeVsVdRIZqh1eloJ2-9hTHcNidwB4ijEyKu28joizMCnBR0pHCBiWO-Cm_aAa905EjGxPJSTLbqEEcciegPdYDQyWmpEWgJza2daLoNWGJmHz4JQM5NqyEaWpbiGy6OdDLo8DGasmG0Y4cLjXDntK3g5fQFOGkR2KGHGCX0JAw_L7Elk6p2b4OmJV-ObI2lGJI_VsBX6RCcxp80U.DwEcHLS2qwM5Vb76yKi2_ZyJcboMEzGYLHR18Fnpf70&dib_tag=se&keywords=55+Zoll+QLED+4K+Google+TV&qid=1770332208&sr=8-18",
         "competitor_price": null
+      },
+      {
+        "reference": "SCRAPED_electronic4you.at_42795271",
+        "competitor_retailer": "electronic4you.at",
+        "competitor_product_name": "Samsung QE55Q7FAAUXXN QLED 4K TV (2025)",
+        "competitor_url": "https://www.electronic4you.at/samsung-qe55q7faauxxn-qled-4k-tv-2025-267192.html",
+        "competitor_price": 799.0
       }
     ]
   },
@@ -202,14 +156,133 @@
     ]
   },
   {
-    "source_reference": "P_D5BFE0C7",
+    "source_reference": "P_3725B4AD",
     "competitors": [
       {
-        "reference": "P_D5BFE0C7",
+        "reference": "P_6411FF0A",
+        "competitor_retailer": "MediaMarkt AT",
+        "competitor_product_name": "PEAQ PTV 32GF-5024C 32 Zoll Full HD Smart Google TV online kaufen | MediaMarkt",
+        "competitor_url": "https://www.mediamarkt.at/de/product/_peaq-ptv-32gf-5024c-32-zoll-hd-ready-smart-google-tv-1974380.html",
+        "competitor_price": 179.99
+      },
+      {
+        "reference": "P_40FA54D6",
+        "competitor_retailer": "MediaMarkt AT",
+        "competitor_product_name": "PEAQ PTV 32GF-5025C 32 Zoll Google Full HD TV",
+        "competitor_url": "https://www.mediamarkt.at/de/product/_peaq-ptv-32gf-5025c-2025-32-zoll-google-full-hd-tv-2022483.html",
+        "competitor_price": 179.99
+      }
+    ]
+  },
+  {
+    "source_reference": "P_349C559B",
+    "competitors": [
+      {
+        "reference": "P_98D02173",
         "competitor_retailer": "Amazon AT",
-        "competitor_product_name": "sonero Stromkabel Netzkabel 2 Polig, 1,50m, Eurostecker Typ C Netzstecker auf IEC Buchse C7 Euro 8 Stecker, Netzteil Strom Kabel f\u00fcr TV, PS5, PS4, PS3, Haushaltsger\u00e4te, Schwarz",
-        "competitor_url": "https://www.amazon.de/Euro-Netzkabel-Strom-Kabel-Haushaltsger%C3%A4te-Euro-Stecker-IEC-Buchse/dp/B0CCV5VSGM/ref=sr_1_20?dib=eyJ2IjoiMSJ9.oLKq7wOV4fquPMqbpTQDh9FppamngixI2FTtX6UEWShNMq8i0gFZJbm-adExCsZTTezm8pgXzi-jo4Jt9Tihv4CS2n-62--MJtTIi0f3MkekybJQxUQi8JnSb-su9Uc8-9unPrMbdmjlAVen-VsiKE_paozzpjguojly4wyN3s83LifVO6-kCKcwXSXK6bh1k8fznYDUvbTqD36VJVmN0cqXtnYAw5YIjk97f_tlUG4.LdO8dobRyrSeLCA2xe_4548fjfPZYOU5Z1IQvdrrr6s&dib_tag=se&keywords=Euro+Netzkabel+C7+1%2C5m&qid=1770332035&sr=8-20",
+        "competitor_product_name": "XIAOMI A Pro, 65\" (165 cm), 4K UHD QLED, Smart TV, Google TV, Triple Tuner DVB-C/S/S2/T/T2, HDR10+, Game Boost 120Hz, MEMC, Sprachsteuerung mit, 2+8GB, Kompatibel mit Apple Airplay & Google Cast",
+        "competitor_url": "https://www.amazon.de/XIAOMI-Fernseher-Pro-Zoll-QLED/dp/B0F9XJV69Y/ref=sr_1_3?dib=eyJ2IjoiMSJ9.J1WRIDHs-XDOBZydmks6HDKRm9aKm2lHAN_QtB0nP3FB9hq5A28ri1WFqBrI0E9TUWVHLEiWFp3hK9wJ4TQvL1_oE98PBbSp35Jh0P4wQA4Xo56DhpyMLtmN6gY1J2syMhXRcxs9bV14m5jwe3eWXBhYbTI5Y4sDSlarqlMNwX_BGDyunXq1RlMsad9nIdueZEdn8NzFuA585js7w6gfySaAQKOV77iISA9N8sUcvso.5gMj-4k0ade9wuAkgO9g8WwrvFCDZsTskoSRI7Jt100&dib_tag=se&keywords=65+Zoll+QLED+4K+Google+TV&qid=1770332231&sr=8-3",
         "competitor_price": null
+      },
+      {
+        "reference": "P_21D30F81",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "XIAOMI A Pro, 65\" (165 cm), 4K UHD QLED, Smart TV, Google TV, Triple Tuner DVB-C/S/S2/T/T2, HDR10+, Game Boost 120Hz, MEMC, Sprachsteuerung mit, 2+8GB, Kompatibel mit Apple Airplay & Google Cast",
+        "competitor_url": "https://www.amazon.de/XIAOMI-Fernseher-Pro-Zoll-QLED/dp/B0F9XJV69Y/ref=sr_1_3?dib=eyJ2IjoiMSJ9.J1WRIDHs-XDOBZydmks6HDKRm9aKm2lHAN_QtB0nP3FB9hq5A28ri1WFqBrI0E9TUWVHLEiWFp3hK9wJ4TQvL1_oE98PBbSp35Jh0P4wQA59oLtoPGJlMgP_FVK3eCYUGau5g73CUK8K2DAvZCdZhBhYbTI5Y4sDSlarqlMNwX_BGDyunXq1RlMsad9nIdueZEdn8NzFuA585js7w6gfySaAQKOV77iISA9N8sUcvso.UmrPm5HzENqvlHgwzw1HiUuTyaklrfYd6wFOGbw3eGg&dib_tag=se&keywords=65+Zoll+QLED+4K+Google+TV&qid=1770331585&sr=8-3",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_98168021",
+        "competitor_retailer": "Amazon AT",
+        "competitor_product_name": "XIAOMI A Pro, 65\" (165 cm), 4K UHD QLED, Smart TV, Google TV, Triple Tuner DVB-C/S/S2/T/T2, HDR10+, Game Boost 120Hz, MEMC, Sprachsteuerung mit, 2+8GB, Kompatibel mit Apple Airplay & Google Cast",
+        "competitor_url": "https://www.amazon.de/XIAOMI-Fernseher-Pro-Zoll-QLED/dp/B0F9XJV69Y/ref=sr_1_4?dib=eyJ2IjoiMSJ9.9FJDJgecqBcJH9heG6ChxXT0BUrVyK3T2tU1DBYE5XPhksAQi7ouAkSPTmRCMDpGUWVHLEiWFp3hK9wJ4TQvL4UMrfVaZwXoyAlAS3jo3weTQXwHjuamx3XY-j8s13hu7faEbVuMQslUhwshyy0TeZPCbc874LbbOxoup20R9O4AGWx49Z0FyL_7IzEOzMfOJ82jDUUvfxFqZa6DshAHNtfBclFXp-v0dcHHQUJ5iUQ.-GT4fUoyBWeHhn1SIgeywYwge5Nn7aNpMvKM_-X1bQ0&dib_tag=se&keywords=65+Zoll+QLED+Google+TV+4K&qid=1769471356&sr=8-4",
+        "competitor_price": 549.99
+      },
+      {
+        "reference": "SCRAPED_Expert_AT_30201816",
+        "competitor_retailer": "Expert AT",
+        "competitor_product_name": "Nabo 32LQ6000 inkl. 5 Jahre Herstellergarantie - Full HD HDR 1000 CMP QLED-TV 32\\",
+        "competitor_url": "https://www.expert.at/shop/tv-audio-video/fernseher/nabo-32lq6000-inkl.5-jahre-herstellergarantie~p3246664",
+        "competitor_price": 379.0
+      }
+    ]
+  },
+  {
+    "source_reference": "P_0A7A0D68",
+    "competitors": [
+      {
+        "reference": "SCRAPED_Expert_AT_10057313",
+        "competitor_retailer": "Expert AT",
+        "competitor_product_name": "Samsung 32F6000F - Full HD HDR LED-TV 32\\",
+        "competitor_url": "https://www.expert.at/shop/tv-audio-video/fernseher/samsung-32f6000f~p3356974",
+        "competitor_price": 299.0
+      },
+      {
+        "reference": "SCRAPED_electronic4you.at_66650917",
+        "competitor_retailer": "electronic4you.at",
+        "competitor_product_name": "Samsung UE32F6000F Full HD TV",
+        "competitor_url": "https://www.electronic4you.at/samsung-ue32f6000f-full-hd-tv-267201.html",
+        "competitor_price": 295.0
+      }
+    ]
+  },
+  {
+    "source_reference": "P_0B4DCAE2",
+    "competitors": [
+      {
+        "reference": "SCRAPED_electronic4you.at_56558607",
+        "competitor_retailer": "electronic4you.at",
+        "competitor_product_name": "Sharp 24FH7EA HD ready Android TV",
+        "competitor_url": "https://www.electronic4you.at/sharp-24fh7ea-hd-ready-android-tv-258231.html",
+        "competitor_price": 229.0
+      }
+    ]
+  },
+  {
+    "source_reference": "P_979F71CF",
+    "competitors": [
+      {
+        "reference": "SCRAPED_electronic4you.at_29689565",
+        "competitor_retailer": "electronic4you.at",
+        "competitor_product_name": "TCL 32S5403A HD ready HDR AndroidTV",
+        "competitor_url": "https://www.electronic4you.at/tcl-32s5403a-hd-ready-hdr-androidtv-240747.html",
+        "competitor_price": 249.0
+      }
+    ]
+  },
+  {
+    "source_reference": "P_B8442D3C",
+    "competitors": [
+      {
+        "reference": "SCRAPED_electronic4you.at_43145086",
+        "competitor_retailer": "electronic4you.at",
+        "competitor_product_name": "Samsung QE50Q7FAAUXXN QLED 4K TV (2025)",
+        "competitor_url": "https://www.electronic4you.at/samsung-qe50q7faauxxn-qled-4k-tv-2025-267193.html",
+        "competitor_price": 699.0
+      }
+    ]
+  },
+  {
+    "source_reference": "P_C2957438",
+    "competitors": [
+      {
+        "reference": "SCRAPED_electronic4you.at_03867051",
+        "competitor_retailer": "electronic4you.at",
+        "competitor_product_name": "Sharp 40HF3265E Full HD QLED Google TV",
+        "competitor_url": "https://www.electronic4you.at/sharp-40hf3265e-full-hd-qled-google-tv-276193.html",
+        "competitor_price": 379.0
+      }
+    ]
+  },
+  {
+    "source_reference": "P_E7E4FF67",
+    "competitors": [
+      {
+        "reference": "SCRAPED_electronic4you.at_61988206",
+        "competitor_retailer": "electronic4you.at",
+        "competitor_product_name": "Sharp 55HP6265E 4K UHD QLED Google TV",
+        "competitor_url": "https://www.electronic4you.at/sharp-55hp6265e-4k-uhd-qled-google-tv-276216.html",
+        "competitor_price": 699.0
       }
     ]
   }
