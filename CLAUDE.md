@@ -2,13 +2,43 @@
 
 ## Context
 
-This is a hackathon project for the Zenline/Anthropic Claude Builders Hackathon.
+This is a hackathon project for the Zenline/Anthropic Claude Builders Hackathon. We are vibe coding -- move fast, make decisions, don't overthink it.
 
 **Challenge:** Match 91 source electronics products to equivalent competitor products across 6 Austrian retailers. Scored on precision, recall, and coverage — plus a jury demo evaluating system maturity, UX, reusability, and creativity.
 
 **Team:** Joshua (backend/matching/GPU pipeline) and Diana (frontend/UX/web).
 
 **Scoring platform:** https://hackathon-production-49ca.up.railway.app/ (upload JSON submissions per category)
+
+## Evaluation Criteria (from Zenline)
+
+**The system is 80% of the evaluation. The matching score/leaderboard is only 20%.**
+
+The jury evaluates the **system you build**, not just the matching score. Think of it as building a real product matching tool that could be used in production.
+
+**System Maturity**
+
+- Authentication, proper database, vector/RAG search?
+- Which technologies do you use to search & match products?
+- How do you handle generic or messy product attributes?
+
+**User Experience**
+
+- Chat-based interface? Smart attribute entry?
+- Can you search for any product by any criteria?
+- How fast? Start typing and see results immediately?
+
+**Reusability & Flexibility**
+
+- Can you easily upload a new batch and scrape again?
+- Adjustable flow? E.g. "Only look for Brand X products"
+- Can you iterate back and forth with the results?
+
+**Creativity**
+
+- Surprise us! There is no single right approach.
+- Novel matching strategies, clever UX, smart automation
+- Think like you're building a real product for a real user.
 
 ## Project Structure
 
