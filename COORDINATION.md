@@ -67,6 +67,10 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - [x] Pipeline produces valid submission JSON (12/17 sources, 22 links)
 - [x] Database backend (SQLite) integrated into pipeline. Products, matches, and run logs persist. Fixed insert order bug (sources must go after targets to avoid is_source flag overwrite for 8 shared references).
 - [x] REST API (`matcher/api.py`) with search, stats, sources, matches, submission export, pipeline run, and chat endpoints. Chat uses Claude Haiku with DB-backed context. Fixed same insert-order bug in `/api/run`.
+- [x] Upload endpoint (`POST /api/upload`) for new source/target batches - runs pipeline automatically (reusability points)
+- [x] Brand filter: `GET /api/brands`, `GET /api/matches/by-brand/{brand}`, and `brand_filter` param in `run_matching()` (jury wants "Only look for Brand X")
+- [x] Scrape match verification function `verify_scraped_match()` in fuzzy_match.py (ready for scraper integration)
+- [x] Multi-word search fix in `search_products()` (AND-matches each term)
 
 ## Unmatched Sources (for scraping)
 
