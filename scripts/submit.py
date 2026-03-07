@@ -1,17 +1,20 @@
 """Submit results to the Zenline hackathon platform.
 
 Usage:
-    uv run python scripts/submit.py <category>
-    uv run python scripts/submit.py "TV & Audio"
-    uv run python scripts/submit.py "Small Appliances"
+    uv run python scripts/submit.py <category> [submission_type]
+    uv run python scripts/submit.py "TV & Audio" matching
+    uv run python scripts/submit.py "TV & Audio" scraping
+    uv run python scripts/submit.py "Small Appliances" scraping
+    uv run python scripts/submit.py "TV & Audio"              # submits both matching + scraping
 
-Reads session token from data/session.txt and submission from output/submission_<category>.json.
+Reads session token from data/session.txt and submission from output/ directory.
 Submissions are unlimited -- submit as often as you want to check scores.
 """
 
 import json
 import sys
 from pathlib import Path
+from urllib.parse import urlencode
 
 import httpx
 
@@ -40,7 +43,62 @@ def get_team_id(client: httpx.Client) -> str:
     return team["id"]
 
 
-def submit(category: str):
+def split_submission(submission: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Split a submission into matching (visible pool) and scraping (scraped) entries."""
+    matching = []
+    scraping = []
+    for entry in submission:
+        match_comps = []
+        scrape_comps = []
+        for comp in entry.get("competitors", []):
+            ref = comp.get("reference", "")
+            if ref.startswith("SCRAPED_"):
+                scrape_comps.append(comp)
+            else:
+                match_comps.append(comp)
+        if match_comps:
+            matching.append({"source_reference": entry["source_reference"], "competitors": match_comps})
+        if scrape_comps:
+            scraping.append({"source_reference": entry["source_reference"], "competitors": scrape_comps})
+    return matching, scraping
+
+
+def do_submit(client: httpx.Client, team_id: str, category: str, submission: list[dict], submission_type: str):
+    """Submit to the platform."""
+    safe_name = category.lower().replace(" & ", "_").replace(" ", "_")
+    sources = len(submission)
+    links = sum(len(s.get("competitors", [])) for s in submission)
+    print(f"\nSubmitting {submission_type}: {sources} sources, {links} links for '{category}'")
+
+    file_content = json.dumps(submission)
+    files = {"file": (f"submission_{safe_name}_{submission_type}.json", file_content, "application/json")}
+
+    # Use the correct endpoint format: /api/submit/{team_id}?category=...&submission_type=...
+    query = urlencode({"category": category, "submission_type": submission_type})
+    url = f"{BASE_URL}/api/submit/{team_id}?{query}"
+    r = client.post(url, files=files)
+
+    if r.status_code != 200:
+        print(f"  Endpoint 1 failed ({r.status_code}): {r.text[:200]}")
+        # Try alternate endpoints
+        for alt_url in [
+            f"{BASE_URL}/api/teams/{team_id}/submit?category={category}&submission_type={submission_type}",
+            f"{BASE_URL}/api/submit/{team_id}",
+        ]:
+            files = {"file": (f"submission_{safe_name}_{submission_type}.json", file_content, "application/json")}
+            r = client.post(alt_url, files=files, data={"category": category, "submission_type": submission_type})
+            if r.status_code == 200:
+                break
+            print(f"  Alt endpoint failed ({r.status_code}): {r.text[:200]}")
+
+    if r.status_code == 200:
+        result = r.json()
+        print(f"  Result: {json.dumps(result)}")
+    else:
+        print(f"  All endpoints failed. Last status: {r.status_code}")
+
+
+def submit(category: str, submission_type: str | None = None):
     safe_name = category.lower().replace(" & ", "_").replace(" ", "_")
     submission_path = OUTPUT_DIR / f"submission_{safe_name}.json"
 
@@ -61,47 +119,38 @@ def submit(category: str):
         sys.exit(1)
     print(f"Authenticated as: {user['user']}")
 
-    # Get team
     team_id = get_team_id(client)
     print(f"Team ID: {team_id}")
 
-    # Read submission
     with open(submission_path) as f:
         submission = json.load(f)
 
-    sources = len(submission)
-    links = sum(len(s.get("competitors", [])) for s in submission)
-    print(f"Submitting: {sources} sources, {links} links for '{category}'")
+    matching, scraping = split_submission(submission)
+    total_links = sum(len(s.get("competitors", [])) for s in submission)
+    print(f"Loaded: {len(submission)} sources, {total_links} total links")
+    print(f"  Matching: {len(matching)} sources, {sum(len(s['competitors']) for s in matching)} links")
+    print(f"  Scraping: {len(scraping)} sources, {sum(len(s['competitors']) for s in scraping)} links")
 
-    # Submit as multipart form (matching the frontend's FormData approach)
-    files = {"file": (f"submission_{safe_name}.json", json.dumps(submission), "application/json")}
-    data = {"category": category}
+    if submission_type in (None, "matching") and matching:
+        do_submit(client, team_id, category, matching, "matching")
+    if submission_type in (None, "scraping") and scraping:
+        do_submit(client, team_id, category, scraping, "scraping")
 
-    r = client.post(f"{BASE_URL}/api/teams/{team_id}/submit", files=files, data=data)
-
-    if r.status_code != 200:
-        print(f"Error {r.status_code}: {r.text}")
-        # Try alternate endpoint
-        r = client.post(f"{BASE_URL}/api/submit", files=files, data=data)
-        if r.status_code != 200:
-            print(f"Alternate endpoint also failed {r.status_code}: {r.text}")
-            sys.exit(1)
-
-    result = r.json()
-    print("\nSubmission result:")
-    print(json.dumps(result, indent=2))
-
-    # Check leaderboard
+    # Show leaderboard
     r = client.get(f"{BASE_URL}/api/leaderboard")
     if r.status_code == 200:
         lb = r.json()
-        print("\nLeaderboard:")
-        print(json.dumps(lb, indent=2)[:500])
+        print("\nLeaderboard (top 5):")
+        for team in lb["leaderboard"][:5]:
+            scores = {f"{s['category']}_{s['submission_type']}": s["score"] for s in team.get("category_scores", [])}
+            print(f"  {team['name']:25s} total={team['best_score']:5.1f}")
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: uv run python scripts/submit.py <category>")
+        print("Usage: uv run python scripts/submit.py <category> [matching|scraping]")
         print("Example: uv run python scripts/submit.py 'TV & Audio'")
+        print("         uv run python scripts/submit.py 'TV & Audio' scraping")
         sys.exit(1)
-    submit(sys.argv[1])
+    sub_type = sys.argv[2] if len(sys.argv) > 2 else None
+    submit(sys.argv[1], sub_type)

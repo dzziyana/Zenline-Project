@@ -268,11 +268,26 @@ def get_matches(source_reference: str):
         conn.close()
 
 
-def _build_submission(conn) -> list[dict]:
-    """Build submission JSON from current DB matches."""
+def _build_submission(conn, category: str | None = None) -> list[dict]:
+    """Build submission JSON from current DB matches, optionally filtered by category."""
+    if category:
+        # Load source references for this category from data files
+        data_dir = Path("data")
+        path = data_dir / f"source_products_{category}.json"
+        if path.exists():
+            with open(path) as f:
+                cat_sources = json.load(f)
+            source_refs = {s["reference"] for s in cat_sources}
+        else:
+            source_refs = None
+    else:
+        source_refs = None
+
     sources = get_all_sources(conn)
     submission = []
     for s in sources:
+        if source_refs is not None and s["reference"] not in source_refs:
+            continue
         matches = get_matches_for_source(conn, s["reference"])
         if matches:
             submission.append({
@@ -292,11 +307,11 @@ def _build_submission(conn) -> list[dict]:
 
 
 @app.get("/api/submission")
-def get_submission():
-    """Export current matches as submission JSON."""
+def get_submission(category: str | None = Query(None, description="Category slug (e.g. tv_audio, small_appliances)")):
+    """Export current matches as submission JSON, optionally filtered by category."""
     conn = _get_db()
     try:
-        return _build_submission(conn)
+        return _build_submission(conn, category)
     finally:
         conn.close()
 
@@ -308,7 +323,7 @@ def download_submission(category: str = Query("tv_audio")):
 
     conn = _get_db()
     try:
-        submission = _build_submission(conn)
+        submission = _build_submission(conn, category)
     finally:
         conn.close()
 

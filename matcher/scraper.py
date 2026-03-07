@@ -13,6 +13,7 @@ import asyncio
 import json
 import re
 import time
+from pathlib import Path
 from urllib.parse import quote_plus
 
 from curl_cffi import requests as cffi_requests
@@ -273,26 +274,126 @@ def _parse_geizhals_results(html: str, target_retailers: dict[str, str] | None =
     return results
 
 
+# Shared Playwright browser instance for geizhals (lazy-initialized)
+_pw_browser = None
+_pw_context = None
+_pw_playwright = None
+
+
+def _get_playwright_page():
+    """Get a Playwright page from the shared browser instance."""
+    global _pw_browser, _pw_context, _pw_playwright
+    if _pw_browser is None:
+        from playwright.sync_api import sync_playwright
+        _pw_playwright = sync_playwright().start()
+        _pw_browser = _pw_playwright.chromium.launch(
+            headless=True,
+            args=["--disable-blink-features=AutomationControlled"],
+        )
+        _pw_context = _pw_browser.new_context(
+            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        )
+        _pw_context.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+    return _pw_context.new_page()
+
+
+def _parse_geizhals_search_page(page) -> list[dict]:
+    """Parse geizhals search results page for product listings."""
+    results = []
+    items = page.query_selector_all(".galleryview__item, .listview__item")
+    for item in items:
+        name_el = item.query_selector(".galleryview__name-link, .listview__name-link")
+        if not name_el:
+            continue
+        name = name_el.inner_text().strip()
+        href = name_el.get_attribute("href") or ""
+        price_el = item.query_selector(".galleryview__price, .listview__price")
+        price_text = price_el.inner_text().strip() if price_el else ""
+        price = _parse_price(price_text) if price_text else None
+        results.append({"name": name, "href": href, "price": price})
+    return results
+
+
+def _parse_geizhals_offers_page(page) -> list[dict]:
+    """Parse a geizhals product page for retailer offers."""
+    RETAILER_MAP = {
+        "e-tec": "E-Tec",
+        "cyberport.at": "Cyberport AT",
+        "cyberport stores": "Cyberport AT",
+        "expert": "Expert AT",
+        "electronic4you": "electronic4you.at",
+        "amazon": "Amazon AT",
+        "media markt": "Media Markt AT",
+        "galaxus": "galaxus.at",
+    }
+    title_el = page.query_selector("h1")
+    product_name = title_el.inner_text().strip() if title_el else ""
+
+    results = []
+    seen_retailers = set()
+    offers = page.query_selector_all(".offer")
+    for offer in offers:
+        merchant_el = offer.query_selector(".merchant__logo-caption")
+        if not merchant_el:
+            continue
+        merchant = merchant_el.inner_text().strip().lower()
+        for key, display_name in RETAILER_MAP.items():
+            if key in merchant and display_name not in seen_retailers:
+                price_el = offer.query_selector(".gh_price")
+                price_text = price_el.inner_text().strip() if price_el else ""
+                link_el = offer.query_selector("a.offer_bt, a.offer__clickout")
+                link = ""
+                if link_el:
+                    href = link_el.get_attribute("href") or ""
+                    link = href if href.startswith("http") else f"https://geizhals.at{href}"
+                results.append({
+                    "name": product_name,
+                    "url": link,
+                    "price": _parse_price(price_text) if price_text else None,
+                    "retailer": display_name,
+                })
+                seen_retailers.add(display_name)
+                break
+    return results
+
+
 def search_geizhals(query: str, only_retailers: list[str] | None = None) -> list[dict]:
-    """Search geizhals.at and extract offers from target retailers."""
+    """Search geizhals.at using Playwright to bypass Cloudflare."""
     _rate_limit_sync('geizhals.at')
     search_url = f"https://geizhals.at/?fs={quote_plus(query)}"
     try:
-        r = cffi_requests.get(search_url, impersonate='chrome', timeout=15)
-        if r.status_code == 200:
-            target_retailers = None
-            if only_retailers:
-                all_retailers = {
-                    'e-tec': 'E-Tec',
-                    'cyberport': 'Cyberport AT',
-                    'expert': 'Expert AT',
-                    'electronic4you': 'electronic4you.at',
-                }
-                target_retailers = {k: v for k, v in all_retailers.items() if v in only_retailers}
-            return _parse_geizhals_results(r.text, target_retailers)
-    except Exception:
-        pass
-    return []
+        page = _get_playwright_page()
+        page.goto(search_url, timeout=20000)
+        page.wait_for_timeout(2000)
+
+        # Check if we got search results or a direct product page
+        content = page.content()
+        if "galleryview" in content or "listview" in content:
+            # Search results page - get first product link and visit it
+            search_results = _parse_geizhals_search_page(page)
+            if not search_results:
+                page.close()
+                return []
+            # Visit the first (best match) product page
+            product_url = search_results[0]["href"]
+            if not product_url.startswith("http"):
+                product_url = f"https://geizhals.at{product_url}"
+            page.goto(product_url, timeout=20000)
+            page.wait_for_timeout(2000)
+
+        # Parse offers from product page
+        results = _parse_geizhals_offers_page(page)
+        page.close()
+
+        if only_retailers:
+            results = [r for r in results if r["retailer"] in only_retailers]
+        return results
+    except Exception as e:
+        try:
+            page.close()
+        except Exception:
+            pass
+        return []
 
 
 # ---------------------------------------------------------------------------
@@ -398,13 +499,8 @@ def _is_relevant(source: Product, result: dict) -> bool:
         # (verification will filter out false positives)
         return True
 
-    # No brand or model match in name - still allow through for non-TV products
-    # since the pipeline's verify_scraped_match (threshold 0.6) handles precision.
-    # For TV products, require brand or model match to avoid phones/tablets.
-    src_size_m = re.search(r'(\d{2,3})\s*(?:Zoll|"|\'\')', source.name, re.IGNORECASE)
-    if src_size_m:
-        return False
-    return True
+    # No brand or model match - not relevant
+    return False
 
 
 def scrape_product(source: Product) -> list[dict]:
@@ -433,14 +529,17 @@ def scrape_product(source: Product) -> list[dict]:
                 retailers_found['electronic4you.at'] = relevant
                 all_results.extend(relevant)
 
-        # Geizhals fallback for e-tec and cyberport (only search with EANs)
-        missing = [r for r in ['E-Tec', 'Cyberport AT'] if r not in retailers_found]
-        if missing and (query.isdigit() and len(query) >= 8):
-            results = search_geizhals(query, only_retailers=missing)
-            for r in results:
-                if r['retailer'] not in retailers_found:
-                    retailers_found[r['retailer']] = [r]
-                    all_results.append(r)
+        # Geizhals (Playwright) - covers Expert AT, Cyberport AT, e-tec, Amazon, etc.
+        # Only search once per product (first query that gets results)
+        if 'geizhals' not in retailers_found:
+            results = search_geizhals(query)
+            if results:
+                retailers_found['geizhals'] = True
+                for r in results:
+                    retailer_key = r['retailer']
+                    if retailer_key not in retailers_found:
+                        retailers_found[retailer_key] = [r]
+                        all_results.append(r)
 
         # Stop early if we found results from all retailers
         if len(retailers_found) >= 4:
@@ -453,17 +552,59 @@ def scrape_product(source: Product) -> list[dict]:
     return all_results
 
 
-def scrape_all(sources: list[Product]) -> list[dict]:
+CACHE_DIR = Path("data/scrape_cache")
+CACHE_MAX_AGE = 3600  # 1 hour
+
+
+def _load_cache(source_ref: str) -> list[dict] | None:
+    """Load cached scrape results for a source reference, if fresh enough."""
+    cache_file = CACHE_DIR / f"{source_ref}.json"
+    if not cache_file.exists():
+        return None
+    try:
+        data = json.loads(cache_file.read_text())
+        if time.time() - data.get("timestamp", 0) > CACHE_MAX_AGE:
+            return None
+        return data["results"]
+    except (json.JSONDecodeError, KeyError):
+        return None
+
+
+def _save_cache(source_ref: str, results: list[dict]):
+    """Save scrape results to cache."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    cache_file = CACHE_DIR / f"{source_ref}.json"
+    cache_file.write_text(json.dumps({
+        "timestamp": time.time(),
+        "results": results,
+    }, ensure_ascii=False))
+
+
+def scrape_all(sources: list[Product], use_cache: bool = True) -> list[dict]:
     """Scrape all hidden retailers for all source products.
+
+    If use_cache is True, returns cached results for sources scraped within
+    the last hour, only re-scraping sources with no cache or stale cache.
 
     Returns flat list of result dicts.
     """
     all_results = []
+    cached_count = 0
     for i, source in enumerate(sources):
+        if use_cache:
+            cached = _load_cache(source.reference)
+            if cached is not None:
+                cached_count += 1
+                all_results.extend(cached)
+                continue
         print(f"  Scraping [{i+1}/{len(sources)}] {source.name[:50]}...")
         results = scrape_product(source)
         print(f"    Found {len(results)} results from {len(set(r['retailer'] for r in results))} retailers")
         all_results.extend(results)
+        if use_cache:
+            _save_cache(source.reference, results)
+    if cached_count:
+        print(f"  Used cache for {cached_count}/{len(sources)} sources")
     return all_results
 
 

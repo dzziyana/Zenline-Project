@@ -13,6 +13,7 @@ dependencies = [
     "fastapi",
     "python-multipart",
     "jinja2",
+    "playwright>=1.58.0",
 ]
 
 [tool.uv]
