@@ -1,0 +1,18 @@
+[project]
+name = "product-matcher"
+version = "0.1.0"
+description = "Electronics competitor product matching tool for Zenline hackathon"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic",
+    "httpx",
+    "rich",
+    "rapidfuzz",
+    "selectolax",
+    "uvicorn",
+    "fastapi",
+    "jinja2",
+]
+
+[tool.uv]
+dev-dependencies = []
