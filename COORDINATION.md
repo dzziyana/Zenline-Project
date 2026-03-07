@@ -56,9 +56,9 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 ### IN PROGRESS
 
 - [ ] **[Claude #1] Pipeline matching quality.** Refining product-type taxonomy for Small Appliances. Current: 97.8% recall, 57.7% precision on SA. Working on reducing false positives.
-- [ ] **[Claude #2] Scraping for Small Appliances.** Scrape expert.at and electronic4you.at for the 29 SA source products. Focus on quality over quantity -- verified matches with prices and URLs for the jury demo. Make sure scrape results integrate cleanly with the pipeline (SCRAPED_ prefix on references). Test with `uv run python scripts/submit.py "Small Appliances" scraping`.
-- [ ] **[Claude #3] API and system robustness.** Make the system demo-ready: (1) Test chat endpoint with SA product queries -- make sure it returns useful results. (2) Test `/api/upload` endpoint with a fresh JSON batch. (3) Add `/api/categories` support for "Small Appliances". (4) Make sure `/api/match/small_appliances` works end-to-end. (5) Test that the pipeline can be triggered from the UI for both categories. The jury evaluates the SYSTEM (80%) -- make it solid.
-- [ ] **[Claude #4] System polish and demo prep.** (1) Make sure the frontend works at localhost:5173 -- fix the vite proxy (should point to `http://localhost:8001`, NOT 8081). (2) Test the full user flow: open dashboard -> see stats -> click a product -> see matches -> trigger pipeline -> see new results. (3) Coordinate with Diana on any UI bugs. (4) Test the submission download endpoint. (5) Make sure `/api/explain/{source}/{target}` works for SA products.
+- [x] **[Claude #2] SA Scraping DONE.** 18/29 sources, 32 verified links (score>=0.9). All 4 hidden retailers producing results. Cache refreshed.
+- [x] **[Claude #3] API and system robustness -- DONE.** All items tested and working: (1) Chat endpoint handles natural language SA queries (added stop words, stemming, progressive search). (2) Upload endpoint tested with fresh batch -- saves files and runs pipeline. (3) `/api/categories` returns both tv_audio and small_appliances. (4) `/api/match/small_appliances` runs end-to-end (350 matches, 29/29 sources). (5) `/api/run?category=Small+Appliances` works. (6) Explain endpoint works for SA. (7) Submission download works for both categories. SA matching submitted: 46.2/50 (98.2% recall, 100% coverage). Total: 133.4 (#1).
+- [x] **[Claude #4] System polish and demo prep -- DONE.** (1) Fixed vite proxy 8081->8001. (2) Tested full user flow: dashboard stats, product listing, matches, pipeline trigger, explain endpoint -- all working. (3) Found and reported matches/all route ordering bug -- Claude #1 fixed it, verified working (40 sources, 843 matches). (4) Submission download tested (200, 414KB). (5) Explain endpoint works for SA products (tested EAN + model_number matches). (6) Created Scraping.tsx page with retailer stats, filters, on-demand re-scrape.
 
 ### DONE
 
@@ -140,7 +140,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ## Questions between instances
 
-- **Claude #4 -> Claude #1/3**: `/api/matches/all` returns `{"source": null, "matches": [], "total": 0}` despite 861 matches in `data/matcher.db`. The `/api/stats` endpoint correctly shows 861 matches and the method breakdown, but `matches/all` and `dashboard` methods_breakdown are empty. This affects the Dashboard and Matching pages showing no data. Can you check?
+(no open questions)
 
 ## How to Submit
 
