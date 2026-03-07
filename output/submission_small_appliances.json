@@ -4,9 +4,72 @@
     "competitors": [
       {
         "reference": "P_7DD0C99E",
-        "competitor_retailer": "MediaMarkt AT",
+        "competitor_retailer": "",
         "competitor_product_name": "Mini Akku Handstaubsauger Druckluftfunktion USB-C",
-        "competitor_url": "https://www.mediamarkt.at/de/product/_mini-akku-handstaubsauger-druckluftfunktion-usb-c-1234567.html",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_6298C020",
+        "competitor_retailer": "",
+        "competitor_product_name": "Maxxi Clean | 2x 750 ml Universal Entkalker Konzentrat f\u00fcr Kaffeemaschinen & Kaffeevollautomaten aller Typen | f\u00fcr 12 Entkalkungsvorg\u00e4nge | universelle Ger\u00e4tereinigung gegen Kalk und Verschmutzungen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4B62B672",
+        "competitor_retailer": "",
+        "competitor_product_name": "MIELE Entkalkungstabletten 6 Stk. (10178330)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_B15BB8C7",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips Universal Fl\u00fcssigentkalker f\u00fcr Kaffeevollautomaten \u2013 0,5\u202fl Flasche, 2 Anwendungen, Entfernt Kalk, Verbessert Kaffeegeschmack, Verl\u00e4ngert Ger\u00e4telebensdauer (CA6700/22)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_C4FE47BA",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips Universal Fl\u00fcssigentkalker f\u00fcr Kaffeevollautomaten \u2013 0,5\u202fl Flasche, 2 Anwendungen, Entfernt Kalk, Verbessert Kaffeegeschmack, Verl\u00e4ngert Ger\u00e4telebensdauer (CA6700/22)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_6C770A0B",
+        "competitor_retailer": "",
+        "competitor_product_name": "PURIVITA\u00ae Universal Entkalker Kaffeevollautomat [500ML] - Kaffeemaschinen Entkalker Fl\u00fcssig - Fl\u00fcssigentkalker Kaffeemaschine Reiniger - Kalkreiniger Kaffeevollautomaten - F\u00fcr alle Kaffeeautomaten",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4392E894",
+        "competitor_retailer": "",
+        "competitor_product_name": "PURIVITA\u00ae Universal Entkalker Kaffeevollautomat [500ML] - Kaffeemaschinen Entkalker Fl\u00fcssig - Fl\u00fcssigentkalker Kaffeemaschine Reiniger - Kalkreiniger Kaffeevollautomaten - F\u00fcr alle Kaffeeautomaten",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_2BEBDE6E",
+        "competitor_retailer": "",
+        "competitor_product_name": "Wessper Entkalker f\u00fcr kaffeevollautomaten 500ml, Universal Fl\u00fcssigentkalker f\u00fcr kaffeemaschinen & -Zubereiter- entfernt Kalkablgerungen, einfache Anwendung- 2 St\u00fcck",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_53469C9F",
+        "competitor_retailer": "",
+        "competitor_product_name": "WoldoClean 2in1 Entkalker & Reiniger f\u00fcr Kaffeevollautomaten - Fl\u00fcssigentkalker f\u00fcr Kaffeemaschinen, mit Farbindikator, 750 ml f\u00fcr 6 Anwendungen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7443DC29",
+        "competitor_retailer": "",
+        "competitor_product_name": "XAVAX Premium-Entkalker f\u00fcr hochwertige Kaffeeautomaten online kaufen | MediaMarkt",
+        "competitor_url": "",
         "competitor_price": null
       }
     ]
@@ -16,24 +79,73 @@
     "competitors": [
       {
         "reference": "P_3A39CD31",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "meberg PF11257 Mikrowellendeckel Glockenform 25 cm BPA frei Kunststoff Mikrowellenabdeckhaube Mikrowellenhaube transparent Mikrowellebabdeckung Abdeckung Mikrowelle (Glocke)",
-        "competitor_url": "https://www.amazon.de/meberg-Mikrowellendeckel-Mikrowellenabdeckhaube-Mikrowellenhaube-Mikrowellebabdeckung/dp/B09N7F1NH7/ref=sr_1_1?dib=eyJ2IjoiMSJ9.GVuiWbFHNwnMKnenb8HWEn8xUDD32gW7TRWk67Bj1wwHVe5hbvkq7cA1EC1W2HLiYE8da7x_qsU7oY4hMStDVjauPVH1oCthdKfEnnIR_bfYblb3AAkW9hqjEFbQA6kLQnnaSYgUWRHK7VAuwzsbDUEB6kVBTO75Niml3JHyT_NPokPuCiqN-rq5fOk2QAO8Q8a1r8CrRtlhMsvAVLkgW6h1fFG2Bw72Pq-NyhTdjZXAK7KcOo4NMol8xlaEzm0dO-JJpFeTZsQwDOk2zKwgOeLRgPEkYjfjmgPgOUBqjpI.DlPZsNhHZcVTHbzEMbPXKoVUalpzvtlNQmCBoSQM8xQ&dib_tag=se&keywords=Mikrowellenhaube+25cm+Spritzschutz+Kunststoff+transparent&qid=1769561682&sr=8-1",
-        "competitor_price": 8.99
+        "competitor_url": "",
+        "competitor_price": null
       },
       {
         "reference": "P_4DB0B2BB",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "meberg PF11257 Mikrowellendeckel Set, 2 St\u00fcck, 25 cm, BPA-freier Kunststoff, Transparent, Sp\u00fclmaschinenfest",
-        "competitor_url": "https://www.amazon.de/meberg-Mikrowellendeckel-BPA-freier-Transparent-Sp%C3%BClmaschinenfest/dp/B0CRW1DMPJ/ref=sr_1_6?dib=eyJ2IjoiMSJ9.GVuiWbFHNwnMKnenb8HWEn8xUDD32gW7TRWk67Bj1wwHVe5hbvkq7cA1EC1W2HLiYE8da7x_qsU7oY4hMStDVjauPVH1oCthdKfEnnIR_bfYblb3AAkW9hqjEFbQA6kLQnnaSYgUWRHK7VAuwzsbDcotYEbc6IDLfdbSbTJ8PlSA5p_cfSq6RL7HO81hbAoWKCLWS-BueVvt8tgFJhbw5dkZXPUxB7zFFCrQlS74kz--kYt20PjHUbUz_G2eH6U0lKIHAYrxuk0ZGlmkO9scnerblxv8CLQcrYkGePndn_U.2H5KseQxSymU5l-lFnFtXI9q3d0l3Ifvm5E1r1s-7uo&dib_tag=se&keywords=Mikrowellenhaube+25cm+Spritzschutz+Kunststoff+transparent&qid=1769562260&sr=8-6",
-        "competitor_price": 11.9
+        "competitor_url": "",
+        "competitor_price": null
       },
       {
         "reference": "P_8CE76E4D",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "meberg PF11257 Mikrowellendeckel Set, 2 St\u00fcck, 25 cm, BPA-freier Kunststoff, Transparent, Sp\u00fclmaschinenfest",
-        "competitor_url": "https://www.amazon.de/meberg-Mikrowellendeckel-BPA-freier-Transparent-Sp%C3%BClmaschinenfest/dp/B0CRW1DMPJ/ref=sr_1_6?dib=eyJ2IjoiMSJ9.GVuiWbFHNwnMKnenb8HWEn8xUDD32gW7TRWk67Bj1wwHVe5hbvkq7cA1EC1W2HLiYE8da7x_qsU7oY4hMStDVjauPVH1oCthdKfEnnIR_bfYblb3AAkW9hqjEFbQA6kLQnnaSYgUWRHK7VAuwzsbDUEB6kVBTO75Niml3JHyT_NPokPuCiqN-rq5fOk2QAO8Q8a1r8CrRtlhMsvAVLkgW6h1fFG2Bw72Pq-NyhTdjZXAK7KcOo4NMol8xlaEzm0dO-JJpFeTZsQwDOk2zKwgOeLRgPEkYjfjmgPgOUBqjpI.DlPZsNhHZcVTHbzEMbPXKoVUalpzvtlNQmCBoSQM8xQ&dib_tag=se&keywords=Mikrowellenhaube+25cm+Spritzschutz+Kunststoff+transparent&qid=1769561682&sr=8-6",
-        "competitor_price": 11.9
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_2BFF2CF3",
+        "competitor_retailer": "",
+        "competitor_product_name": "Amazon.de: Mikrowellen-Spritzschutz f\u00fcr Lebensmittel, gro\u00dfe Mikrowellenteller, Lebensmittelabdeckung mit leicht zu greifendem Griff, Anti-Spritz-Deckel mit vergr\u00f6\u00dferten, 29.5 cm, BPA-frei und sp\u00fclmaschinenfest",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_300D0099",
+        "competitor_retailer": "",
+        "competitor_product_name": "KOENIC KMH-0029-1 Mikrowellenhaube online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D0CF1545",
+        "competitor_retailer": "",
+        "competitor_product_name": "meberg Mikrowellen-Spritzschutzdeckel 29 cm - BPA-frei, Transparent, Sp\u00fclmaschinenfest, Passend f\u00fcr Standard Mikrowellen : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_B27F9AA2",
+        "competitor_retailer": "",
+        "competitor_product_name": "meberg PF11577 Mikrowellendeckel 24,5 cm BPA frei Kunststoff Mikrowellenabdeckhaube Mikrowellenhaube transparent Mikrowellebabdeckung Abdeckung Mikrowelle (XS)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7D16D82D",
+        "competitor_retailer": "",
+        "competitor_product_name": "Mikrowellenhaube, Durchsichtige Mikrowellenabdeckung mit Dampfschlitzen - Spritzschutz f\u00fcr Backofen und Mikrowelle, \u00d8 28CM, H\u00f6he 8.5CM : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_8E9B019D",
+        "competitor_retailer": "",
+        "competitor_product_name": "SCANPART 7300008700 Mikrowellenhaube (27 cm)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_A54AE884",
+        "competitor_retailer": "",
+        "competitor_product_name": "SCANPART Mikrowellenabdeckhaube \u00d829cm online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
       }
     ]
   },
@@ -42,37 +154,51 @@
     "competitors": [
       {
         "reference": "P_DF146934",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "2-in-1 Raclette Grill 8 People Electric Table Grill Non-Stick Coated Reversible Grill Plate Electric Grill Smokeless Raclette with 8 Mini Raclette Pans & 8 Scrapers Dishwasher Safe 1300 W : Amazon.de: Home & Kitchen",
-        "competitor_url": "https://www.amazon.de/Antihaftbeschichtet-Wende-Grillplatte-Elektrogrill-Rauchfreier-Sp%C3%BClmaschinenfest/dp/B0CHMFRW5R",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_44CBF62B",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "Klarstein Sirloin Raclette-Grill, 1500 Watt, 2-in-1: Aluminium-Grillplatte & Natursteinplatte, Edelstahl-Heizelement, regulierbarer Thermostat, f\u00fcr 8 Personen, Raclette-Pfannen aus Stahl",
-        "competitor_url": "https://www.amazon.de/Klarstein-Sirloin-Raclette-Grill-Aluminium-Grillplatte-Edelstahl-Heizelement/dp/B07ZRM2FZW/ref=sr_1_11?dib=eyJ2IjoiMSJ9.OnMse7WCwsi2l8Ll_aFmZIC_wViF9QIAxeUrX3KY4yiQnQYZpJ1S94XBU-pZtr0SluMAenuzMRB6lLwCkAV-z_PeL4G7v7mqgf60b3433njQ_TeD67jvCtrFFRWZxYTViCKyaWLOiMNSsiS7LIcnEPoendGvsAcO4ZdxaKcaXdVwiFsMBJxz8gwNo8OMw_XvuTXE8lUoBv3_Gai2VIrKbfGOmYeIN7A-nRm9ZOSRsco.vdjDeokNvIRBEQCZ5W3tnkvQ2B3nXsDlQRNgRWRfBv0&dib_tag=se&keywords=Raclette+Grill+8+Personen+Naturstein+1500W&qid=1770246637&sr=8-11",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_0BF8BFF9",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "Russell Hobbs Standmixer 2-in-1 [1,5l Glasbeh\u00e4lter Mixer & 0,6l Mini Smoothie Maker -To-Go-Trinkflasche inkl. Deckel] Sp\u00fclmaschinenfest, Impuls-/Ice-Crush Funktion, Becher BPA frei, Edelstahl 23821-56",
-        "competitor_url": "https://www.amazon.de/Russell-Hobbs-23821-56-Glas-Standmixer-Go-Becher/dp/B06XCFCMJZ/ref=sr_1_7?dib=eyJ2IjoiMSJ9.7HXCF43EWkMDXP1kbVh4sqUZFMhfHWCQjBUyP4oMmfXsIPz26pTjqM91Z8b9Ct4th-OoXSgU82MroLDQ6iCCTtAhmhszYmmpwXpINgtFbuKgazIIhKE2u067-oYMip1X3d2u1F-y3LnYgcmzCCTgxZIdzEJQ0CovKnzcd5O4enoI7q7J6Gn8FS_gm2mshNIzEpIIvi1nUBxLVQBweD9PFF1qVo-zBsY4AFsm5J04Crc.L4_XplUvNpVu72FaUXz7lGxOhfC31C_zZAGKgVcy5w8&dib_tag=se&keywords=Standmixer+Edelstahl+1000+Watt+Glasbeh%C3%A4lter&qid=1770251165&sr=8-7",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_38ECFF89",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "Akitas 800W Beutelloser Staubsauger: Starke Saugkraft, Deutscher Wessel-Werk 2-in-1-B\u00fcrstenkopf (Hartb\u00f6den/Teppiche) + Turbo-Haarb\u00fcrste f\u00fcr Haustiere",
-        "competitor_url": "https://www.amazon.de/Akitas-800W-Beutelloser-Staubsauger-1-B%C3%BCrstenkopf/dp/B0CS6Y1TY9/ref=sr_1_3?dib=eyJ2IjoiMSJ9.mjxSskz_VWh758GABAJfwPPWxUFIaGQ1KpbeDJDWSNfafbV7KmUK9DtwpmDhwUVvbmQFGeH77Gx3iL1pVnKt-38QnK0otzjdUqeb7izrNRT5fa6UQgVYTrr8QXYxpWut07MXID3Mk1aPYQNz7EoVkP7aDU9CnJ03u-vq_YaQbIh47bgbybG59Jw6bXamFBEJ-L6mh_cicKt9P8jfKoCmhpspi3l2BLcPgeakISedAyg.EstoKym_rqtpvnSC1z7olc-qO892EWRT83lICQCWhdg&dib_tag=se&keywords=beutelloser+Schlittenstaubsauger+800+Watt+kompakt&qid=1770247155&sr=8-3",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_CC178206",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "Cecotec Bodenstaubsauger mit 2 Litern Beutelloser Conga Rockstar Multicyclonic Compact X-Treme. 800 W, Ultraleicht und Kompakt, 20 kPa, Aktionsradius 6,2 m, 2-in-1-Zubeh\u00f6r f\u00fcr M\u00f6bel und Ecken.",
-        "competitor_url": "https://www.amazon.de/Cecotec-Bodenstaubsauger-Beutelloser-Multicyclonic-Aktionsradius/dp/B0BPZJCLV6/ref=sr_1_5?dib=eyJ2IjoiMSJ9.mjxSskz_VWh758GABAJfwPPWxUFIaGQ1KpbeDJDWSNfafbV7KmUK9DtwpmDhwUVvbmQFGeH77Gx3iL1pVnKt-38QnK0otzjdUqeb7izrNRT5fa6UQgVYTrr8QXYxpWut07MXID3Mk1aPYQNz7EoVkP7aDU9CnJ03u-vq_YaQbIh47bgbybG59Jw6bXamFBEJ-L6mh_cicKt9P8jfKoCmhpspi3l2BLcPgeakISedAyg.EstoKym_rqtpvnSC1z7olc-qO892EWRT83lICQCWhdg&dib_tag=se&keywords=beutelloser+Schlittenstaubsauger+800+Watt+kompakt&qid=1770247155&sr=8-5",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_3EE10211",
+        "competitor_retailer": "",
+        "competitor_product_name": "Princess Pesto Maker - Multi Zerkleinerer, mit 2 Edelstahlmessern, 200 Watt, 190 g, f\u00fcr feste und fl\u00fcssige Zutaten, 221040",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_3C015498",
+        "competitor_retailer": "",
+        "competitor_product_name": "ProfiCook\u00ae Kaffeeschlagwerk | elektrisch | 200 Watt | Zerkleinerer | Edelstahlgeh\u00e4use | Impulsbetrieb | 4-fach Hackmesser f\u00fcr Gew\u00fcrze | 2-fach Edelstahlschlagmesser f\u00fcr Kaffeebohnen | PC-KSW 1021 N",
+        "competitor_url": "",
         "competitor_price": null
       }
     ]
@@ -82,9 +208,16 @@
     "competitors": [
       {
         "reference": "P_91E9174D",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "Tefal Easygrill Elektrischer Standgrill | BG90F5 | Mit Standf\u00fc\u00dfen F\u00fcr Drau\u00dfen | Auch Als Tischgrill Drinnen verwendbar | 2300 W | 870cm\u00b2 Grillfl\u00e4che | Leichte Reinigung | schwarz/Burgunderrot",
-        "competitor_url": "https://www.amazon.de/Tefal-BG90F5-Easygrill-Elektro-Standgrill-Burgunderrot/dp/B079R1D4ZR/ref=sr_1_10?dib=eyJ2IjoiMSJ9.7Stg7X4w42M6WPbp7vCzrSC16FOIbXscW2w4V3DQdcFDSTv1ErJy33m7JeXwNYc8f04TABfoWer_Sf6N59Rq85Vs0HkI3Vjf2tGcP7prgnuxRwZZd4uGMGvmt-Ej8uWRjhY9R_EOAlWoZSAgTjnbhLCciDDorOUxTrAGwwCkIoU-UTOptI1FwOpz48k70JW_7qzBB3LVjtTMITbks0-TfKPM70rqz6IqhXk86YgXY50.dDZ-3Ejm-vCBXYEm-GjilFq2PxMqExGlDRaUixcP6pE&dib_tag=se&keywords=Elektro+Standgrill+2000+Watt+Thermostat&qid=1770553742&sr=8-10",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_564C82DC",
+        "competitor_retailer": "",
+        "competitor_product_name": "Clatronic\u00ae Elektro Grill | Barbecue-Tischgrill | Indoor-Outdoor BBQ | elektrischer Standgrill | Balkon/Camping/Gartengrill | Grillrost | Windschutz | Grillfl\u00e4che 35,5x24,5 cm | 2000 Watt | BQS 3508",
+        "competitor_url": "",
         "competitor_price": null
       }
     ]
@@ -94,10 +227,80 @@
     "competitors": [
       {
         "reference": "P_BD801EE4",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "ROMMELSBACHER Vakuumierer VAC 585, Absaugleistung 20 Liter/Min., Einhand-Bedienung, Langzeitbetrieb geeignet, Doppel-Versiegelungsnaht, 2 Programme, 2 Geschwindigkeiten, f\u00fcr Folien bis 30 cm",
-        "competitor_url": "https://www.amazon.de/Rommelsbacher-VAC-585/dp/B07NLPYH9C/ref=sr_1_10?keywords=Vakuumierger%C3%A4t+Edelstahl+110W+automatisch&qid=1769561311&sr=8-10",
-        "competitor_price": 179.0
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_8B2EFC80",
+        "competitor_retailer": "",
+        "competitor_product_name": "Bonsenkitchen Vakuumierger\u00e4t, Vakuumierer f\u00fcr kontinuierliches Arbeiten mit hoher Geschwindigkeit, Folienschwei\u00dfger\u00e4t f\u00fcr Lebensmittel, inkl. 5 Vakuumier-Beutel und Schlauch (Wei\u00df)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_8D2B4C98",
+        "competitor_retailer": "",
+        "competitor_product_name": "FRESKO Automatische Vakuumierger\u00e4t, 140W Vakuumierer mit Doppelte Hei\u00dfsiegelung, Trocken-/Feuchtmodus, Einhand-Bedienung, Automatischer Verriegelung, 10 Vorgeschnittene Beutel (Automax V2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1CA788E9",
+        "competitor_retailer": "",
+        "competitor_product_name": "HIYORI Automatische Vakuumiermaschine Tragbar Energiesparend Multifunktional Vakuumierer Wei\u00df | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_C6E2BDA0",
+        "competitor_retailer": "",
+        "competitor_product_name": "KLAMER Vakuumierer Pro 80 (2025) Test \"Sehr gut\" - Vakuumierger\u00e4t f\u00fcr trockene & feuchte Lebensmittel, f\u00fcr Sous Vide, inkl. Vakuumier-Beutel und Schlauch",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_2458BE5D",
+        "competitor_retailer": "",
+        "competitor_product_name": "KOENIC KVS-TR 115124 M Vakuumierer Silber",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7A3326D0",
+        "competitor_retailer": "",
+        "competitor_product_name": "Maxxo VM Master Profi Vakuumierger\u00e4t 25L/Min 350W Automatik Vakuumierger\u00e4t Lebensmittel Doppelschwei\u00dfen Edelstahl Rollenbreite bis 40cm",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_2B001832",
+        "competitor_retailer": "",
+        "competitor_product_name": "Mesliese 85kPa 120W Vakuumierger\u00e4t, Automatische Lebensmittelversiegelungsmaschine, Leistungsstarkes Versiegelungssystem, Eingebautes Schneideger\u00e4t | Beutelaufbewahrung | 2 Beutelrollen (Silber)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7D0F83D7",
+        "competitor_retailer": "",
+        "competitor_product_name": "PROFICOOK PC-VK 1080 Vakuumierer Inox | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_367CBBC2",
+        "competitor_retailer": "",
+        "competitor_product_name": "ROMMELSBACHER Vakuumierer VAC 485 - Absaugleistung 15 Liter/Min., Einhand-Bedienung, f\u00fcr Langzeitbetrieb geeignet, Doppel-Versiegelungsnaht, 2 Versiegelungszeiten, f\u00fcr Folien bis 30 cm Breite",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D04AEC51",
+        "competitor_retailer": "",
+        "competitor_product_name": "Vakuumierger\u00e4t aus Edelstahl \u2013 85 kPa Saugkraft, Trocken & Feucht, Doppelte Versiegelung, Mit externer Absaugung, LED-Touch-Panel, Automatisch mit 20 Beuteln | Leistungsstark | K\u00fcche & Gastro",
+        "competitor_url": "",
+        "competitor_price": null
       }
     ]
   },
@@ -106,30 +309,65 @@
     "competitors": [
       {
         "reference": "P_33469DD7",
-        "competitor_retailer": "MediaMarkt AT",
+        "competitor_retailer": "",
         "competitor_product_name": "BEURER MG99 PhysioLine Massagepistole, mit 4 Aufs\u00e4tzen, Gr\u00fcn | MediaMarkt",
-        "competitor_url": "https://www.mediamarkt.at/de/product/_beurer-mg-99-massage-gun-compact-inkl-4-aufsatze-1874925.html",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_B54808B0",
-        "competitor_retailer": "MediaMarkt AT",
+        "competitor_retailer": "",
         "competitor_product_name": "BEURER 103.35 MG99 Limited Edition Massagepistole, mit 4 Aufs\u00e4tzen, Schwarz/Kupfer online kaufen | MediaMarkt",
-        "competitor_url": "https://www.mediamarkt.at/de/product/_beurer-10335-mg99-limited-edition-massagegun-1973023.html",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_D2690F44",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "Beurer MG 99 Massagepistole, handliche Massage Gun mit 4 Aufs\u00e4tzen, kraftvolle Triggerpunktmassage, Lockerung von Verspannungen, kompaktes Muskelmassageger\u00e4t mit 5 Intensit\u00e4tsstufen & Akku",
-        "competitor_url": "https://www.amazon.de/Beurer-Massagepistole-Triggerpunktmassage-Muskelmassageger%C3%A4t-Intensit%C3%A4tsstufen/dp/B09QC1W78J/ref=sr_1_2?dib=eyJ2IjoiMSJ9.YbevPrCmHdod43pj0FXQ_yqHu7JvdbSukuKqr6-8r981Fvu2IAU5FnnWWfC7OM0J4CoiAWA6bcHfu1mOWrVWqoUxOWh3zaNBWCg_KnehsnLLoaXk-PiPs0PdiFq4_9B5OT_2CyefYTGsaW2_Jmd47O3Vmwd6cSd50JzT-3szQZ-g5PyoZLSEYKECctSbU37dRxJzWy7u3Zl1qRFQzvx7dFUSyE_JJRdkLNTdxRStuJKRPNQP-Wlh4Rqmh5tdvH8iKnGdDLqc9lBymOqApBPaaoFmT2NxGXMNUNFJPN7ZFjY.sEq4iraKfNeo9b3w0vggAw33GAxR5CNOq5iFeuSozZ0&dib_tag=se&keywords=Massagepistole+schwenkbar+4+Aufs%C3%A4tze+USB-C&qid=1769686207&sr=8-2",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_830A36D0",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "Beurer MG 99 Massagepistole, handliche Massage Gun mit 4 Aufs\u00e4tzen, kraftvolle Triggerpunktmassage, Lockerung von Verspannungen, kompaktes Muskelmassageger\u00e4t mit 5 Intensit\u00e4tsstufen & Akku",
-        "competitor_url": "https://www.amazon.de/Beurer-Massagepistole-Triggerpunktmassage-Muskelmassageger%C3%A4t-Intensit%C3%A4tsstufen/dp/B09QC1W78J/ref=sr_1_8?dib=eyJ2IjoiMSJ9.9yDDcaMXVdeNODM7eKQaytPLv1mu6vpFr9I82CIxZixjjvs5NWm7-H64uxtgDpVKvAmFI-THU5T1MZ-MEyvJqb14eHZmYmziiwez7AvTh9tTYx84VMPFE65c66MKj3FwrOYOp33OmpUs_MeCkHRmbtxBF0XdQojz_Mln4Ty_oBdhClZTSrG1-752VEUtJB0FCCnpurYb0pxU26Jrbr2ZJGTzRWPIMQby0g4pmz7wdBwqsQSN5dPkZ30phlX4sv8aBDoFTQHFspzC7YxUeWcyInAioYoGup53dVsH4IzhAek.lysfP9TjDGIXMP3pz-sCsKwN5ceEbVRSV2IMefkYB08&dib_tag=se&keywords=Massagepistole+verstellbarer+Winkel+4+Aufs%C3%A4tze&qid=1770341682&sr=8-8",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_575B1A7C",
+        "competitor_retailer": "",
+        "competitor_product_name": "Beurer Antelope BOOM Massagepistole, kompakte Massage Gun mit 4 Aufs\u00e4tzen, f\u00fcr Entspannung und Regeneration, kraftvolle Triggerpunktmassage, Muskelmassageger\u00e4t mit 5 Intensit\u00e4tsstufen & Akku",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_710EDE67",
+        "competitor_retailer": "",
+        "competitor_product_name": "Beurer Antelope BOOM Massagepistole, kompakte Massage Gun mit 4 Aufs\u00e4tzen, f\u00fcr Entspannung und Regeneration, kraftvolle Triggerpunktmassage, Muskelmassageger\u00e4t mit 5 Intensit\u00e4tsstufen & Akku",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_72DA98C6",
+        "competitor_retailer": "",
+        "competitor_product_name": "Massagepistole mit 30 Geschwindigkeiten/Massage Gun f\u00fcr tiefe Muskelmassage mit bis zu 3600 Impulsen/min / 10 Aufs\u00e4tze f\u00fcr Nacken, R\u00fccken & K\u00f6rper/Mit LCD-Touchscreen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_880E7734",
+        "competitor_retailer": "",
+        "competitor_product_name": "Napre Massagepistole Massage Gun Muskel Percussion Massageger\u00e4t mit 32 Geschwindigkeiten Massage Pistole f\u00fcr Schulter K\u00f6rper R\u00fccken Entspannung,5 Verstellbaren Winkel,mit Metallgriff Verl\u00e4ngerung",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1AAB7B2A",
+        "competitor_retailer": "",
+        "competitor_product_name": "VITALMAXX 3764 Mini Massagepistole, mit 4 Aufs\u00e4tzen, Schwarz online kaufen | MediaMarkt",
+        "competitor_url": "",
         "competitor_price": null
       }
     ]
@@ -139,9 +377,135 @@
     "competitors": [
       {
         "reference": "P_DADAE8F2",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "Clatronic\u00ae Multifunktionsger\u00e4t 3 in 1 | Sandwichtoaster, Waffeleisen und Kontaktgrill | 800 Watt | Sp\u00fclmaschinengeeignet | Antihaftbeschichtung | Sandwich Maker | ST/WA 3670 Schwarz-Edelstahl",
-        "competitor_url": "https://www.amazon.de/Multifunktionsger%C3%A4t-Sp%C3%BClmaschinengeeignet-Antihaftbeschichtung-3670-Schwarz-Edelstahl/dp/B01N6JG1U4/ref=sr_1_15?dib=eyJ2IjoiMSJ9.fO4UkJgl0v_8laOIErZ0K_PX6Hb65ZvHwWpsBzQ96xJctVh5xPOHYCqO4kScfjFRL_Afvxf24F4-6kQqQaBeCTln85nKVevjlsB2h_2eulzAPi4BHaQ2_2G2ef72uePZ8KPzTZbZqk-gQ5q_d2Y_rZVSrOGOiLwf_Y3bX6Hm2DwEZ1m7G2EF49NxFXMA3F6vf7ANJKoCvhS_g018FCgckZgseL2zLZOxV3vTTZz5Wwc.P8WvqeP2o4u0rkYJ3QKtTrMJgglPGuTe1GceWd5hO4g&dib_tag=se&keywords=Sandwichmaker+3+in+1+wechselbare+Platten+750W&qid=1770246619&sr=8-15",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_ED01D9A8",
+        "competitor_retailer": "",
+        "competitor_product_name": "Aigostar Sandwichmaker f\u00fcr 2 Sandwiches, Sandwichtoaster mit Antihaft-Keramikbeschichtung, automatische Temperaturregelung 180-200\u2103, Kontrollleuchten, Cool-Touch-Griff, 750W, Edelstahl/Schwarz : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_5529C728",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN SM 5006 Snack Maker 5 Sandwich Maker silber schwarz Sandwichmaker, Silber, 800 Watt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_37242E58",
+        "competitor_retailer": "",
+        "competitor_product_name": "Clatronic ST 3778 Sandwich Maker, Electric Sandwich Toaster, Sandwich Maker with Triangular Sandwich Plates, Non-Stick Coating, Automatic Temperature Control, 750 Watt, Black/Stainless Steel : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4080E693",
+        "competitor_retailer": "",
+        "competitor_product_name": "ETA Sandwichmaker Pievo I 750 Watt I Antihaftbeschichtung I Leichte Reinigung I Automatische Temperatureinstellung I Sandwichtoaster : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4D557873",
+        "competitor_retailer": "",
+        "competitor_product_name": "Huslog Toaster, Sandwichmaker, Sandwich, Antihaftbeschichtung, 750W, Dreiecke, Schwarz : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_DB9E8A3E",
+        "competitor_retailer": "",
+        "competitor_product_name": "Multifunktionsger\u00e4t 3-in-1 [Sandwichmaker, Waffeleisen, Kontaktgrill], Antihaftbeschichtete abnehmbare Platten, 750W, LED-Anzeigen, BPA frei, Schwarz (Schwarz2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_EBD2061B",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips 5000-Serie 3-in-1 Sandwichmaker - Sandwiches, Waffeln und Paninis, Antihaftbeschichtete, austauschbare Platten, Schneiden und Versiegeln. 750W, Schwarz (HD2350/80)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7173756C",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2350/80 Sandwichmaker, Schwarz, 750 Watt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_A56AA81B",
+        "competitor_retailer": "",
+        "competitor_product_name": "ProfiCook\u00ae Sandwichmaker | muschelf\u00f6rmige Sandwiches mit extra viel F\u00fcllung | antihaftbeschichtet | XXL-Toastscheiben | 750 Watt Toaster Sandwichtoaster | Backampel | Sandwich Maker | PC ST 1297",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_750083C7",
+        "competitor_retailer": "",
+        "competitor_product_name": "RUSSELL HOBBS Creation Sandwichtoaster, Schwarz, 750 Watt | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7294752F",
+        "competitor_retailer": "",
+        "competitor_product_name": "Russell Hobbs Multifunktionsger\u00e4t 3-in-1 [Sandwichmaker, Waffeleisen, Kontaktgrill] Creations (sp\u00fclmaschinengeeignete, antihaftbeschichtete & extra tiefe Platten, BPA frei) 26810-56",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E9ECC797",
+        "competitor_retailer": "",
+        "competitor_product_name": "Russell Hobbs Multifunktionsger\u00e4t 3-in-1 [Sandwichmaker, Waffeleisen, Kontaktgrill] Creations (sp\u00fclmaschinengeeignete, antihaftbeschichtete & extra tiefe Platten, BPA frei) 26810-56",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_3F68C03B",
+        "competitor_retailer": "",
+        "competitor_product_name": "Sandwichmaker 3 in 1, Waffeleisen Sandwichtoaster, Grill wechselplatten, Sandwich Maker, Antihaftbeschichtete abnehmbare Platten, 750 W, Betriebsampel, Schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E7A7E89A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Sandwichmaker 3 in 1, Waffeln, Paninitoaster, 3 abnehmbare Grillplatten, Tisch-Grill f\u00fcr Toast, Waffeln, Fleisch, Schwarz, 750W",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F97C07A1",
+        "competitor_retailer": "",
+        "competitor_product_name": "Steinborg XXL Sandwich Maker, 4 Sandwich Corners, Cool Touch Housing, Non-Stick Coating, Sandwich Toaster, Sandwich Maker, Electric Grill, Panini Toaster : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_AE57E14D",
+        "competitor_retailer": "",
+        "competitor_product_name": "TEFAL SW 341 B Sandwichmaker Grau/Schwarz | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7421952F",
+        "competitor_retailer": "",
+        "competitor_product_name": "TEFAL SW 852 D Waffel-/Sandwichmaker, Schwarz/Edelstahl, 700 Watt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_2622B07D",
+        "competitor_retailer": "",
+        "competitor_product_name": "YASHE Sandwichmaker, 750W Sandwichtoaster Antihaftbeschichtete Platten, Kontaktgrill Automatischer Temperaturregler, Kontrollleuchten, BPA Frei, Edelstahl/Schwarz",
+        "competitor_url": "",
         "competitor_price": null
       }
     ]
@@ -151,10 +515,45 @@
     "competitors": [
       {
         "reference": "P_AF56529E",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "SEVERIN Eierkocher f\u00fcr 3 Eier mit elektronischer Kochzeit\u00fcberwachung, inkl. Messbecher mit Eierstecher, Eier Kocher f\u00fcr ideale H\u00e4rtestufe, Edelstahl-geb\u00fcrstet/schwarz, 300 W, EK 3163",
-        "competitor_url": "https://www.amazon.de/SEVERIN-elektronischer-Kochzeit%C3%BCberwachung-Edelstahl-geb%C3%BCrstet-3163/dp/B08Z7YHM8Z/ref=sr_1_3?dib=eyJ2IjoiMSJ9.dfE3HpAEY5rxH0SNwoaZkIoI347j6oahY62JFVjuEZG83Wg1xk4szgXKZNO-eQhGbViRYw0am0I_pToZbdB5xmrUCjy9qzIpiQvMIcccveQwYYI7RL7E6x8gQ1iYlcpGmv2sxMWa_3Wg5ksYEbqQbnYpEjFOfgRaVKoTwVgxIUWQl16QDhtuApYUXa8bFVrPQBYFgHq0XYebAU54YFiZRnAmmYL6FrPynv3hKknF9eQ.Sj7itbOAxOdwY5h0rLZ7ZAQ4-0LnyKM1ilC8SCPpHqw&dib_tag=se&keywords=Eierkocher+3+Eier+Edelstahl+Signalton&qid=1769557619&sr=8-3",
-        "competitor_price": 34.99
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4C455879",
+        "competitor_retailer": "",
+        "competitor_product_name": "Arendo - Edelstahl Eierkocher Threecook - Egg Cooker - EIN AUS-Schalter - W\u00e4hlbarer H\u00e4rtegrad - 210 W - 1-3 Eier - GS - BPA-frei",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_89229012",
+        "competitor_retailer": "",
+        "competitor_product_name": "GOURMETmaxx Eierkocher f\u00fcr 3 Eier | Egg Boiler mit Eierstecher im Messbecher | Egg Cooker \u2013 3 H\u00e4rtegrade f\u00fcr deinen Eierbecher | Design Eierkocher klein \u2013 sp\u00fclmaschinenfeste Teile",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_229A26AC",
+        "competitor_retailer": "",
+        "competitor_product_name": "ROMMELSBACHER Eierkocher ER 300 - f\u00fcr 1-3 Eier, einstellbarer H\u00e4rtegrad, elektronische Kochzeit\u00fcberwachung, Heizschale aus Edelstahl, Messbecher mit Eipick, Kabelaufwicklung, 300 Watt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_FC4A81FA",
+        "competitor_retailer": "",
+        "competitor_product_name": "UNOLD 38610 Eierkocher (Anzahl Eier: 3, 210 Watt)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_47FC4209",
+        "competitor_retailer": "",
+        "competitor_product_name": "UNOLD 38610 Eierkocher Mini, Edelstahlgeh\u00e4use, Eiereinsatz mit Griff f\u00fcr 1 bis 3 Eier, Signalton, Betriebskontrollleuchte und 210 W, inkl. Messbecher",
+        "competitor_url": "",
+        "competitor_price": null
       }
     ]
   },
@@ -163,37 +562,1013 @@
     "competitors": [
       {
         "reference": "P_F5586FC9",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "JONR ED12 Lite Nass-Trockensauger Kabellos mit Akku, Wischsauger mit Selbstreinigung, 3-in-1 Saug- und Wischfunktion f\u00fcr Harte B\u00f6den & Tierhaare, 1 mm Kantenreinigung, Anti-Verwicklungs-Design",
-        "competitor_url": "https://www.amazon.de/dp/B0DYMY759P",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_9EDE0253",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "JONR ED12 Lite Nass-Trockensauger Kabellos mit Akku, Wischsauger mit Selbstreinigung, 3-in-1 Saug- und Wischfunktion f\u00fcr Harte B\u00f6den & Tierhaare, 1 mm Kantenreinigung, Anti-Verwicklungs-Design",
-        "competitor_url": "https://www.amazon.de/JONR-Trockensauger-ED12-Lite-Staubsauger/dp/B0DYMY759P/ref=sr_1_7?dib=eyJ2IjoiMSJ9.LYByoaeOc9thruh5xLkmwEa92gVDA8C6PPpeILCaSSP8O1ICa-jwE-ef-zYRY9hNB2mkRKq5MLliNX-RrmGEqoGzI6x_6KXZ4gH_Cd9UvSQ0xu1eYvN_EnXQNQXvjq1S1ZUhqTXusOkgQKnhyHRj_ulvrsY2SrtZQnz_Zl-E1Kzi5pompoqPb5_KaX08NW6AiTGXtrBVXBgCOMsh6q86R4rIMfyu2cEES1XMTSN9oOo.qx-aP7YWeIQ3dSDwhcVa4RdAgOe--k7xgurY_Jndd08&dib_tag=se&keywords=Nass-Trockensauger+Akkubetrieb+kabellos+Wischfunktion&qid=1769561681&sr=8-7",
-        "competitor_price": 199.99
+        "competitor_url": "",
+        "competitor_price": null
       },
       {
         "reference": "P_ECFA4465",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "JONR ED12 Nass Trockensauger Akku, Selbstreinigung, Saug Wisch Staubsauger, Saugwischer Kabellos, Kantenreinigungsb\u00fcrste 6mm, 850mL Wassertank, Anti-Verwirrungs-Haar f\u00fcr Harte Boden, Tierhaare",
-        "competitor_url": "https://www.amazon.de/JONR-ED12-Trockensauger-Kantenreinigungsb%C3%BCrste-Selbstreinigung/dp/B0C8LRTK1P/ref=sr_1_7?dib=eyJ2IjoiMSJ9.6QGZrcfgxhZWWN0rHwu_RYmbVXwzLYk4TproL-gZzqKNDdBpc240sdfXVev6HxlLlX4SmvhV6n-5oGW5ElJdJffQlh-IohzTy2Rq5D3QI3A3nw64I3hK4Atg2QxtDvwuB8xLAoGiyxXmkGMjk7ILNRglI5D0bMRJcsFuU3KVUXf0PnOfnqYU32LojgZ1_dVVjoWFkhJJSPwSq1jAOXvaBelvThL8UtFrGRLPBGUC94w.hwBqlpU0bp5oXk_KPrakZJqF1PFstKKzS5imA001asU&dib_tag=se&keywords=Akku+Nass-Trockensauger+Wischfunktion+beutellos&qid=1770247493&sr=8-7",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_4EEF44D4",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "JONR ED12 Pro Nass Trockensauger Akku, Kabelloser Saugwischer, Dreikantenreinigung, Hei\u00dfwasser-Selbstreinigung Hei\u00dfluft-Trocknung, 850mL Wassertank, Anti-Verwirrungs-Haar f\u00fcr Hartb\u00f6den, Tierhaare",
-        "competitor_url": "https://www.amazon.de/JONR-Trockensauger-Dreikantenreinigung-Hei%C3%9Fwasser-Selbstreinigung-Hei%C3%9Fluft-Trocknung/dp/B0DSFLLP9B/ref=sr_1_19?dib=eyJ2IjoiMSJ9.6QGZrcfgxhZWWN0rHwu_RYmbVXwzLYk4TproL-gZzqKNDdBpc240sdfXVev6HxlLlX4SmvhV6n-5oGW5ElJdJffQlh-IohzTy2Rq5D3QI3A3nw64I3hK4Atg2QxtDvwuB8xLAoGiyxXmkGMjk7ILNRglI5D0bMRJcsFuU3KVUXf0PnOfnqYU32LojgZ1_dVVjoWFkhJJSPwSq1jAOXvaBelvThL8UtFrGRLPBGUC94w.hwBqlpU0bp5oXk_KPrakZJqF1PFstKKzS5imA001asU&dib_tag=se&keywords=Akku+Nass-Trockensauger+Wischfunktion+beutellos&qid=1770247493&sr=8-19",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_8AA780BD",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "JONR ED12 Pro Nass Trockensauger Akku, Kabelloser Saugwischer, Dreikantenreinigung, Hei\u00dfwasser-Selbstreinigung Hei\u00dfluft-Trocknung, 850mL Wassertank, Anti-Verwirrungs-Haar f\u00fcr Hartb\u00f6den, Tierhaare",
-        "competitor_url": "https://www.amazon.de/JONR-Trockensauger-Dreikantenreinigung-Hei%C3%9Fwasser-Selbstreinigung-Hei%C3%9Fluft-Trocknung/dp/B0DSFLLP9B/ref=sr_1_12?keywords=Akku+Nass+Trockensauger+Wischfunktion+beutellos&qid=1770164227&sr=8-12",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4B8C5E17",
+        "competitor_retailer": "",
+        "competitor_product_name": "EUREKA NEW400 Nass-Trockensauger Kabelloser,Smart Nass-Trocken-Staubsauge mit Dual-Tank-Design,Selbstreinigung Bodenreiniger,Leicht Wischsauger Kabellos f\u00fcr Hartb\u00f6den, Tierhaare, Essensreste",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CF5FB7F9",
+        "competitor_retailer": "",
+        "competitor_product_name": "LEIFHEIT Akku-Saugwischer Regulus Aqua PowerVac (11914) Nasswischer (Akkulaufzeit: 22 min., Wei\u00df, T\u00fcrkis) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7CDA0B43",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS XW7110/01 Nass-/Trockensauger, Schwarz | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_3E55D1F5",
+        "competitor_retailer": "",
+        "competitor_product_name": "REDKEY W15 Nass Trockensauger, Grau | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_546025C8",
+        "competitor_retailer": "",
+        "competitor_product_name": "roborock F25 GT Nass Trockensauger, 180\u00b0 Lay-Flat Saugwischer, 90\u00b0C Hochtemperatur Selbstreinigung, 20.000 Pa Akku Staubsauger mit Wischfunktion, Wischsauger Kabellos Anti-Tangle f\u00fcr HarteBoden",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_025490BA",
+        "competitor_retailer": "",
+        "competitor_product_name": "ROWENTA X-Clean 4 GZ5035 Kabelloser Nass- und Trockenstaubsauger, Grau",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9D14F9CA",
+        "competitor_retailer": "",
+        "competitor_product_name": "Tineco iFLOOR 5 Breeze Complete Nass Trockensauger, EIN-Schritt-Reinigung f\u00fcr Hartb\u00f6den, Kantenreinigung <0.5cm, Dreifache Batterielebensdauer, Selbstreinigung, Leichtes Kabelloses Saugwischer, Blau",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F63C6E52",
+        "competitor_retailer": "",
+        "competitor_product_name": "Ultenic Nass Trockensauger akku, Saugwischer Kabellos, 50 Minuten Laufzeit, Selbstreinigungsfunktion, LED-Display, ideal f\u00fcr Hartb\u00f6den sowie Haushalte mit Haustieren und Kindern",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D69E9251",
+        "competitor_retailer": "",
+        "competitor_product_name": "Vileda PureClean S5 Nass-Trockensauger mit Zubeh\u00f6r (2 Rollen, 2 Filter) | Kabelloser Akku Saugwischer mit Doppeltank & 100% Wassertrennung - Leicht, f\u00fcr alle B\u00f6den | 180m\u00b2 mit 30Min Akkulaufzeit",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_17F76DF5",
+    "competitors": [
+      {
+        "reference": "P_18762501",
+        "competitor_retailer": "",
+        "competitor_product_name": "10L Hei\u00dfluftfritteuse 2 Kammern, 12 in 1 Airfryer Dual Blaze, Doppelkammer Air fryer mit Luftfrittiergestell Spie\u00dfhalter, Heissluftfriteuse Dual Zone 95% weniger \u00d6l, Vorheizen D\u00f6rren",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_8DCF8698",
+        "competitor_retailer": "",
+        "competitor_product_name": "Aigostar Hayden Pro XL Hot Air Fryer Oven, 3.5 L, 1,500 W, Non-Stick and Removable Frying Basket, 30 Minute Timer, Overheat Auto Shut Off, Oilless, Easy to Clean, Stainless Steel, Black : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E354068A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Arendo - Dual Zone Hei\u00dfluftfritteuse 9L - mit 2 Kamern - XXL Kapazit\u00e4t \u2013 2400 W \u2013 Sichtfenster Beleuchtung - 8in1 Airfryer - 8 Programme \u2013 Touchscreen - 3D Umluftsystem - fettarmes gesundes Kochen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_13ECB856",
+        "competitor_retailer": "",
+        "competitor_product_name": "Dual Zone Hei\u00dfluftfritteuse mit Sichtfenster, 9L XL 2400W Kapazit\u00e4t Doppel Airfryer, 8 Programmen, Air Fryer mit Touchscreen, Smart und Timer-Funktion, Gesunde Friteuse ohne \u00d6l (9L)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_6D56445B",
+        "competitor_retailer": "",
+        "competitor_product_name": "Extralink 1300W Airfryer 4L - Hei\u00dfluftfritteuse mit 8 Kochfunktionen, Friteuse Hei\u00dfluftfritteuse, 80\u00b0C bis 200\u00b0C, Energiesparend, LED-Touchscreen, 90% Weniger Fett f\u00fcr Gesunde Mahlzeiten : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CFFD9738",
+        "competitor_retailer": "",
+        "competitor_product_name": "Gourmetmaxx digital hot air fryer, digital timer, 3 l, 1300 W, black : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_8AF75BA9",
+        "competitor_retailer": "",
+        "competitor_product_name": "GOURMETmaxx Hot Air Fryer | 3L Airfryer with Timer & Touchscreen ...",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1D83379C",
+        "competitor_retailer": "",
+        "competitor_product_name": "Hei\u00dfluftfritteuse 2 kammern, Hochwertige 9L Airfryer (3L&6L), 2 F\u00e4cher, 6-in-1, Touchscreen, Sp\u00fclmaschinenfeste K\u00f6rbe, Antihaftbeschichtete Frittierk\u00f6rbe, Gesunde Friteuse ohne \u00d6l und fettarmes Kochen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_EE629378",
+        "competitor_retailer": "",
+        "competitor_product_name": "Hei\u00dfluftfritteuse 2 kammern mit Sichtfenster, 9L Airfryer, 2 F\u00e4cher, 9-in-1, Touchscreen, Sp\u00fclmaschinenfeste K\u00f6rbe, Antihaftbeschichtete Frittierk\u00f6rbe, Gesunde Friteuse ohne \u00d6l und fettarmes Kochen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_C7396634",
+        "competitor_retailer": "",
+        "competitor_product_name": "Hei\u00dfluftfritteuse 2 kammern mit Sichtfenster, 9L Airfryer, 2 F\u00e4cher, 9-in-1, Touchscreen, Sp\u00fclmaschinenfeste K\u00f6rbe, Antihaftbeschichtete Frittierk\u00f6rbe, Gesunde Friteuse ohne \u00d6l und fettarmes Kochen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_BE803C22",
+        "competitor_retailer": "",
+        "competitor_product_name": "Hei\u00dfluftfritteuse Airfryer, Dual Zone Hei\u00dfluftfritteuse 9L \u2013 Doppelkammer XXL 2000 W, LED-Touchscreen, 10 Programme, Friteuse Heissluft ohne \u00d6l, Airfryer mit 2 K\u00f6rben(9L-901A)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_746DAB9F",
+        "competitor_retailer": "",
+        "competitor_product_name": "KHG Hei\u00dfluft-Fritteuse Airfryer HLF-3000 schwarz 3 Liter herausnehmbarer Frittierkorb 1300 Watt Timer stufenlose Temperaturregelung : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E7996473",
+        "competitor_retailer": "",
+        "competitor_product_name": "KOENIC KAF 41323 B Airfryer Hei\u00dfluftfritteuse 3,7 l, 1300 Watt, Schwarz online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F0E8D567",
+        "competitor_retailer": "",
+        "competitor_product_name": "LEHMANN Hei\u00dfluftfritteuse 2 Kammern XXL mit Sichtfenster, 9L Airfryer Doppelkammer, 2x 4,5L Schublade, WLAN-Steuerung und Touchscreen, 80-200\u00b0C, 12 Programmen - Dehydriere, Grillen, Backen ohne \u00d6l",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D84A69E8",
+        "competitor_retailer": "",
+        "competitor_product_name": "LEHMANN Hei\u00dfluftfritteuse 2 Kammern XXL mit Sichtfenster, 9L Airfryer Doppelkammer, 2x 4,5L Schublade, WLAN-Steuerung und Touchscreen, 80-200\u00b0C, 12 Programmen - Dehydriere, Grillen, Backen ohne \u00d6l",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_42EBAEE1",
+        "competitor_retailer": "",
+        "competitor_product_name": "PRINCESS 4 Liter Hei\u00dfluftfritteuse | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F8E24B75",
+        "competitor_retailer": "",
+        "competitor_product_name": "PROFI COOK PC-FR 1295 H Doppel-Hei\u00dfluft-Fritteuse 9 l, 2700 Watt, Schwarz online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E327FF9F",
+        "competitor_retailer": "",
+        "competitor_product_name": "Severin Hei\u00dfluftfritteuse, Single, Fritteuse f\u00fcr Kochen ohne Fett, Touch-Display, 8 Automatik-Programme, vielseitige Zubereitung, Warmhaltefunktion, 4L, 1300W, schwarz, FryLight, FR 2461",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CB93D8DF",
+        "competitor_retailer": "",
+        "competitor_product_name": "Taurus Air Fry Digital Air Fritteuse, digital, ohne \u00d6l, Rezept, Frittieren, Grillen, Backen und Erhitzen, 3,5 l, 1300 W, 0-60 Minuten, 80-200 \u00b0C, antihaftbeschichtet, PFOA- und BPA-frei, Schwarz : Taurus: Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_5526AEE4",
+        "competitor_retailer": "",
+        "competitor_product_name": "TEFAL EY1458 Compact Hei\u00dfluftfritteuse 3 l, 1300 Watt, Schwarz | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_30973151",
+    "competitors": [
+      {
+        "reference": "P_C8996DAA",
+        "competitor_retailer": "",
+        "competitor_product_name": "AMZCHEF Siebtr\u00e4germaschine mit Mahlwerk, 20 Bar Espressomaschine f\u00fcr Zuhause mit Milchaufsch\u00e4umer, 3 Temperaturstufen, 20 Mahlgrade, Kalt & Hei\u00dfbr\u00fchung, Touchscreen Display",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_88F1ABF1",
+        "competitor_retailer": "",
+        "competitor_product_name": "Chefman Crema Supreme 15 Bar Espressomaschine mit Milchaufsch\u00e4umer, Barista Dampfstab, professionelle Kaffeemaschine mit Kaffeem\u00fchle, 30 Mahlgradeinstellungen, 3L abnehmbarer Wassertank - Edelstahl",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_92A024DC",
+        "competitor_retailer": "",
+        "competitor_product_name": "Espressomaschine Mit 2.3 L Wassertank \u2013 15 Bar Extraktionsdruck, Espresso Siebtr\u00e4Germaschine Integriertes Mahlwerk & Professionelle Milchschaumd\u00fcse f\u00fcr Cappuccino und Latte, Edelstahl, Silber",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_25C873FC",
+        "competitor_retailer": "",
+        "competitor_product_name": "Espressomaschine Mit Mahlwerk, Halbautomatische Kaffeemaschine 15 Bar 1350W Kaffeemaschine Edelstahl Pidtemperaturkontrolle Heizsystem,Kaffeemaschine Mit Abnehmbaren Wassertank 2.3L,Milchschaumd\u00fcse",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_14422D7B",
+        "competitor_retailer": "",
+        "competitor_product_name": "GAGGIA CLASSIC E24 PREMIUM BARISTA SET RI9481 (Messingboiler) Siebtr\u00e4germaschine Inox Silber-Edelstahl | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_892C5F90",
+        "competitor_retailer": "",
+        "competitor_product_name": "GAGGIA RI9481/16 CLASSIC EVO Siebtr\u00e4germaschine grau | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_38B89FC5",
+        "competitor_retailer": "",
+        "competitor_product_name": "HAUSPROFI Siebtr\u00e4germaschine mit Mahlwerk, Espressomaschine 15 Bar, Milchaufsch\u00e4umer, Sichtbares Manometer, 2,8L Gro\u00dfer Wassertank, Kaffeemaschine Espresso f\u00fcr Cappuccino, Latte & Macchiato",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_36CCB24A",
+        "competitor_retailer": "",
+        "competitor_product_name": "MiiCoffee Apex Espressomaschine V2 (Grau)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4920D8CE",
+        "competitor_retailer": "",
+        "competitor_product_name": "PortoAlegre Espressomaschine mit Mahlwerk \u2013 15 Bar, 1350W, PID-Temperaturkontrolle & Instant-Heizsystem, Edelstahl & verchromt, 2,3L Wassertank, Milchschaumd\u00fcse",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_3C4C40C9",
+    "competitors": [
+      {
+        "reference": "P_DEDCDCA5",
+        "competitor_retailer": "",
+        "competitor_product_name": "BaByliss Super Smooth Gl\u00e4tteisen \u2013 Anti-Frizz Ionen-Technologie, Hitzeschutzmatte, fortschrittliche Keramikplatten, schnelles Aufheizen, 6 Temperaturstufen von 140\u00b0C bis 235\u00b0C, ST393E",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_54C73D93",
+        "competitor_retailer": "",
+        "competitor_product_name": "BaByliss Super Smooth Gl\u00e4tteisen \u2013 Anti-Frizz Ionen-Technologie, Hitzeschutzmatte, fortschrittliche Keramikplatten, schnelles Aufheizen, 6 Temperaturstufen von 140\u00b0C bis 235\u00b0C, ST393E",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F2B0C27A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Haargl\u00e4tter, JAETON Professioneller 2 in 1 Keramik Gl\u00e4tteisen Locken und Gl\u00e4tten, 30s Schnellaufheizung, mit LCD Display 100-230\u00b0C, Dual-Spannung, Ausschaltautomatik",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E2E7AE05",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS BHS 510/00 5000 1 X IONS Gl\u00e4tteisen, Temperaturstufen: 12 | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D3BDFB4D",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS BHS732/00 Thermo Shiedl Series 7000 Haargl\u00e4tter (Keramik, Temperaturstufen: 12, Blaugr\u00fcn-Metallic)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_FBD6AE1A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Remington Gl\u00e4tteisen [dreifache Ionen-Technologie: weniger Frizz & statische Aufladung] Pro-Ion (Ultra-Turmalin-Keramikbeschichtung, LCD-Display,150-230\u00b0C,Temp.-Boost-Funktion) Haargl\u00e4tter S7710",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D3E5F20A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Remington Gl\u00e4tteisen Pro-Ion Haargl\u00e4tter S7710",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_45099ACA",
+        "competitor_retailer": "",
+        "competitor_product_name": "REMINGTON S3500 Ceramic Slim 230 Haargl\u00e4tter (Temperaturstufen: Variabel, Schwarz)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_80D68D6E",
+        "competitor_retailer": "",
+        "competitor_product_name": "REMINGTON S7710 Pro Ion Straight Haargl\u00e4tter (Temperaturstufen: 9, ) online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_3EAA5D18",
+    "competitors": [
+      {
+        "reference": "P_D8235936",
+        "competitor_retailer": "",
+        "competitor_product_name": "AAOBOSI Fleischwolf Elektrisch, 3-IN-1 [3000W Max] Multi Fleischwolf mit 3 Edelstahl-Schleifplatten, Kubbe & Wurstf\u00fcllrohren,Upgrade der Auto R\u00fccklauffunktion - Edelstahl",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_3065DD99",
+        "competitor_retailer": "",
+        "competitor_product_name": "BOSCH Fleischwolf MFW 67440, edelstahl/schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D001CACC",
+        "competitor_retailer": "",
+        "competitor_product_name": "BOSCH MFWS440B Serie 4, Fleischwolf, MultiPower, 1900 W, Schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_B7B1B72C",
+        "competitor_retailer": "",
+        "competitor_product_name": "CASO FW 2000 Black, Fleischwolf mit leistungsstarken 2000 Watt , Testsieger Haus & Garten Test, langlebige Titan Klinge, R\u00fccklauf-Funktion, inkl.Zubeh\u00f6r",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_50BACD09",
+        "competitor_retailer": "",
+        "competitor_product_name": "Caso FW2000 Elektrischer Fleischwolf, inkl. Spritzgeb\u00e4ck, Aufsatz 800 W nominal, 2000 W locked, ca. 2kg/ Minute, Alu Guss Geh\u00e4use, starker Motor, Silber",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_60133C92",
+        "competitor_retailer": "",
+        "competitor_product_name": "Fleischwolf Elektrisch, 3-in-1 Elektrischer Fleischwolf mit 3 Edelstahl-Spiralen, [2800W Max] Meat Grinder mit 3 Klingen, Kubbe-Kit, Wurstf\u00fcller f\u00fcr den Hausgebrauch",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_111FF8EC",
+        "competitor_retailer": "",
+        "competitor_product_name": "Fleischwolf Elektrisch, 3-in-1 Elektrischer Fleischwolf mit 3 Edelstahl-Spiralen, [2800W Max] Meat Grinder mit 3 Klingen, Kubbe-Kit, Wurstf\u00fcller f\u00fcr den Hausgebrauch",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_14E3D581",
+        "competitor_retailer": "",
+        "competitor_product_name": "GRAEF FW500 Fleischwolf 400W",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_655019BA",
+        "competitor_retailer": "",
+        "competitor_product_name": "MG-2100BKSL 2100W Elektrischer Fleischwolf, schwarz/silber - 1,8 kg/min, 3 Edelstahlklingen, Tomaten- & Wurstaufs\u00e4tze, Umkehrfunktion, 3 Jahre Garantie (2100 Watt)",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_49A0DBE2",
+    "competitors": [
+      {
+        "reference": "P_1EFFAF41",
+        "competitor_retailer": "",
+        "competitor_product_name": "Amazon Basics Staubsauger mit Beutel, leistungsstark, f\u00fcr Hart- und Teppichb\u00f6den, HEPA-Filter, mit Geschwindigkeitskontrolle, 700 W, 3.0 L, EU, Schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_0243A3DB",
+        "competitor_retailer": "",
+        "competitor_product_name": "Amazon.de: Dirt Devil Staubsauger mit Beutel DD2001 - Staubsaugerbeutel 2.0L - Bodenstaubsauger 800W - mit Kombib\u00fcrste und Fugend\u00fcse - 7.5M Reichweite - Bodenstaubsauger mit beutel 3.3KG - HEPA 10 Filter - Grau",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_B95F5793",
+        "competitor_retailer": "",
+        "competitor_product_name": "Grundig, VCC 3850 A Bodenstaubsauger mit Beutel, 800W, 2,1 L, Schwarz/Rot",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_4CFA9522",
+    "competitors": [
+      {
+        "reference": "P_D5131AB3",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN 0X23010032 Pure Shine Toaster (Schwarz, 900 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_66E2C58D",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN 0X23010035 Toaster (Schwarz, 900 Watt, Schlitze: 2) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9F792EA7",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN 0X23010036 Toaster (Wei\u00df, 900 Watt, Schlitze: 2) online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9D4614EA",
+        "competitor_retailer": "",
+        "competitor_product_name": "Braun PurShine Toaster HT1510 BK \u2013 Doppelschlitz-Toaster, 8 R\u00f6stgrade, Aufw\u00e4rm- & Auftaufunktion, Ausziehbare Kr\u00fcmelschale, 900 Watt, Schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_26113B01",
+        "competitor_retailer": "",
+        "competitor_product_name": "DE LONGHI 2-Schlitz-Toaster Active Line CTLA 2103.W, wei\u00df online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_414DB2BD",
+        "competitor_retailer": "",
+        "competitor_product_name": "KitchenBoss Edelstahl-Toaster f\u00fcr 2 Scheiben\uff1aToaster mit Br\u00f6tchenaufsatz und Herausnehmbare Kr\u00fcmelschublade, 6 Br\u00e4unungsstufen, mit Abschaltautomatik, Auftaufunktion und Reheat-Funktion, 870W",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_44378919",
+        "competitor_retailer": "",
+        "competitor_product_name": "Krups Toaster Pro Aroma, Kurzschlitz-Toaster, 2 Schlitze, 6 Br\u00e4unungsstufen, Vorrichtung zum Anheben und zum Erw\u00e4rmen von Br\u00f6tchen, KH151110, Wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_54165573",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2516/90 Toaster (Schwarz, Edelstahl, 830 Watt, Schlitze: 2) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_ADC71308",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2581/90 Daily Collection Toaster (Schwarz, 830 Watt)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9ADE82C8",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2640/10 Eco Conscious Toaster (Silk white matte, 830 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E383DA0A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips Toaster \u2013 2 Toastschlitze, 8 Stufen, Br\u00f6tchenaufsatz, Auftaufunktion, Liftfunktion, Abschaltautomatik, schwarz (HD2581/90)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_80DA2C18",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips Toaster \u2013 2 Toastschlitze, 8 Stufen, Br\u00f6tchenaufsatz, Auftaufunktion, Liftfunktion, Abschaltautomatik, wei\u00df (HD2581/00)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7302ABB7",
+        "competitor_retailer": "",
+        "competitor_product_name": "Retro Toaster 2 Scheiben Edelstahl \u2013 Br\u00f6tchenaufsatz, 6 R\u00f6ststufen, Vorheiz- und Auftaufunktion, Abschaltautomatik, Cremefarben, Perfekt f\u00fcr Sandwiches & Toast \u2013 TS-R008",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_A887C12D",
+        "competitor_retailer": "",
+        "competitor_product_name": "Russell Hobbs Toaster [f\u00fcr 2 Scheiben] Inspire Weiss mit hochwertiger Hochglanz-Struktur (extra breite Toastschlitze, inkl. Br\u00f6tchenaufsatz, 6 Br\u00e4unungsstufen + Auftau- & Aufw\u00e4rmfunktion) 24370-56",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_93D3BB7B",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, f\u00fcr 2 Scheiben, Br\u00f6tchenaufsatz aus Edelstahl, Aufw\u00e4rm- & Defrosterfunktion, einstellbarer Br\u00e4unungsgrad, Auto-Abschaltung, 850 W, wei\u00df, AT 4324",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_79D55792",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, f\u00fcr 2 Scheiben, Br\u00f6tchenaufsatz aus Edelstahl, Aufw\u00e4rm- & Defrosterfunktion, einstellbarer Br\u00e4unungsgrad, Auto-Abschaltung, 850 W, wei\u00df, AT 4324",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7BA19F09",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, Toaster mit Br\u00f6tchenaufsatz, hochwertig, mit Kr\u00fcmelschublade, 700 W Leistung, wei\u00df/schwarz, AT 2286",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_17606170",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, Toastger\u00e4t mit Br\u00f6tchenaufsatz, hochwertig, mit Kr\u00fcmelschublade und 700 W Leistung, schwarz, AT 2287",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CCD19B16",
+        "competitor_retailer": "",
+        "competitor_product_name": "SMEG TSF01CREU Retro-Style Toaster (Beige, 950 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D6F79398",
+        "competitor_retailer": "",
+        "competitor_product_name": "Tristar BR-1009 Toaster, 650 Watt, f\u00fcr 2 Toast-Scheiben 2 kurze Schlitze, 6 Br\u00e4unungsstufen und Aufw\u00e4rmfunktion f\u00fcr Br\u00f6tchen \u2013 Wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CB03D72C",
+        "competitor_retailer": "",
+        "competitor_product_name": "TZS First Austria Doppel Kurzschlitz Toaster, 2 Scheiben, wei\u00df, 750W, 7 Stufen, Warmhalte- und Auftaufunktion, inkl. Kr\u00fcmelschale : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7EF8B2BE",
+        "competitor_retailer": "",
+        "competitor_product_name": "WMF Bueno Edition Toaster 2 Scheiben Edelstahl, Doppelschlitz Toaster mit Br\u00f6tchenaufsatz, 2 Scheiben, 7 Br\u00e4unungsstufen, 800 W, edelstahl matt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1D2356A4",
+        "competitor_retailer": "",
+        "competitor_product_name": "WMF Bueno Pro Toaster 2 Scheiben, Doppelschlitz Toaster Edelstahl mit Br\u00f6tchenaufsatz, 2 Scheiben, 6 Br\u00e4unungsstufen, 870 W, edelstahl matt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D436B033",
+        "competitor_retailer": "",
+        "competitor_product_name": "WMF Bueno Toaster (Edelstahl, 800 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_5409FBC7",
+    "competitors": [
+      {
+        "reference": "P_ED01D9A8",
+        "competitor_retailer": "",
+        "competitor_product_name": "Aigostar Sandwichmaker f\u00fcr 2 Sandwiches, Sandwichtoaster mit Antihaft-Keramikbeschichtung, automatische Temperaturregelung 180-200\u2103, Kontrollleuchten, Cool-Touch-Griff, 750W, Edelstahl/Schwarz : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_5529C728",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN SM 5006 Snack Maker 5 Sandwich Maker silber schwarz Sandwichmaker, Silber, 800 Watt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_37242E58",
+        "competitor_retailer": "",
+        "competitor_product_name": "Clatronic ST 3778 Sandwich Maker, Electric Sandwich Toaster, Sandwich Maker with Triangular Sandwich Plates, Non-Stick Coating, Automatic Temperature Control, 750 Watt, Black/Stainless Steel : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4080E693",
+        "competitor_retailer": "",
+        "competitor_product_name": "ETA Sandwichmaker Pievo I 750 Watt I Antihaftbeschichtung I Leichte Reinigung I Automatische Temperatureinstellung I Sandwichtoaster : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4D557873",
+        "competitor_retailer": "",
+        "competitor_product_name": "Huslog Toaster, Sandwichmaker, Sandwich, Antihaftbeschichtung, 750W, Dreiecke, Schwarz : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_DB9E8A3E",
+        "competitor_retailer": "",
+        "competitor_product_name": "Multifunktionsger\u00e4t 3-in-1 [Sandwichmaker, Waffeleisen, Kontaktgrill], Antihaftbeschichtete abnehmbare Platten, 750W, LED-Anzeigen, BPA frei, Schwarz (Schwarz2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_EBD2061B",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips 5000-Serie 3-in-1 Sandwichmaker - Sandwiches, Waffeln und Paninis, Antihaftbeschichtete, austauschbare Platten, Schneiden und Versiegeln. 750W, Schwarz (HD2350/80)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7173756C",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2350/80 Sandwichmaker, Schwarz, 750 Watt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_A56AA81B",
+        "competitor_retailer": "",
+        "competitor_product_name": "ProfiCook\u00ae Sandwichmaker | muschelf\u00f6rmige Sandwiches mit extra viel F\u00fcllung | antihaftbeschichtet | XXL-Toastscheiben | 750 Watt Toaster Sandwichtoaster | Backampel | Sandwich Maker | PC ST 1297",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_750083C7",
+        "competitor_retailer": "",
+        "competitor_product_name": "RUSSELL HOBBS Creation Sandwichtoaster, Schwarz, 750 Watt | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7294752F",
+        "competitor_retailer": "",
+        "competitor_product_name": "Russell Hobbs Multifunktionsger\u00e4t 3-in-1 [Sandwichmaker, Waffeleisen, Kontaktgrill] Creations (sp\u00fclmaschinengeeignete, antihaftbeschichtete & extra tiefe Platten, BPA frei) 26810-56",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E9ECC797",
+        "competitor_retailer": "",
+        "competitor_product_name": "Russell Hobbs Multifunktionsger\u00e4t 3-in-1 [Sandwichmaker, Waffeleisen, Kontaktgrill] Creations (sp\u00fclmaschinengeeignete, antihaftbeschichtete & extra tiefe Platten, BPA frei) 26810-56",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_3F68C03B",
+        "competitor_retailer": "",
+        "competitor_product_name": "Sandwichmaker 3 in 1, Waffeleisen Sandwichtoaster, Grill wechselplatten, Sandwich Maker, Antihaftbeschichtete abnehmbare Platten, 750 W, Betriebsampel, Schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E7A7E89A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Sandwichmaker 3 in 1, Waffeln, Paninitoaster, 3 abnehmbare Grillplatten, Tisch-Grill f\u00fcr Toast, Waffeln, Fleisch, Schwarz, 750W",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F97C07A1",
+        "competitor_retailer": "",
+        "competitor_product_name": "Steinborg XXL Sandwich Maker, 4 Sandwich Corners, Cool Touch Housing, Non-Stick Coating, Sandwich Toaster, Sandwich Maker, Electric Grill, Panini Toaster : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_AE57E14D",
+        "competitor_retailer": "",
+        "competitor_product_name": "TEFAL SW 341 B Sandwichmaker Grau/Schwarz | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7421952F",
+        "competitor_retailer": "",
+        "competitor_product_name": "TEFAL SW 852 D Waffel-/Sandwichmaker, Schwarz/Edelstahl, 700 Watt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_2622B07D",
+        "competitor_retailer": "",
+        "competitor_product_name": "YASHE Sandwichmaker, 750W Sandwichtoaster Antihaftbeschichtete Platten, Kontaktgrill Automatischer Temperaturregler, Kontrollleuchten, BPA Frei, Edelstahl/Schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_6A08C720",
+    "competitors": [
+      {
+        "reference": "P_4955FA5A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Clatronic\u00ae Standmixer 500W | Mixer | BPA frei | 4-fach Edelstahl-Messer rostfrei | 1,5L Smoothie Maker | Ice-Crush Funktion | 3 Stufen | Turbo-Funktion | Deckel mit Nachf\u00fcll\u00f6ffnung | UM 3826",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_28D1CDCD",
+        "competitor_retailer": "",
+        "competitor_product_name": "Clatronic\u00ae Standmixer 500W | Mixer | BPA frei | 4-fach Edelstahl-Messer rostfrei | 1,5L Smoothie Maker | Ice-Crush Funktion | 3 Stufen | Turbo-Funktion | Deckel mit Nachf\u00fcll\u00f6ffnung | UM 3826",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_6CC194D2",
+        "competitor_retailer": "",
+        "competitor_product_name": "EMERIO Standmixer mit 1.5L Glasbeh\u00e4lter | BPA frei | Crush Ice Funktion | 2 Geschwindigkeiten + Pulse Funktion | 4 Messer aus Edelstahl | 2 Sicherheitsschalter in Krug & Deckel | 500W | BL-130988",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1748DBD1",
+        "competitor_retailer": "",
+        "competitor_product_name": "GASTROBACK 40897 DESIGN MIXER MINI Standmixer Edelstahl (500 Watt, 1 l) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_5C2BA047",
+        "competitor_retailer": "",
+        "competitor_product_name": "Nedis KABL210CAL Standmixer | 500 W | 1,5 l | Edelstahl",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_34FEE554",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HR2041/41 Standmixer (Schwarz, 450 Watt, 1.9 l)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_C8AAAAC2",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HR3573/90P RO BLEND TO GO, Series 5000 Standmixer (Metallic, 1000 Watt, 1.5 l) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_270B2D16",
+        "competitor_retailer": "",
+        "competitor_product_name": "Unold 78625 Standmixer Edel - 1,5 L Volumen, Schwarz, bis 25000 U/Min, mit Edelstahlmesser, BPA-frei, 500 W, Edelstahl, Smoothie",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_9875C7C8",
+    "competitors": [
+      {
+        "reference": "P_D5131AB3",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN 0X23010032 Pure Shine Toaster (Schwarz, 900 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_66E2C58D",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN 0X23010035 Toaster (Schwarz, 900 Watt, Schlitze: 2) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9F792EA7",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN 0X23010036 Toaster (Wei\u00df, 900 Watt, Schlitze: 2) online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9D4614EA",
+        "competitor_retailer": "",
+        "competitor_product_name": "Braun PurShine Toaster HT1510 BK \u2013 Doppelschlitz-Toaster, 8 R\u00f6stgrade, Aufw\u00e4rm- & Auftaufunktion, Ausziehbare Kr\u00fcmelschale, 900 Watt, Schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_26113B01",
+        "competitor_retailer": "",
+        "competitor_product_name": "DE LONGHI 2-Schlitz-Toaster Active Line CTLA 2103.W, wei\u00df online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_414DB2BD",
+        "competitor_retailer": "",
+        "competitor_product_name": "KitchenBoss Edelstahl-Toaster f\u00fcr 2 Scheiben\uff1aToaster mit Br\u00f6tchenaufsatz und Herausnehmbare Kr\u00fcmelschublade, 6 Br\u00e4unungsstufen, mit Abschaltautomatik, Auftaufunktion und Reheat-Funktion, 870W",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_44378919",
+        "competitor_retailer": "",
+        "competitor_product_name": "Krups Toaster Pro Aroma, Kurzschlitz-Toaster, 2 Schlitze, 6 Br\u00e4unungsstufen, Vorrichtung zum Anheben und zum Erw\u00e4rmen von Br\u00f6tchen, KH151110, Wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_54165573",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2516/90 Toaster (Schwarz, Edelstahl, 830 Watt, Schlitze: 2) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_ADC71308",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2581/90 Daily Collection Toaster (Schwarz, 830 Watt)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9ADE82C8",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2640/10 Eco Conscious Toaster (Silk white matte, 830 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E383DA0A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips Toaster \u2013 2 Toastschlitze, 8 Stufen, Br\u00f6tchenaufsatz, Auftaufunktion, Liftfunktion, Abschaltautomatik, schwarz (HD2581/90)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_80DA2C18",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips Toaster \u2013 2 Toastschlitze, 8 Stufen, Br\u00f6tchenaufsatz, Auftaufunktion, Liftfunktion, Abschaltautomatik, wei\u00df (HD2581/00)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7302ABB7",
+        "competitor_retailer": "",
+        "competitor_product_name": "Retro Toaster 2 Scheiben Edelstahl \u2013 Br\u00f6tchenaufsatz, 6 R\u00f6ststufen, Vorheiz- und Auftaufunktion, Abschaltautomatik, Cremefarben, Perfekt f\u00fcr Sandwiches & Toast \u2013 TS-R008",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_A887C12D",
+        "competitor_retailer": "",
+        "competitor_product_name": "Russell Hobbs Toaster [f\u00fcr 2 Scheiben] Inspire Weiss mit hochwertiger Hochglanz-Struktur (extra breite Toastschlitze, inkl. Br\u00f6tchenaufsatz, 6 Br\u00e4unungsstufen + Auftau- & Aufw\u00e4rmfunktion) 24370-56",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_93D3BB7B",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, f\u00fcr 2 Scheiben, Br\u00f6tchenaufsatz aus Edelstahl, Aufw\u00e4rm- & Defrosterfunktion, einstellbarer Br\u00e4unungsgrad, Auto-Abschaltung, 850 W, wei\u00df, AT 4324",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_79D55792",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, f\u00fcr 2 Scheiben, Br\u00f6tchenaufsatz aus Edelstahl, Aufw\u00e4rm- & Defrosterfunktion, einstellbarer Br\u00e4unungsgrad, Auto-Abschaltung, 850 W, wei\u00df, AT 4324",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7BA19F09",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, Toaster mit Br\u00f6tchenaufsatz, hochwertig, mit Kr\u00fcmelschublade, 700 W Leistung, wei\u00df/schwarz, AT 2286",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_17606170",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, Toastger\u00e4t mit Br\u00f6tchenaufsatz, hochwertig, mit Kr\u00fcmelschublade und 700 W Leistung, schwarz, AT 2287",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CCD19B16",
+        "competitor_retailer": "",
+        "competitor_product_name": "SMEG TSF01CREU Retro-Style Toaster (Beige, 950 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D6F79398",
+        "competitor_retailer": "",
+        "competitor_product_name": "Tristar BR-1009 Toaster, 650 Watt, f\u00fcr 2 Toast-Scheiben 2 kurze Schlitze, 6 Br\u00e4unungsstufen und Aufw\u00e4rmfunktion f\u00fcr Br\u00f6tchen \u2013 Wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CB03D72C",
+        "competitor_retailer": "",
+        "competitor_product_name": "TZS First Austria Doppel Kurzschlitz Toaster, 2 Scheiben, wei\u00df, 750W, 7 Stufen, Warmhalte- und Auftaufunktion, inkl. Kr\u00fcmelschale : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7EF8B2BE",
+        "competitor_retailer": "",
+        "competitor_product_name": "WMF Bueno Edition Toaster 2 Scheiben Edelstahl, Doppelschlitz Toaster mit Br\u00f6tchenaufsatz, 2 Scheiben, 7 Br\u00e4unungsstufen, 800 W, edelstahl matt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1D2356A4",
+        "competitor_retailer": "",
+        "competitor_product_name": "WMF Bueno Pro Toaster 2 Scheiben, Doppelschlitz Toaster Edelstahl mit Br\u00f6tchenaufsatz, 2 Scheiben, 6 Br\u00e4unungsstufen, 870 W, edelstahl matt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D436B033",
+        "competitor_retailer": "",
+        "competitor_product_name": "WMF Bueno Toaster (Edelstahl, 800 Watt, Schlitze: 2)",
+        "competitor_url": "",
         "competitor_price": null
       }
     ]
@@ -202,10 +1577,429 @@
     "source_reference": "P_9CDA5230",
     "competitors": [
       {
+        "reference": "P_2BFF2CF3",
+        "competitor_retailer": "",
+        "competitor_product_name": "Amazon.de: Mikrowellen-Spritzschutz f\u00fcr Lebensmittel, gro\u00dfe Mikrowellenteller, Lebensmittelabdeckung mit leicht zu greifendem Griff, Anti-Spritz-Deckel mit vergr\u00f6\u00dferten, 29.5 cm, BPA-frei und sp\u00fclmaschinenfest",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_300D0099",
+        "competitor_retailer": "",
+        "competitor_product_name": "KOENIC KMH-0029-1 Mikrowellenhaube online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
         "reference": "P_D0CF1545",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "meberg Mikrowellen-Spritzschutzdeckel 29 cm - BPA-frei, Transparent, Sp\u00fclmaschinenfest, Passend f\u00fcr Standard Mikrowellen : Amazon.de: K\u00fcche, Haushalt & Wohnen",
-        "competitor_url": "https://www.amazon.de/meberg-Mikrowellen-Spritzschutzdeckel-Transparent-Sp%C3%BClmaschinenfest-Mikrowellen/dp/B09N7DJBMY",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_3A39CD31",
+        "competitor_retailer": "",
+        "competitor_product_name": "meberg PF11257 Mikrowellendeckel Glockenform 25 cm BPA frei Kunststoff Mikrowellenabdeckhaube Mikrowellenhaube transparent Mikrowellebabdeckung Abdeckung Mikrowelle (Glocke)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_B27F9AA2",
+        "competitor_retailer": "",
+        "competitor_product_name": "meberg PF11577 Mikrowellendeckel 24,5 cm BPA frei Kunststoff Mikrowellenabdeckhaube Mikrowellenhaube transparent Mikrowellebabdeckung Abdeckung Mikrowelle (XS)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7D16D82D",
+        "competitor_retailer": "",
+        "competitor_product_name": "Mikrowellenhaube, Durchsichtige Mikrowellenabdeckung mit Dampfschlitzen - Spritzschutz f\u00fcr Backofen und Mikrowelle, \u00d8 28CM, H\u00f6he 8.5CM : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_8E9B019D",
+        "competitor_retailer": "",
+        "competitor_product_name": "SCANPART 7300008700 Mikrowellenhaube (27 cm)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_A54AE884",
+        "competitor_retailer": "",
+        "competitor_product_name": "SCANPART Mikrowellenabdeckhaube \u00d829cm online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_A3998966",
+    "competitors": [
+      {
+        "reference": "P_6EC1558C",
+        "competitor_retailer": "",
+        "competitor_product_name": "Beurer HK 25 Heizkissen, kuscheliges W\u00e4rmekissen mit 3 Temperaturstufen, Abschaltautomatik und Sicherheitssystem, made in Europe, maschinenwaschbar, 40 x 30 cm, wei\u00df-grau",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4E3D30D5",
+        "competitor_retailer": "",
+        "competitor_product_name": "Beurer HK 25 Heizkissen, kuscheliges W\u00e4rmekissen mit 3 Temperaturstufen, Abschaltautomatik und Sicherheitssystem, made in Europe, maschinenwaschbar, 40 x 30 cm, wei\u00df-grau",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_417D3B21",
+        "competitor_retailer": "",
+        "competitor_product_name": "Beurer HK 25 Heizkissen, kuscheliges W\u00e4rmekissen mit 3 Temperaturstufen, Abschaltautomatik und Sicherheitssystem, made in Europe, maschinenwaschbar, 40 x 30 cm, wei\u00df-grau",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4CA7C34A",
+        "competitor_retailer": "",
+        "competitor_product_name": "BEURER Limited Edition 2023 Heizkissen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_01FBD83C",
+        "competitor_retailer": "",
+        "competitor_product_name": "BEURER Limited Edition 2023 Heizkissen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1F72F756",
+        "competitor_retailer": "",
+        "competitor_product_name": "MEDISANA Heizkissen XL Grau HP650 Heizkissen online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_AD8CC616",
+        "competitor_retailer": "",
+        "competitor_product_name": "Mobiclinic\u00ae, Heizkissen, W\u00e4rmekissen, 3 temperaturstufen, Abschaltautomatik, 40x30 cm, Sehr geringer stromverbrauch, Heizung, F\u00fcr den r\u00fccken- und lendenbereich, 100w leistung, Grau",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_BC87CC09",
+        "competitor_retailer": "",
+        "competitor_product_name": "Mobiclinic\u00ae, Heizkissen, W\u00e4rmekissen, 3 temperaturstufen, Abschaltautomatik, 40x30 cm, Sehr geringer stromverbrauch, Heizung, F\u00fcr den r\u00fccken- und lendenbereich, 100w leistung, Grau",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_C077F894",
+        "competitor_retailer": "",
+        "competitor_product_name": "Sanitas SHK 18 Heizkissen, elektrisches W\u00e4rmekissen mit 3 Temperaturstufen, Abschaltautomatik und \u00dcberhitzungsschutz, abnehmbarer und waschbarer Baumwollbezug",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_288C8795",
+        "competitor_retailer": "",
+        "competitor_product_name": "Sanitas SHK 18 Heizkissen, elektrisches W\u00e4rmekissen mit 3 Temperaturstufen, Abschaltautomatik und \u00dcberhitzungsschutz, abnehmbarer und waschbarer Baumwollbezug",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_AEBB7B99",
+    "competitors": [
+      {
+        "reference": "P_5A40E5B0",
+        "competitor_retailer": "",
+        "competitor_product_name": "16 St\u00fcck Aufsteckb\u00fcrsten Kompatibel mit Oral B Elektrische Zahnb\u00fcrste, Sensitive , Precision Clean, Cross Clean, 4pcs 3D Whitening, Vier Modelle in einer Packung : Amazon.de: Health & Personal Care",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7576B358",
+        "competitor_retailer": "",
+        "competitor_product_name": "8 St\u00fcck Aufsteckb\u00fcrsten Kompatibel mit Braun Oral B Elektrische Zahnb\u00fcrsten Ersatzb\u00fcrsten Zahnb\u00fcrstenk\u00f6pfe f\u00fcr Oral B Professional Care und Vitality Pro Smart Genius (Schwarz)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_605E9266",
+        "competitor_retailer": "",
+        "competitor_product_name": "ORAL-B Aufsteckb\u00fcrsten Pro Precision Clean 6er Aufsteckb\u00fcrsten online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1FFE83FE",
+        "competitor_retailer": "",
+        "competitor_product_name": "ORAL-B iO Ultimative Reinigung White 8er, Aufsteckb\u00fcrsten",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_6E964A15",
+        "competitor_retailer": "",
+        "competitor_product_name": "Oral-B Pro CrossAction \u2013 ORIGINAL Aufsteckb\u00fcrsten f\u00fcr Elektrische Zahnb\u00fcrste \u2013 \u00dcberlegene Zahnreinigung, Ersatzb\u00fcrsten mit Innovativen X-Borsten, Zahnb\u00fcrstenaufsatz \u2013 Wei\u00df, 6 St\u00fcck",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_454A5D88",
+        "competitor_retailer": "",
+        "competitor_product_name": "Oral-B Pro CrossAction \u2013 ORIGINAL Aufsteckb\u00fcrsten f\u00fcr Elektrische Zahnb\u00fcrste \u2013 \u00dcberlegene Zahnreinigung, Ersatzb\u00fcrsten mit Innovativen X-Borsten, Zahnb\u00fcrstenaufsatz \u2013 Wei\u00df, 6 St\u00fcck",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CD7E153A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Pack of 16 Precision Replacement Toothbrush Heads Compatible with Oral B Electric Toothbrushes, 8 White and 8 Black, Betterchoi : Amazon.de: Health & Personal Care",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_399BB0B8",
+        "competitor_retailer": "",
+        "competitor_product_name": "Pack of 16 Replacement Toothbrush Heads Compatible with Oral B Replacement Toothbrush Heads, for Oral B Electric Toothbrushes Pro 100/500/1000/1500/3000/3757/5000/7000/7500/8000, Black : Amazon.de: Sports & Outdoors",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_194AE6A8",
+        "competitor_retailer": "",
+        "competitor_product_name": "Pack of 20 Replacement Toothbrush Heads Compatible with Oral B Replacement Heads, Professional Electric Brush Heads for Oral B Replacement Heads Refill Pro 500/1000/1500/3000/3757/5000/7000/7500/8000 : Amazon.de: Health & Personal Care",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_2502279A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Pack of 8 Replacement Toothbrush Heads Compatible with Braun Oral B Electric Toothbrushes Replacement Toothbrush Heads for Oral B Professional Care and Vitality Pro Smart Genius (White) : Amazon.de: Health & Personal Care",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_B1054089",
+    "competitors": [
+      {
+        "reference": "P_1CDB2050",
+        "competitor_retailer": "",
+        "competitor_product_name": "AEG Handmixer, 5 Geschwindigkeitsstufen, Turbo-Funktion f\u00fcr H\u00f6chstleistung, Auswurftaste, 2 R\u00fchrbesen, 2 Knethaken, Zubeh\u00f6rstation, sp\u00fclmaschinenfest, 500 Watt, 1,2 m Kabel, wei\u00df, AHM4W",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_69F1412A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Arendo - Elektrischer Handmixer Handr\u00fchrer 500 W - inkl. 2 R\u00fchrbesen und 2 Knethaken aus Edelstahl \u2013 Handr\u00fchrger\u00e4t - Hakenentriegelung \u2013 Turbotaste \u2013 Thermosicherung \u2013 Edelstahloptik - schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_594DFDCE",
+        "competitor_retailer": "",
+        "competitor_product_name": "Arendo - Elektrischer Handmixer Handr\u00fchrer 500 W - inkl. 2 R\u00fchrbesen und 2 Knethaken aus Edelstahl \u2013 Handr\u00fchrger\u00e4t - Hakenentriegelung \u2013 Turbotaste \u2013 Thermosicherung \u2013 Edelstahloptik - schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_5C36DCA8",
+        "competitor_retailer": "",
+        "competitor_product_name": "Arendo - Elektrischer Handmixer Handr\u00fchrer 500 W - inkl. 2 R\u00fchrbesen und 2 Knethaken aus Edelstahl \u2013 Handr\u00fchrger\u00e4t - Hakenentriegelung \u2013 Turbotaste \u2013 Thermosicherung \u2013 Edelstahloptik - wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9BDBABA5",
+        "competitor_retailer": "",
+        "competitor_product_name": "Arendo - Elektrischer Handmixer Handr\u00fchrer 500 W - inkl. 2 R\u00fchrbesen und 2 Knethaken aus Edelstahl \u2013 Handr\u00fchrger\u00e4t - Hakenentriegelung \u2013 Turbotaste \u2013 Thermosicherung \u2013 Edelstahloptik - wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9DAA7229",
+        "competitor_retailer": "",
+        "competitor_product_name": "Bosch Handr\u00fchrer MFQ3540, Handr\u00fchrger\u00e4t, 2 R\u00fchrbesen, 2 Edelstahl-Knethaken, sp\u00fclmaschinengeeignet, 5 Stufen, P\u00fcrierstab, Mixbecher, 450 W, wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_8F1AFC5F",
+        "competitor_retailer": "",
+        "competitor_product_name": "Electrolux EHM3310 Handmixer, 450 W, Schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F54BA84E",
+        "competitor_retailer": "",
+        "competitor_product_name": "Electrolux EHM3310 Handmixer, 450 W, Schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_4DCA19F2",
+        "competitor_retailer": "",
+        "competitor_product_name": "Handmixer 500W mit St\u00e4nder \u2013 Kraftvoller elektrischer Handr\u00fchrer K\u00fcchenmixer mit 5 Stufen & Turbo, Handr\u00fchrger\u00e4t 2x Knethaken und 2x R\u00fchrhaken aus Edelstahl, leise, ideal f\u00fcr Backen,Teig & Sahne",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_FB379AA8",
+        "competitor_retailer": "",
+        "competitor_product_name": "Handr\u00fchrer Elektrisch-Handr\u00fchrger\u00e4t, 5 StuFen Handmixer, Enthalten 1 Schneebesen, 2 R\u00fchrbesen, 2 Edelstahl-Knethaken,sp\u00fclmaschinenfest",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_B1AECA54",
+    "competitors": [
+      {
+        "reference": "P_18762501",
+        "competitor_retailer": "",
+        "competitor_product_name": "10L Hei\u00dfluftfritteuse 2 Kammern, 12 in 1 Airfryer Dual Blaze, Doppelkammer Air fryer mit Luftfrittiergestell Spie\u00dfhalter, Heissluftfriteuse Dual Zone 95% weniger \u00d6l, Vorheizen D\u00f6rren",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_8DCF8698",
+        "competitor_retailer": "",
+        "competitor_product_name": "Aigostar Hayden Pro XL Hot Air Fryer Oven, 3.5 L, 1,500 W, Non-Stick and Removable Frying Basket, 30 Minute Timer, Overheat Auto Shut Off, Oilless, Easy to Clean, Stainless Steel, Black : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E354068A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Arendo - Dual Zone Hei\u00dfluftfritteuse 9L - mit 2 Kamern - XXL Kapazit\u00e4t \u2013 2400 W \u2013 Sichtfenster Beleuchtung - 8in1 Airfryer - 8 Programme \u2013 Touchscreen - 3D Umluftsystem - fettarmes gesundes Kochen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_13ECB856",
+        "competitor_retailer": "",
+        "competitor_product_name": "Dual Zone Hei\u00dfluftfritteuse mit Sichtfenster, 9L XL 2400W Kapazit\u00e4t Doppel Airfryer, 8 Programmen, Air Fryer mit Touchscreen, Smart und Timer-Funktion, Gesunde Friteuse ohne \u00d6l (9L)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_6D56445B",
+        "competitor_retailer": "",
+        "competitor_product_name": "Extralink 1300W Airfryer 4L - Hei\u00dfluftfritteuse mit 8 Kochfunktionen, Friteuse Hei\u00dfluftfritteuse, 80\u00b0C bis 200\u00b0C, Energiesparend, LED-Touchscreen, 90% Weniger Fett f\u00fcr Gesunde Mahlzeiten : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CFFD9738",
+        "competitor_retailer": "",
+        "competitor_product_name": "Gourmetmaxx digital hot air fryer, digital timer, 3 l, 1300 W, black : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_8AF75BA9",
+        "competitor_retailer": "",
+        "competitor_product_name": "GOURMETmaxx Hot Air Fryer | 3L Airfryer with Timer & Touchscreen ...",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1D83379C",
+        "competitor_retailer": "",
+        "competitor_product_name": "Hei\u00dfluftfritteuse 2 kammern, Hochwertige 9L Airfryer (3L&6L), 2 F\u00e4cher, 6-in-1, Touchscreen, Sp\u00fclmaschinenfeste K\u00f6rbe, Antihaftbeschichtete Frittierk\u00f6rbe, Gesunde Friteuse ohne \u00d6l und fettarmes Kochen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_EE629378",
+        "competitor_retailer": "",
+        "competitor_product_name": "Hei\u00dfluftfritteuse 2 kammern mit Sichtfenster, 9L Airfryer, 2 F\u00e4cher, 9-in-1, Touchscreen, Sp\u00fclmaschinenfeste K\u00f6rbe, Antihaftbeschichtete Frittierk\u00f6rbe, Gesunde Friteuse ohne \u00d6l und fettarmes Kochen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_C7396634",
+        "competitor_retailer": "",
+        "competitor_product_name": "Hei\u00dfluftfritteuse 2 kammern mit Sichtfenster, 9L Airfryer, 2 F\u00e4cher, 9-in-1, Touchscreen, Sp\u00fclmaschinenfeste K\u00f6rbe, Antihaftbeschichtete Frittierk\u00f6rbe, Gesunde Friteuse ohne \u00d6l und fettarmes Kochen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_BE803C22",
+        "competitor_retailer": "",
+        "competitor_product_name": "Hei\u00dfluftfritteuse Airfryer, Dual Zone Hei\u00dfluftfritteuse 9L \u2013 Doppelkammer XXL 2000 W, LED-Touchscreen, 10 Programme, Friteuse Heissluft ohne \u00d6l, Airfryer mit 2 K\u00f6rben(9L-901A)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_746DAB9F",
+        "competitor_retailer": "",
+        "competitor_product_name": "KHG Hei\u00dfluft-Fritteuse Airfryer HLF-3000 schwarz 3 Liter herausnehmbarer Frittierkorb 1300 Watt Timer stufenlose Temperaturregelung : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E7996473",
+        "competitor_retailer": "",
+        "competitor_product_name": "KOENIC KAF 41323 B Airfryer Hei\u00dfluftfritteuse 3,7 l, 1300 Watt, Schwarz online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F0E8D567",
+        "competitor_retailer": "",
+        "competitor_product_name": "LEHMANN Hei\u00dfluftfritteuse 2 Kammern XXL mit Sichtfenster, 9L Airfryer Doppelkammer, 2x 4,5L Schublade, WLAN-Steuerung und Touchscreen, 80-200\u00b0C, 12 Programmen - Dehydriere, Grillen, Backen ohne \u00d6l",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D84A69E8",
+        "competitor_retailer": "",
+        "competitor_product_name": "LEHMANN Hei\u00dfluftfritteuse 2 Kammern XXL mit Sichtfenster, 9L Airfryer Doppelkammer, 2x 4,5L Schublade, WLAN-Steuerung und Touchscreen, 80-200\u00b0C, 12 Programmen - Dehydriere, Grillen, Backen ohne \u00d6l",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_42EBAEE1",
+        "competitor_retailer": "",
+        "competitor_product_name": "PRINCESS 4 Liter Hei\u00dfluftfritteuse | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F8E24B75",
+        "competitor_retailer": "",
+        "competitor_product_name": "PROFI COOK PC-FR 1295 H Doppel-Hei\u00dfluft-Fritteuse 9 l, 2700 Watt, Schwarz online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E327FF9F",
+        "competitor_retailer": "",
+        "competitor_product_name": "Severin Hei\u00dfluftfritteuse, Single, Fritteuse f\u00fcr Kochen ohne Fett, Touch-Display, 8 Automatik-Programme, vielseitige Zubereitung, Warmhaltefunktion, 4L, 1300W, schwarz, FryLight, FR 2461",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CB93D8DF",
+        "competitor_retailer": "",
+        "competitor_product_name": "Taurus Air Fry Digital Air Fritteuse, digital, ohne \u00d6l, Rezept, Frittieren, Grillen, Backen und Erhitzen, 3,5 l, 1300 W, 0-60 Minuten, 80-200 \u00b0C, antihaftbeschichtet, PFOA- und BPA-frei, Schwarz : Taurus: Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_5526AEE4",
+        "competitor_retailer": "",
+        "competitor_product_name": "TEFAL EY1458 Compact Hei\u00dfluftfritteuse 3 l, 1300 Watt, Schwarz | MediaMarkt",
+        "competitor_url": "",
         "competitor_price": null
       }
     ]
@@ -214,24 +2008,588 @@
     "source_reference": "P_D3CB9498",
     "competitors": [
       {
-        "reference": "P_1D2356A4",
-        "competitor_retailer": "Amazon AT",
-        "competitor_product_name": "WMF Bueno Pro Toaster 2 Scheiben, Doppelschlitz Toaster Edelstahl mit Br\u00f6tchenaufsatz, 2 Scheiben, 6 Br\u00e4unungsstufen, 870 W, edelstahl matt",
-        "competitor_url": "https://www.amazon.de/WMF-Doppelschlitz-Br%C3%B6tchenaufsatz-Br%C3%A4unungsstufen-Edelstahl/dp/B07GSYK5Q5/ref=sr_1_16?dib=eyJ2IjoiMSJ9.SOYjE7Z1CyNwqIKdgw1_UyHDrCWsonEysg1um3MdwLu0pfmwpD-CS5_Ustf1tD_URvc4IrN9QRqUDohG7AKJ3kXdVNrxNBI0qmZ2TM5dy7VUf3wTXBGAzBfBsqNephpnplqHFWgCnwuhT76zZVKCO8CzO5tUCzNk-smgUpTvZFxEv41DTw4hDHcFQp9sKIs5OwyenvFMEh1whYaARUgq1__YPWRte_FOiOH3aVN03ZU.CLo-mqtpTsPSlJAq1KzG3q9sY1rfwRdCBod7uLEmL1U&dib_tag=se&keywords=Toaster+2-Schlitz+Br%C3%B6tchenaufsatz+Edelstahl+schwarz&qid=1770246657&sr=8-16",
+        "reference": "P_1AD642B2",
+        "competitor_retailer": "",
+        "competitor_product_name": "WMF Stelio Toaster 2 Scheiben Edelstahl, Doppelschlitz Toaster mit Br\u00f6tchenaufsatz, Bagel-Funktion, 7 Br\u00e4unungsstufen, 900 W, edelstahl matt schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D5131AB3",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN 0X23010032 Pure Shine Toaster (Schwarz, 900 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_66E2C58D",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN 0X23010035 Toaster (Schwarz, 900 Watt, Schlitze: 2) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9F792EA7",
+        "competitor_retailer": "",
+        "competitor_product_name": "BRAUN 0X23010036 Toaster (Wei\u00df, 900 Watt, Schlitze: 2) online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9D4614EA",
+        "competitor_retailer": "",
+        "competitor_product_name": "Braun PurShine Toaster HT1510 BK \u2013 Doppelschlitz-Toaster, 8 R\u00f6stgrade, Aufw\u00e4rm- & Auftaufunktion, Ausziehbare Kr\u00fcmelschale, 900 Watt, Schwarz",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_26113B01",
+        "competitor_retailer": "",
+        "competitor_product_name": "DE LONGHI 2-Schlitz-Toaster Active Line CTLA 2103.W, wei\u00df online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_414DB2BD",
+        "competitor_retailer": "",
+        "competitor_product_name": "KitchenBoss Edelstahl-Toaster f\u00fcr 2 Scheiben\uff1aToaster mit Br\u00f6tchenaufsatz und Herausnehmbare Kr\u00fcmelschublade, 6 Br\u00e4unungsstufen, mit Abschaltautomatik, Auftaufunktion und Reheat-Funktion, 870W",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_44378919",
+        "competitor_retailer": "",
+        "competitor_product_name": "Krups Toaster Pro Aroma, Kurzschlitz-Toaster, 2 Schlitze, 6 Br\u00e4unungsstufen, Vorrichtung zum Anheben und zum Erw\u00e4rmen von Br\u00f6tchen, KH151110, Wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_54165573",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2516/90 Toaster (Schwarz, Edelstahl, 830 Watt, Schlitze: 2) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_ADC71308",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2581/90 Daily Collection Toaster (Schwarz, 830 Watt)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_9ADE82C8",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS HD2640/10 Eco Conscious Toaster (Silk white matte, 830 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E383DA0A",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips Toaster \u2013 2 Toastschlitze, 8 Stufen, Br\u00f6tchenaufsatz, Auftaufunktion, Liftfunktion, Abschaltautomatik, schwarz (HD2581/90)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_80DA2C18",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips Toaster \u2013 2 Toastschlitze, 8 Stufen, Br\u00f6tchenaufsatz, Auftaufunktion, Liftfunktion, Abschaltautomatik, wei\u00df (HD2581/00)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7302ABB7",
+        "competitor_retailer": "",
+        "competitor_product_name": "Retro Toaster 2 Scheiben Edelstahl \u2013 Br\u00f6tchenaufsatz, 6 R\u00f6ststufen, Vorheiz- und Auftaufunktion, Abschaltautomatik, Cremefarben, Perfekt f\u00fcr Sandwiches & Toast \u2013 TS-R008",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_A887C12D",
+        "competitor_retailer": "",
+        "competitor_product_name": "Russell Hobbs Toaster [f\u00fcr 2 Scheiben] Inspire Weiss mit hochwertiger Hochglanz-Struktur (extra breite Toastschlitze, inkl. Br\u00f6tchenaufsatz, 6 Br\u00e4unungsstufen + Auftau- & Aufw\u00e4rmfunktion) 24370-56",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_93D3BB7B",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, f\u00fcr 2 Scheiben, Br\u00f6tchenaufsatz aus Edelstahl, Aufw\u00e4rm- & Defrosterfunktion, einstellbarer Br\u00e4unungsgrad, Auto-Abschaltung, 850 W, wei\u00df, AT 4324",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_79D55792",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, f\u00fcr 2 Scheiben, Br\u00f6tchenaufsatz aus Edelstahl, Aufw\u00e4rm- & Defrosterfunktion, einstellbarer Br\u00e4unungsgrad, Auto-Abschaltung, 850 W, wei\u00df, AT 4324",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_7BA19F09",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, Toaster mit Br\u00f6tchenaufsatz, hochwertig, mit Kr\u00fcmelschublade, 700 W Leistung, wei\u00df/schwarz, AT 2286",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_17606170",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Automatik-Toaster, Toastger\u00e4t mit Br\u00f6tchenaufsatz, hochwertig, mit Kr\u00fcmelschublade und 700 W Leistung, schwarz, AT 2287",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CCD19B16",
+        "competitor_retailer": "",
+        "competitor_product_name": "SMEG TSF01CREU Retro-Style Toaster (Beige, 950 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D6F79398",
+        "competitor_retailer": "",
+        "competitor_product_name": "Tristar BR-1009 Toaster, 650 Watt, f\u00fcr 2 Toast-Scheiben 2 kurze Schlitze, 6 Br\u00e4unungsstufen und Aufw\u00e4rmfunktion f\u00fcr Br\u00f6tchen \u2013 Wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CB03D72C",
+        "competitor_retailer": "",
+        "competitor_product_name": "TZS First Austria Doppel Kurzschlitz Toaster, 2 Scheiben, wei\u00df, 750W, 7 Stufen, Warmhalte- und Auftaufunktion, inkl. Kr\u00fcmelschale : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
         "reference": "P_7EF8B2BE",
-        "competitor_retailer": "Amazon AT",
+        "competitor_retailer": "",
         "competitor_product_name": "WMF Bueno Edition Toaster 2 Scheiben Edelstahl, Doppelschlitz Toaster mit Br\u00f6tchenaufsatz, 2 Scheiben, 7 Br\u00e4unungsstufen, 800 W, edelstahl matt",
-        "competitor_url": "https://www.amazon.de/WMF-Doppelschlitz-Br%C3%B6tchenaufsatz-Br%C3%A4unungsstufen-Edelstahl/dp/B00UIAK6D8/ref=sr_1_6?dib=eyJ2IjoiMSJ9.SOYjE7Z1CyNwqIKdgw1_UyHDrCWsonEysg1um3MdwLu0pfmwpD-CS5_Ustf1tD_URvc4IrN9QRqUDohG7AKJ3kXdVNrxNBI0qmZ2TM5dy7VUf3wTXBGAzBfBsqNephpnplqHFWgCnwuhT76zZVKCO8CzO5tUCzNk-smgUpTvZFxEv41DTw4hDHcFQp9sKIs5OwyenvFMEh1whYaARUgq1__YPWRte_FOiOH3aVN03ZU.CLo-mqtpTsPSlJAq1KzG3q9sY1rfwRdCBod7uLEmL1U&dib_tag=se&keywords=Toaster+2-Schlitz+Br%C3%B6tchenaufsatz+Edelstahl+schwarz&qid=1770246657&sr=8-6",
+        "competitor_url": "",
         "competitor_price": null
       },
       {
-        "reference": "P_1AD642B2",
-        "competitor_retailer": "Amazon AT",
-        "competitor_product_name": "WMF Stelio Toaster 2 Scheiben Edelstahl, Doppelschlitz Toaster mit Br\u00f6tchenaufsatz, Bagel-Funktion, 7 Br\u00e4unungsstufen, 900 W, edelstahl matt schwarz",
-        "competitor_url": "https://www.amazon.de/WMF-Doppelschlitz-Br%C3%B6tchenaufsatz-Bagel-Funktion-Br%C3%A4unungsstufen/dp/B0DKG1P38V/ref=sr_1_5?dib=eyJ2IjoiMSJ9.SOYjE7Z1CyNwqIKdgw1_UyHDrCWsonEysg1um3MdwLu0pfmwpD-CS5_Ustf1tD_URvc4IrN9QRqUDohG7AKJ3kXdVNrxNBI0qmZ2TM5dy7VUf3wTXBGAzBfBsqNephpnplqHFWgCnwuhT76zZVKCO8CzO5tUCzNk-smgUpTvZFxEv41DTw4hDHcFQp9sKIs5OwyenvFMEh1whYaARUgq1__YPWRte_FOiOH3aVN03ZU.CLo-mqtpTsPSlJAq1KzG3q9sY1rfwRdCBod7uLEmL1U&dib_tag=se&keywords=Toaster+2-Schlitz+Br%C3%B6tchenaufsatz+Edelstahl+schwarz&qid=1770246657&sr=8-5",
+        "reference": "P_1D2356A4",
+        "competitor_retailer": "",
+        "competitor_product_name": "WMF Bueno Pro Toaster 2 Scheiben, Doppelschlitz Toaster Edelstahl mit Br\u00f6tchenaufsatz, 2 Scheiben, 6 Br\u00e4unungsstufen, 870 W, edelstahl matt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_D436B033",
+        "competitor_retailer": "",
+        "competitor_product_name": "WMF Bueno Toaster (Edelstahl, 800 Watt, Schlitze: 2)",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_D40654BF",
+    "competitors": [
+      {
+        "reference": "P_38ECFF89",
+        "competitor_retailer": "",
+        "competitor_product_name": "Akitas 800W Beutelloser Staubsauger: Starke Saugkraft, Deutscher Wessel-Werk 2-in-1-B\u00fcrstenkopf (Hartb\u00f6den/Teppiche) + Turbo-Haarb\u00fcrste f\u00fcr Haustiere",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_2A3852D9",
+        "competitor_retailer": "",
+        "competitor_product_name": "Amazon Basics Bodenstaubsauger ohne Beutel 1.3L Kompakt Leichtgewicht mit 3-Fach-Aktionsd\u00fcse, HEPA-Filter, 850W, f\u00fcr Teppich und Hartb\u00f6den, Grau",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_AB124C4D",
+        "competitor_retailer": "",
+        "competitor_product_name": "Cecotec Beutelloser Bodenstaubsauger Conga Rocksta Cyclonic Plus. 800W, Gro\u00dfe Kapazit\u00e4t 2L Beh\u00e4lter, HEPA-Filter, Inklusive einstellbarem Teleskopmetallrohr und Zubeh\u00f6r f\u00fcr M\u00f6bel und Ecken",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_CC178206",
+        "competitor_retailer": "",
+        "competitor_product_name": "Cecotec Bodenstaubsauger mit 2 Litern Beutelloser Conga Rockstar Multicyclonic Compact X-Treme. 800 W, Ultraleicht und Kompakt, 20 kPa, Aktionsradius 6,2 m, 2-in-1-Zubeh\u00f6r f\u00fcr M\u00f6bel und Ecken.",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_72388FE4",
+        "competitor_retailer": "",
+        "competitor_product_name": "Monzana\u00ae Staubsauger Beutellos Tierhaare 900 Watt Zyklon 1,5L Staubbeh\u00e4lter Haushalt Bodenstaubsauger inkl. Zubeh\u00f6r Teppich Sauger HEPA Filter Gr\u00fcn",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_943DDCCA",
+        "competitor_retailer": "",
+        "competitor_product_name": "Orbegozo AP 8030 Cyclone Bagless Vacuum Cleaner HEPA Filter 2 Litre Container Electronic Adjustable Power 800W Black and Blue : Orbegozo: Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_69F12F8B",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS PowerPro Compact Staubsauger \u2013 Leicht, Beutellos, 750 W Saugleistung, TriActive D\u00fcse F\u00fcr Hartb\u00f6den und Teppich, Allergy H13 HEPA-Filter, PowerCyclone 5 Technologie (FC9332/09)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_160D4DFF",
+        "competitor_retailer": "",
+        "competitor_product_name": "Staubsauger 1200 Watt, 1,5L Staubsauger Beutellos, Staubsaugers ohne Beutel 15 kPa, Leise, Leistungsstark mit HEPA Filter, kompakt und leicht, f\u00fcr Teppiche, Harte B\u00f6den, Tierhaare (1.5L Blau)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E13CEB37",
+        "competitor_retailer": "",
+        "competitor_product_name": "TZS First Austria Beutelloser Staubsauger | 800W HEPA Filter f\u00fcr Allergiker | 4,8m Kabell\u00e4nge | f\u00fcr Hart- und Teppichb\u00f6den| 2L | lila/grau",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_E167A675",
+    "competitors": [
+      {
+        "reference": "P_635F7C07",
+        "competitor_retailer": "",
+        "competitor_product_name": "AEG Akku-Staubsauger Animal 5000 kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_0DBCC186",
+        "competitor_retailer": "",
+        "competitor_product_name": "AEG Ergorapido 2in1 Akku Staubsauger, Beutellos, inkl. Tierhaard\u00fcse, ETM Testsieger, bis zu 45Min Laufzeit, Freistehend, 180\u00b0 Drehgelenk, B\u00fcrstenreinigungsfunktion, LED-Frontlichter, Rot, CX7-2-45AN",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F85945B5",
+        "competitor_retailer": "",
+        "competitor_product_name": "AEG Ergorapido CX7-2-45AN 2in1 cordless vacuum cleaner (bagless, including animal hair nozzle, up to 45 min. Running time, free-standing, 180 \u00b0 swivel joint, brush cleaning function, LED front lights, red) : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F93E026C",
+        "competitor_retailer": "",
+        "competitor_product_name": "Amazon Basics 2 in 1 Cordless Vacuum Cleaner with DC Motor 150W 0.7L White and Black : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_6028D1AD",
+        "competitor_retailer": "",
+        "competitor_product_name": "Amazon.de: Genius Invictus M7 2 in 1 Akkustaubsauger Handstaubsauger Beutellos mit Tierhaarb\u00fcrste Wishfunktion BLDC Motor Drehgelenk Freistehend (Set 8-TLG.)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_C8EBF344",
+        "competitor_retailer": "",
+        "competitor_product_name": "CLEANMAXX Akku-Staubsauger 2.0 14.8V Blau 9107 online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_89942720",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS XC5041/01 5000 Series Stielsauger (0,27 l, Akkulaufzeit: bis zu 60 Minuten, Salbeigr\u00fcn)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E575C624",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS XC7055/01 Aqua 7000 Series Akku Staubsauger (0,6 l, Akkulaufzeit: 80 Min., Schwarz/Korallenrot)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_900B7262",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS XC8055/01 Aqua Plus 8000 Series Akku Staubsauger (0,6 l, Akkulaufzeit: 80 Min., Dunkelpetrol)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_12E937A3",
+        "competitor_retailer": "",
+        "competitor_product_name": "Samsung Jet 65 PetPRO Akku-Staubsauger, 150 W, Inkl. Tierhaarb\u00fcrste Pet Tool und weiterem Zubeh\u00f6r, Silver, VS15A60BGR5/WD",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_280BC198",
+        "competitor_retailer": "",
+        "competitor_product_name": "SAMSUNG VS15A60AGR5/GE Jet 65 PET Akku Staubsauger (0,8 l, Akkulaufzeit: 40 min., Kotta Schwarz) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_44CB6324",
+        "competitor_retailer": "",
+        "competitor_product_name": "Stanew Battery Vacuum Cleaner, 4-in-1 Cordless Vacuum Cleaner, 150 W Lightweight Handheld Vacuum Cleaner, 22.2 V Battery Vacuum Cleaner, 40 Min Running Time, 800 ml Vacuum Cleaner, Battery Vacuum Cleaner for Carpet, Pet Hair, Car : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_2DF469ED",
+        "competitor_retailer": "",
+        "competitor_product_name": "Vexilar V15Max Akku Staubsauger mit Wischfunktion, 55KPa/ 600W/60Min Staubsauger Kabellos, Knickrohr, Wandladestation, GreenEye, Freistehende Anti-Haar-Bodend\u00fcse, 1,5L-Behlter, f\u00fcr Teppiche Tierhaare",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1CEE0198",
+        "competitor_retailer": "",
+        "competitor_product_name": "Vexilar V15Max Staubsauger mit Wischfunktion, 55KPa/ 600W/60Min Akku Staubsauger, Kabellos, Knickrohr, Green LED, 1,5L-Behlter, Wandladestation, Anti-Tangle, Selbststehend f\u00fcr Hartb\u00f6den Teppiche",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1A98E05D",
+        "competitor_retailer": "",
+        "competitor_product_name": "XIAOMI Vacuum Cleaner G20 Staubsauger Kabellos, 25.000PA / 150AW, mit Zyklon-Technologie, beutellos, leistungsstarker Akkusauger f\u00fcr Tierhaare, Auto, Teppich & Hartboden, bis zu 60min Laufzeit",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_F31A2F91",
+    "competitors": [
+      {
+        "reference": "P_D19C85FA",
+        "competitor_retailer": "",
+        "competitor_product_name": "AdrreyuFny Heizdecke mit Abschaltautomatik 150 x 180cm, W\u00e4rmedecke Elektrisch \u00dcberhitzungsschutz Maschinenwaschbar 6 Temperaturstufen mit Digitaler Fernbedienung Dunkelgrau : Amazon.de: K\u00fcche, Haushalt & Wohnen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_FE03783F",
+        "competitor_retailer": "",
+        "competitor_product_name": "Cosi Home XL heated throw, 180 x 130 cm, extra large electric heating blanket with automatic shut off, washable blanket with digital operation, timer and 9 heat settings : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_757C0CFD",
+        "competitor_retailer": "",
+        "competitor_product_name": "CURECURE Electric Blanket 180 x 130 cm Electric Blanket for Bed with Automatic Shut-Off Overheating Protection Car Timer 10 Hours 4 Temperature Levels Washable Silver Grey : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_6A656933",
+        "competitor_retailer": "",
+        "competitor_product_name": "Electric Blanket with Automatic Shut-Off, 130 x 180 cm, 10 Heat Settings, 1~9 Hours, Auto-Off Timer, Overheating Protection, Electric Heat Blanket, Bed Warmth Blanket, ETL for Home & Office, Quick Flannel Washable Grey : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_B75552D0",
+        "competitor_retailer": "",
+        "competitor_product_name": "sinnlein\u00ae Heizdecke Pl\u00fcsch 200 x 180 cm Grau | elektrische W\u00e4rmedecke mit Abschaltautomatik | Kuscheldecke | Timerfunktion | 9 Temperaturstufen | waschbar bis 40\u00b0C | Digitalanzeige",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_F8105CD7",
+    "competitors": [
+      {
+        "reference": "P_3D02F25C",
+        "competitor_retailer": "",
+        "competitor_product_name": "Aquafloow Universal Fl\u00fcssig-Entkalker f\u00fcr Kaffeevollautomaten 500ml | Kaffeemaschinen Entkalker Fl\u00fcssig | Entkalkung & Reinigung, Universal Reiniger Kaffeevollautomat & F\u00fcr B\u00fcgeleisen & Wasserkocher",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_16874F11",
+        "competitor_retailer": "",
+        "competitor_product_name": "Braun Household Braun Multiquik 3 WK 300 | Wasserkocher mit Automatischer Abschaltung | Schnellkochsystem | 1,7 Liter | Herausnehmbarer Kalkfilter | 2200 Watt | wei\u00df, Einheitsgr\u00f6\u00dfe",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_71821A20",
+        "competitor_retailer": "",
+        "competitor_product_name": "Braun PurShine Wasserkocher WK1500 WH \u2013 Teekocher mit 360\u00b0 Basis, Abschaltautomatik, 1,7 L F\u00fcllmenge, 2200 Watt, Wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_624AE908",
+        "competitor_retailer": "",
+        "competitor_product_name": "Clatronic\u00ae Wasserkocher | Kettle | 1,7 L mit automatischer & manueller Abschaltung | herausnehmbarer Kalkfilter | max. 2200Watt | WK 3819 wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E7F3665D",
+        "competitor_retailer": "",
+        "competitor_product_name": "Clatronic\u00ae Wasserkocher | Kettle | 1,7 L mit automatischer & manueller Abschaltung | herausnehmbarer Kalkfilter | max. 2200Watt | WK 3819 wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_201046B6",
+        "competitor_retailer": "",
+        "competitor_product_name": "EMERIO Wasserkocher BASIC | Kunststoff BPA frei | 1.7L Volumen mit beleuchtetem Ein-/Aus-Schalter | kabellos | Auto Off | \u00dcberhitzungsschutz | herausnehmbarer Kalkfilter | 2200 Watt | WK-123483.1",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F10C54F0",
+        "competitor_retailer": "",
+        "competitor_product_name": "EMERIO WK-119988 Wasserkocher (Silber, 1.7 l, 2200 Watt)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_3F13595F",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips Wasserkocher \u2013 1.7 L Fassungsverm\u00f6gen mit Kontrollanzeige, Pirouettenbasis, wei\u00df (HD9318/00)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_94D8369D",
+        "competitor_retailer": "",
+        "competitor_product_name": "Philips Wasserkocher \u2013 1.7 L Fassungsverm\u00f6gen mit Kontrollanzeige, Pirouettenbasis, wei\u00df (HD9318/00)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_01D89879",
+        "competitor_retailer": "",
+        "competitor_product_name": "SEVERIN Wasserkocher, 1,7 L Kapazit\u00e4t, mit herausnehmbarem Kalkfilter, Wasserstandsanzeige, Ein-Aus-Taste & Kontrollleuchte, 2.200 W, wei\u00df, WK 4325",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_A21333EC",
+        "competitor_retailer": "",
+        "competitor_product_name": "Swan Nordic Ultra Schneller elektrischer Wasserkocher, kabellos, modernes Design, 1,7 l, 2200 W, Griff in Holzoptik, automatische Abschaltung, Wei\u00df",
+        "competitor_url": "",
+        "competitor_price": null
+      }
+    ]
+  },
+  {
+    "source_reference": "P_FA23D317",
+    "competitors": [
+      {
+        "reference": "P_635F7C07",
+        "competitor_retailer": "",
+        "competitor_product_name": "AEG Akku-Staubsauger Animal 5000 kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_0DBCC186",
+        "competitor_retailer": "",
+        "competitor_product_name": "AEG Ergorapido 2in1 Akku Staubsauger, Beutellos, inkl. Tierhaard\u00fcse, ETM Testsieger, bis zu 45Min Laufzeit, Freistehend, 180\u00b0 Drehgelenk, B\u00fcrstenreinigungsfunktion, LED-Frontlichter, Rot, CX7-2-45AN",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F85945B5",
+        "competitor_retailer": "",
+        "competitor_product_name": "AEG Ergorapido CX7-2-45AN 2in1 cordless vacuum cleaner (bagless, including animal hair nozzle, up to 45 min. Running time, free-standing, 180 \u00b0 swivel joint, brush cleaning function, LED front lights, red) : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_F93E026C",
+        "competitor_retailer": "",
+        "competitor_product_name": "Amazon Basics 2 in 1 Cordless Vacuum Cleaner with DC Motor 150W 0.7L White and Black : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_6028D1AD",
+        "competitor_retailer": "",
+        "competitor_product_name": "Amazon.de: Genius Invictus M7 2 in 1 Akkustaubsauger Handstaubsauger Beutellos mit Tierhaarb\u00fcrste Wishfunktion BLDC Motor Drehgelenk Freistehend (Set 8-TLG.)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_C8EBF344",
+        "competitor_retailer": "",
+        "competitor_product_name": "CLEANMAXX Akku-Staubsauger 2.0 14.8V Blau 9107 online kaufen | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_89942720",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS XC5041/01 5000 Series Stielsauger (0,27 l, Akkulaufzeit: bis zu 60 Minuten, Salbeigr\u00fcn)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_E575C624",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS XC7055/01 Aqua 7000 Series Akku Staubsauger (0,6 l, Akkulaufzeit: 80 Min., Schwarz/Korallenrot)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_900B7262",
+        "competitor_retailer": "",
+        "competitor_product_name": "PHILIPS XC8055/01 Aqua Plus 8000 Series Akku Staubsauger (0,6 l, Akkulaufzeit: 80 Min., Dunkelpetrol)",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_12E937A3",
+        "competitor_retailer": "",
+        "competitor_product_name": "Samsung Jet 65 PetPRO Akku-Staubsauger, 150 W, Inkl. Tierhaarb\u00fcrste Pet Tool und weiterem Zubeh\u00f6r, Silver, VS15A60BGR5/WD",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_280BC198",
+        "competitor_retailer": "",
+        "competitor_product_name": "SAMSUNG VS15A60AGR5/GE Jet 65 PET Akku Staubsauger (0,8 l, Akkulaufzeit: 40 min., Kotta Schwarz) | MediaMarkt",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_44CB6324",
+        "competitor_retailer": "",
+        "competitor_product_name": "Stanew Battery Vacuum Cleaner, 4-in-1 Cordless Vacuum Cleaner, 150 W Lightweight Handheld Vacuum Cleaner, 22.2 V Battery Vacuum Cleaner, 40 Min Running Time, 800 ml Vacuum Cleaner, Battery Vacuum Cleaner for Carpet, Pet Hair, Car : Amazon.de: Home & Kitchen",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_2DF469ED",
+        "competitor_retailer": "",
+        "competitor_product_name": "Vexilar V15Max Akku Staubsauger mit Wischfunktion, 55KPa/ 600W/60Min Staubsauger Kabellos, Knickrohr, Wandladestation, GreenEye, Freistehende Anti-Haar-Bodend\u00fcse, 1,5L-Behlter, f\u00fcr Teppiche Tierhaare",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1CEE0198",
+        "competitor_retailer": "",
+        "competitor_product_name": "Vexilar V15Max Staubsauger mit Wischfunktion, 55KPa/ 600W/60Min Akku Staubsauger, Kabellos, Knickrohr, Green LED, 1,5L-Behlter, Wandladestation, Anti-Tangle, Selbststehend f\u00fcr Hartb\u00f6den Teppiche",
+        "competitor_url": "",
+        "competitor_price": null
+      },
+      {
+        "reference": "P_1A98E05D",
+        "competitor_retailer": "",
+        "competitor_product_name": "XIAOMI Vacuum Cleaner G20 Staubsauger Kabellos, 25.000PA / 150AW, mit Zyklon-Technologie, beutellos, leistungsstarker Akkusauger f\u00fcr Tierhaare, Auto, Teppich & Hartboden, bis zu 60min Laufzeit",
+        "competitor_url": "",
         "competitor_price": null
       }
     ]

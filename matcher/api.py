@@ -257,6 +257,30 @@ def search(
         conn.close()
 
 
+@app.get("/api/matches/all")
+def get_all_matches():
+    """Return all existing matches from DB without re-running the pipeline."""
+    conn = _get_db()
+    try:
+        sources = get_all_sources(conn)
+        result = []
+        for s in sources:
+            matches = get_matches_for_source(conn, s["reference"])
+            s["specifications"] = json.loads(s.get("specifications", "{}"))
+            result.append({
+                "source": s,
+                "matches": matches,
+            })
+        return {
+            "total_sources": len(sources),
+            "total_matched": sum(1 for r in result if r["matches"]),
+            "total_matches": sum(len(r["matches"]) for r in result),
+            "results": result,
+        }
+    finally:
+        conn.close()
+
+
 @app.get("/api/matches/{source_reference}")
 def get_matches(source_reference: str):
     conn = _get_db()
@@ -393,18 +417,48 @@ When the user asks about products, you receive search results as context. Use th
 Be concise and format product info clearly. Use markdown for formatting.
 
 Available data:
-- Brands: Samsung, LG, Sharp, TCL, CHIQ, PEAQ, Xiaomi, Sony, Philips, Hisense, Sonos, JBL, Bose
-- Retailers: Amazon AT, MediaMarkt AT
-- Category: TV & Audio (TVs, soundbars, audio cables)
+- Categories: TV & Audio, Small Appliances
+- TV brands: Samsung, LG, Sharp, TCL, CHIQ, PEAQ, Xiaomi, Sony, Philips, Hisense, Sonos, JBL, Bose
+- Appliance brands: Tefal, Beurer, WMF, Braun, Oral-B, Clatronic, SEVERIN, Rommelsbacher, SILVA, Kenwood, REMINGTON, KOENIC, GASTROBACK, JONR, Mova
+- Retailers: Amazon AT, MediaMarkt AT (visible); Expert AT, electronic4you.at, Cyberport AT, E-Tec AT (scraped)
 
 Respond in the same language the user writes in (German or English)."""
 
 
+_STOP_WORDS = {"find", "show", "search", "list", "get", "me", "all", "the", "a",
+                "an", "in", "for", "of", "with", "and", "or", "is", "are", "my",
+                "what", "which", "where", "how", "can", "do", "does", "please",
+                "i", "want", "need", "looking", "any", "some", "about",
+                "small", "appliances", "appliance", "products", "product",
+                "category", "categories", "audio", "tv"}
+
+
+def _stem_word(word: str) -> str:
+    """Basic stemming: strip common English/German suffixes for search."""
+    w = word.lower()
+    for suffix in ["ers", "ies", "es", "en", "er", "s"]:
+        if w.endswith(suffix) and len(w) > len(suffix) + 2:
+            return w[:-len(suffix)]
+    return w
+
+
 def _chat_search(query: str) -> str:
     """Search the DB and format results for the chat context."""
+    # Strip stop words and stem remaining words
+    words = query.split()
+    filtered = [_stem_word(w) for w in words if w.lower() not in _STOP_WORDS]
+    search_query = " ".join(filtered) if filtered else query
+
     conn = _get_db()
     try:
-        results = search_products(conn, query, limit=10)
+        # Try full query, then progressively fewer terms until we find results
+        search_words = search_query.split()
+        results = search_products(conn, search_query, limit=10)
+        if not results and len(search_words) > 1:
+            for n in range(len(search_words) - 1, 0, -1):
+                results = search_products(conn, " ".join(search_words[:n]), limit=10)
+                if results:
+                    break
         if not results:
             return f"No products found for '{query}'."
 
@@ -840,30 +894,6 @@ def dashboard():
             "confidence_distribution": confidence_dist,
             "retailers": stats.get("retailers", []),
             "recent_runs": recent_runs,
-        }
-    finally:
-        conn.close()
-
-
-@app.get("/api/matches/all")
-def get_all_matches():
-    """Return all existing matches from DB without re-running the pipeline."""
-    conn = _get_db()
-    try:
-        sources = get_all_sources(conn)
-        result = []
-        for s in sources:
-            matches = get_matches_for_source(conn, s["reference"])
-            s["specifications"] = json.loads(s.get("specifications", "{}"))
-            result.append({
-                "source": s,
-                "matches": matches,
-            })
-        return {
-            "total_sources": len(sources),
-            "total_matched": sum(1 for r in result if r["matches"]),
-            "total_matches": sum(len(r["matches"]) for r in result),
-            "results": result,
         }
     finally:
         conn.close()
