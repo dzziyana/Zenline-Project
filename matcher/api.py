@@ -14,6 +14,7 @@ import os
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from .db import (
@@ -52,9 +53,21 @@ def _get_db():
     return conn
 
 
+_WEBAPP_DIST = Path(__file__).parent.parent / "webapp" / "frontend" / "dist"
+
+
+@app.get("/chat", response_class=HTMLResponse)
+def chat_ui():
+    """Serve the product matcher chat UI."""
+    return _CHAT_HTML
+
+
 @app.get("/", response_class=HTMLResponse)
 def ui():
-    """Serve the product matcher chat UI."""
+    """Serve the React frontend if built, otherwise the chat UI."""
+    index = _WEBAPP_DIST / "index.html"
+    if index.exists():
+        return index.read_text()
     return _CHAT_HTML
 
 
@@ -470,6 +483,130 @@ def matches_by_brand(brand: str):
         conn.close()
 
 
+# ---------------------------------------------------------------------------
+# Compatibility endpoints for Diana's React frontend (webapp/frontend)
+# ---------------------------------------------------------------------------
+
+@app.get("/api/categories")
+def list_categories():
+    """List available categories (derived from data files)."""
+    data_dir = Path("data")
+    categories = set()
+    for f in data_dir.glob("source_products_*.json"):
+        # source_products_tv_audio.json -> "tv_audio"
+        name = f.stem.replace("source_products_", "")
+        categories.add(name)
+    return {"categories": sorted(categories)}
+
+
+@app.get("/api/products/source/{category}")
+def get_source_products(category: str):
+    """Get source products for a category (for Diana's frontend)."""
+    from .models import Product
+    data_dir = Path("data")
+    path = data_dir / f"source_products_{category}.json"
+    if not path.exists():
+        return JSONResponse(status_code=404, content={"error": f"No source data for category: {category}"})
+    with open(path) as f:
+        data = json.load(f)
+    products = []
+    for d in data:
+        p = Product.from_dict(d)
+        products.append({
+            "reference": p.reference,
+            "name": p.name,
+            "brand": p.brand,
+            "ean": p.ean,
+            "category": p.category,
+            "price": p.price_eur,
+        })
+    return {"products": products}
+
+
+@app.get("/api/products/target/{category}")
+def get_target_products(category: str):
+    """Get target products for a category (for Diana's frontend)."""
+    from .models import Product
+    data_dir = Path("data")
+    path = data_dir / f"target_products_{category}.json"
+    if not path.exists():
+        return JSONResponse(status_code=404, content={"error": f"No target data for category: {category}"})
+    with open(path) as f:
+        data = json.load(f)
+    products = []
+    for d in data:
+        p = Product.from_dict(d)
+        products.append({
+            "reference": p.reference,
+            "name": p.name,
+            "brand": p.brand,
+            "ean": p.ean,
+            "retailer": p.retailer,
+            "url": p.url,
+            "price": p.price_eur,
+            "category": p.category,
+        })
+    return {"products": products}
+
+
+@app.post("/api/match/{category}")
+def run_match_for_category(
+    category: str,
+    useLlm: bool = Query(False),
+    fuzzyThreshold: float = Query(75.0),
+):
+    """Run matching for a category and return results in frontend format."""
+    from .pipeline import load_products, run_matching
+    from .db import insert_products, insert_matches, log_pipeline_run
+
+    data_dir = Path("data")
+    source_path = data_dir / f"source_products_{category}.json"
+    target_path = data_dir / f"target_products_{category}.json"
+
+    if not source_path.exists() or not target_path.exists():
+        return JSONResponse(status_code=404, content={"error": f"Data not found for category: {category}"})
+
+    sources = load_products(source_path)
+    targets = load_products(target_path)
+    matches = run_matching(sources, targets, do_scrape=False)
+
+    conn = _get_db()
+    try:
+        insert_products(conn, targets, is_source=False)
+        insert_products(conn, sources, is_source=True)
+        insert_matches(conn, matches)
+        log_pipeline_run(conn, category, len(sources), len(targets), matches)
+    finally:
+        conn.close()
+
+    # Build submission format with confidence and match_method for frontend
+    by_source: dict[str, list] = {}
+    for m in matches:
+        by_source.setdefault(m.source_reference, []).append({
+            "reference": m.target_reference,
+            "competitor_retailer": m.target_retailer,
+            "competitor_product_name": m.target_name,
+            "competitor_url": m.target_url,
+            "competitor_price": m.target_price,
+            "confidence": m.confidence,
+            "match_method": m.method,
+        })
+
+    submissions = []
+    for s in sources:
+        submissions.append({
+            "source_reference": s.reference,
+            "competitors": by_source.get(s.reference, []),
+        })
+
+    return {
+        "category": category,
+        "total_sources": len(sources),
+        "total_matches": len(matches),
+        "submissions": submissions,
+    }
+
+
 @app.get("/api/scrape-results")
 def get_scrape_results(source_reference: str | None = Query(None)):
     """View raw scrape results, optionally filtered by source."""
@@ -620,3 +757,7 @@ loadSidebar();
 </script>
 </body>
 </html>"""
+
+# Mount React frontend static assets (must be after all API routes)
+if _WEBAPP_DIST.exists():
+    app.mount("/assets", StaticFiles(directory=str(_WEBAPP_DIST / "assets")), name="static")
