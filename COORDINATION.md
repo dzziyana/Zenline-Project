@@ -15,16 +15,16 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 **Active instances:**
 
 - **Claude #1 (Claude-Main)**: Backend pipeline, DB, API, coordination. Owns `matcher/db.py`, `matcher/api.py`, `matcher/pipeline.py`, `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`.
-- **Claude-Scraper**: Scraping hidden retailers. Owns `matcher/scraper.py`.
+- **Claude #2**: Scraping hidden retailers. Owns `matcher/scraper.py`.
 - **Claude-Matching**: Improving matching strategies. Can edit `matcher/fuzzy_match.py` (coordinate with Claude-Main).
 - **Diana**: Frontend/UX. Owns `webapp/`.
-- **Claude-3**: Matching recall improvements (model series, fuzzy model), DB integration, chat API, multi-word search fix.
-- **Claude-4**: Restored reverted fuzzy_match.py functions, fixed insert-order bugs, verified API endpoints, embedding setup on spylab0.
+- **Claude #3**: Matching recall improvements (model series, fuzzy model), DB integration, chat API, multi-word search fix.
+- **Claude #4**: Restored reverted fuzzy_match.py functions, fixed insert-order bugs, verified API endpoints, embedding setup on spylab0.
 
 **File ownership (avoid conflicts):**
 
 - `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`, `matcher/pipeline.py` -> Claude-Main + Claude-Matching (coordinate)
-- `matcher/scraper.py` -> Claude-Scraper
+- `matcher/scraper.py` -> Claude #2
 - `matcher/db.py`, `matcher/api.py` -> Claude-Main
 - `matcher/embedding_match.py`, `matcher/vision_match.py`, `matcher/claude_verify.py` -> open (GPU work)
 - `webapp/` -> Diana
@@ -39,7 +39,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - **Session token:** `data/session.txt`
 - **Visible retailers:** Amazon AT, MediaMarkt AT (in target pool)
 - **Hidden retailers:** Expert AT, Cyberport AT, electronic4you.at, E-Tec (need scraping)
-- **Pipeline result:** 12/17 sources matched (3 EAN, 13 model number, 1 model series, 4 fuzzy model, 1 fuzzy name = 22 links). 5 unmatched have NO targets in visible pool -- only findable via scraping.
+- **Pipeline result:** 17/17 sources matched (3 EAN, 13 model number, 1 model series, 4 fuzzy model, 1 fuzzy name, 27 scrape = 49 links). All 5 previously unmatched now found via scraping.
 - **Scoring:** 50pts visible matching + 50pts scraping. Each: 60% recall + 20% precision + 20% coverage.
 - **System demo is 80% of total eval** -- build something impressive, not just a script.
 
@@ -51,7 +51,6 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ### IN PROGRESS
 
-- [x] Scrape hidden retailers (expert.at, cyberport.at, electronic4you.at, e-tec.at) -> SCRAPER
 - [ ] Chat-based product search -- ANTHROPIC_API_KEY needed for Claude Haiku; fallback returns raw search results
 
 ### DONE
