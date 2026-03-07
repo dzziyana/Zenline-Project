@@ -792,6 +792,48 @@ def pipeline_history():
         conn.close()
 
 
+@app.post("/api/scrape/{reference}")
+def scrape_single_product(reference: str):
+    """Scrape hidden retailers for a single product on-demand. Great for live demos."""
+    from .scraper import scrape_product
+    from .fuzzy_match import verify_scraped_match
+    from .models import Product
+
+    conn = _get_db()
+    try:
+        product = get_product(conn, reference)
+        if not product:
+            return JSONResponse(status_code=404, content={"error": "Product not found"})
+        if not product.get("is_source"):
+            return JSONResponse(status_code=400, content={"error": "Can only scrape for source products"})
+
+        src = Product.from_dict(product)
+        raw_results = scrape_product(src)
+
+        # Score each result
+        scored = []
+        for r in raw_results:
+            score = verify_scraped_match(src, r["name"])
+            scored.append({
+                **r,
+                "verification_score": round(score, 3),
+                "verified": score >= 0.6,
+            })
+
+        scored.sort(key=lambda x: x["verification_score"], reverse=True)
+
+        return {
+            "reference": reference,
+            "product_name": src.name,
+            "total_results": len(scored),
+            "verified_count": sum(1 for s in scored if s["verified"]),
+            "retailers_found": list({r["retailer"] for r in scored}),
+            "results": scored,
+        }
+    finally:
+        conn.close()
+
+
 @app.get("/api/scrape-results")
 def get_scrape_results(source_reference: str | None = Query(None)):
     """View raw scrape results, optionally filtered by source."""
