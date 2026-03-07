@@ -1515,7 +1515,12 @@ def compare_products(ref1: str, ref2: str):
         conn.close()
 
 
-# SPA catch-all: serve index.html for client-side routes (must be after all API routes)
+# Mount React frontend static assets BEFORE the catch-all route
+if _WEBAPP_DIST.exists():
+    app.mount("/assets", StaticFiles(directory=str(_WEBAPP_DIST / "assets")), name="static")
+
+
+# SPA catch-all: serve index.html for client-side routes (must be LAST)
 @app.get("/{full_path:path}", response_class=HTMLResponse)
 def spa_fallback(full_path: str):
     """Serve React index.html for all non-API paths (SPA client-side routing)."""
@@ -1525,8 +1530,3 @@ def spa_fallback(full_path: str):
     if index.exists():
         return index.read_text()
     return _CHAT_HTML
-
-
-# Mount React frontend static assets (must be after all API routes)
-if _WEBAPP_DIST.exists():
-    app.mount("/assets", StaticFiles(directory=str(_WEBAPP_DIST / "assets")), name="static")
