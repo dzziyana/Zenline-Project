@@ -1448,6 +1448,45 @@ a {
   margin-bottom: 4px;
 }
 
+/* -- Price outlier badge on product cards -- */
+
+.product-card--outlier {
+  border-color: rgba(196, 144, 61, 0.35) !important;
+}
+
+.product-outlier-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  z-index: 2;
+  letter-spacing: 0.01em;
+}
+
+.product-outlier-badge.overpriced {
+  background: rgba(220, 80, 60, 0.92);
+  color: #fff;
+  border: 1px solid rgba(220, 80, 60, 0.95);
+}
+
+.product-outlier-badge.underpriced {
+  background: rgba(70, 120, 75, 0.9);
+  color: #fff;
+  border: 1px solid rgba(70, 120, 75, 0.95);
+}
+
+.product-outlier-label {
+  font-weight: 500;
+  font-size: 0.62rem;
+  opacity: 0.9;
+}
+
 .product-card {
   position: relative;
 }
