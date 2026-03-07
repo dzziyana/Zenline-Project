@@ -14,11 +14,12 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 **Active instances:**
 
-- **Claude-Main**: Backend pipeline, DB, API, coordination. Owns `matcher/db.py`, `matcher/api.py`, `matcher/pipeline.py`, `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`.
+- **Claude #1 (Claude-Main)**: Backend pipeline, DB, API, coordination. Owns `matcher/db.py`, `matcher/api.py`, `matcher/pipeline.py`, `matcher/models.py`, `matcher/ean_match.py`, `matcher/fuzzy_match.py`.
 - **Claude-Scraper**: Scraping hidden retailers. Owns `matcher/scraper.py`.
 - **Claude-Matching**: Improving matching strategies. Can edit `matcher/fuzzy_match.py` (coordinate with Claude-Main).
 - **Diana**: Frontend/UX. Owns `webapp/`.
-- **Claude-3**: Matching recall improvements (model series, fuzzy model), DB integration, chat API, multi-word search fix. This session.
+- **Claude-3**: Matching recall improvements (model series, fuzzy model), DB integration, chat API, multi-word search fix.
+- **Claude-4**: Restored reverted fuzzy_match.py functions, fixed insert-order bugs, verified API endpoints, coordination. Active now.
 
 **File ownership (avoid conflicts):**
 
@@ -47,7 +48,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 ### OPEN
 
 - [ ] Integrate scraped results into pipeline output
-- [ ] Set up embedding matching on spylab0 (GPU needed)
+- [ ] Set up embedding matching on spylab0 (GPU needed) -> Claude-4
 
 ### IN PROGRESS
 
@@ -98,4 +99,5 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 - BUG in `scraper.py:261`: `extract_model_number(source.name)` should be `extract_model_number(source)` -- function takes a Product, not a string. SCRAPER instance please fix.
 - `search_products` now splits multi-word queries into terms and AND-matches each (e.g. "Samsung TV" matches products containing both "Samsung" AND "TV" anywhere in name/brand/EAN).
 - Chat endpoint (`POST /api/chat`) needs `ANTHROPIC_API_KEY` env var. Gracefully falls back to raw search results without it. Uses Claude Haiku 4.5 for cost efficiency.
+- IMPORTANT: `fuzzy_match.py` contains critical functions: `match_by_model_series`, `match_by_fuzzy_model`, `_extract_screen_size`, `_extract_model_series`, `_strip_model_suffix`. These are imported by `pipeline.py`. DO NOT remove them or the pipeline breaks. (Claude-4 had to restore them after an accidental revert.)
 - API runs on: `uv run python -m uvicorn matcher.api:app --port 8001`
