@@ -321,12 +321,19 @@ def _build_search_queries(source: Product) -> list[str]:
     queries.extend(eans)
 
     # Model number
-    from .fuzzy_match import extract_model_number
+    from .fuzzy_match import extract_model_number, _extract_short_model_codes
     model = extract_model_number(source)
     if model and source.brand:
         queries.append(f"{source.brand} {model}")
     elif model:
         queries.append(model)
+
+    # Short model codes (e.g. "EK 3163", "VAC 585") as brand+code queries
+    short_codes = _extract_short_model_codes(source.name)
+    for code in short_codes:
+        query = f"{source.brand} {code}" if source.brand else code
+        if query not in queries:
+            queries.append(query)
 
     # Shortened product name (first ~60 chars, remove noise)
     name = source.name
@@ -346,7 +353,7 @@ def _is_relevant(source: Product, result: dict) -> bool:
 
     Filters out obviously wrong results (e.g. a phone when searching for a TV).
     """
-    from .fuzzy_match import extract_model_number
+    from .fuzzy_match import extract_model_number, _extract_short_model_codes
 
     src_model = extract_model_number(source)
     result_name = result['name'].upper()
@@ -354,6 +361,12 @@ def _is_relevant(source: Product, result: dict) -> bool:
     # If the source model number appears in the result, it's relevant
     if src_model and src_model.upper() in result_name:
         return True
+
+    # Check short model codes in result name
+    src_codes = _extract_short_model_codes(source.name)
+    for code in src_codes:
+        if code in result_name or code.replace(" ", "") in result_name:
+            return True
 
     # If brand matches, check that result is the same product category and size
     if source.brand and source.brand.upper() in result_name:
@@ -364,7 +377,6 @@ def _is_relevant(source: Product, result: dict) -> bool:
             diag = source.specifications.get('Bildschirmdiagonale (cm/Zoll)', '')
             src_size_m = re.search(r'(\d{2,3})\s*Zoll', diag)
         result_size_m = re.search(r'(\d{2,3})\s*(?:Zoll|"|\'\'|\\\"|cm)', result['name'], re.IGNORECASE)
-        # Also try to extract size from patterns like "LED-TV 98\" or "65\"
         if not result_size_m:
             result_size_m = re.search(r'(\d{2,3})[\\\"]', result['name'])
 
@@ -373,23 +385,26 @@ def _is_relevant(source: Product, result: dict) -> bool:
 
         if src_size_m:
             src_size = int(src_size_m.group(1))
-            # Source is a TV - result should also be a TV
             tv_keywords = ['TV', 'LED', 'QLED', 'OLED', 'LCD', 'FERNSEHER', 'SMART TV', 'UHD', 'FULL HD']
             is_tv_result = is_tv_url or any(kw in result_name for kw in tv_keywords)
             if not is_tv_result:
                 return False
-            # If result has a size, it should be close to source size
             if result_size_m:
                 result_size = int(result_size_m.group(1))
-                # Allow some tolerance (e.g. 32 vs 32, but not 32 vs 98)
                 if abs(src_size - result_size) > 5:
                     return False
             return True
-        # Non-TV source - just check brand match is sufficient
+        # Non-TV: brand matches but no model code found — still allow through
+        # (verification will filter out false positives)
         return True
 
-    # No brand or model match - not relevant
-    return False
+    # No brand or model match in name - still allow through for non-TV products
+    # since the pipeline's verify_scraped_match (threshold 0.6) handles precision.
+    # For TV products, require brand or model match to avoid phones/tablets.
+    src_size_m = re.search(r'(\d{2,3})\s*(?:Zoll|"|\'\')', source.name, re.IGNORECASE)
+    if src_size_m:
+        return False
+    return True
 
 
 def scrape_product(source: Product) -> list[dict]:
