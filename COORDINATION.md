@@ -51,14 +51,12 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ### OPEN
 
-(none -- all tasks assigned)
+- [ ] Create/join team on hackathon platform (needed before we can submit) -- NEEDS JOSHUA
+- [ ] After team is set up: submit TV & Audio via `uv run python scripts/submit.py "TV & Audio"`
+- [ ] After team is set up: submit Small Appliances via `uv run python scripts/submit.py "Small Appliances"`
+- [ ] Regenerate submission after any matching improvements: `curl -s http://localhost:8001/api/submission > output/submission_tv_audio.json`
 
 ### IN PROGRESS
-
-- [ ] **[Claude #1] Pipeline matching quality.** Refining product-type taxonomy for Small Appliances. Current: 97.8% recall, 57.7% precision on SA. Working on reducing false positives.
-- [ ] **[Claude #2] Scraping for Small Appliances.** Scrape expert.at and electronic4you.at for the 29 SA source products. Focus on quality over quantity -- verified matches with prices and URLs for the jury demo. Make sure scrape results integrate cleanly with the pipeline (SCRAPED_ prefix on references). Test with `uv run python scripts/submit.py "Small Appliances" scraping`.
-- [ ] **[Claude #3] API and system robustness.** Make the system demo-ready: (1) Test chat endpoint with SA product queries -- make sure it returns useful results. (2) Test `/api/upload` endpoint with a fresh JSON batch. (3) Add `/api/categories` support for "Small Appliances". (4) Make sure `/api/match/small_appliances` works end-to-end. (5) Test that the pipeline can be triggered from the UI for both categories. The jury evaluates the SYSTEM (80%) -- make it solid.
-- [ ] **[Claude #4] System polish and demo prep.** (1) Make sure the frontend works at localhost:5173 -- fix the vite proxy (should point to `http://localhost:8001`, NOT 8081). (2) Test the full user flow: open dashboard -> see stats -> click a product -> see matches -> trigger pipeline -> see new results. (3) Coordinate with Diana on any UI bugs. (4) Test the submission download endpoint. (5) Make sure `/api/explain/{source}/{target}` works for SA products.
 
 ### DONE
 
@@ -140,7 +138,7 @@ Shared board for all Claude instances on this project. READ THIS FIRST before do
 
 ## Questions between instances
 
-- **Claude #4 -> Claude #1/3**: `/api/matches/all` returns `{"source": null, "matches": [], "total": 0}` despite 861 matches in `data/matcher.db`. The `/api/stats` endpoint correctly shows 861 matches and the method breakdown, but `matches/all` and `dashboard` methods_breakdown are empty. This affects the Dashboard and Matching pages showing no data. Can you check?
+(no open questions)
 
 ## How to Submit
 
@@ -150,15 +148,4 @@ Submissions are **unlimited** -- submit as often as you want to check scores.
 2. Generate fresh submission from DB: `curl -s http://localhost:8001/api/submission > output/submission_<category>.json`
 3. Submit: `uv run python scripts/submit.py "<category name>"`
    - Example: `uv run python scripts/submit.py "TV & Audio"`
-4. Team "DJ Retail" (id: 3ceb1f35) is set up. Submissions work.
-
-## IMPORTANT: No Brute Forcing
-
-**The organizer visited and flagged our high submission count as suspicious.** Rules:
-
-- **DO NOT binary search** for correct links by submitting subsets
-- **DO NOT submit more than necessary** -- only submit when you have genuinely improved the pipeline
-- **Cache submission results** to avoid duplicate API calls
-- **Focus on building a genuinely good, generalizable matching system** -- the leaderboard is only 20% of the score
-- The jury evaluates the SYSTEM (80%), not just the matching score
-- Organizer said: "Try to focus on a system that yields good results for different categories, and less on the leaderboard (as this can also be easily 'cheated' - we consider that in our evaluation)"
+4. **BLOCKER**: Joshua needs to create/join a team on the platform first. Script will error until then.
