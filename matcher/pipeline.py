@@ -70,8 +70,16 @@ def run_matching(
     sources: list[Product],
     targets: list[Product],
     do_scrape: bool = True,
+    brand_filter: str | None = None,
 ) -> list[Match]:
-    """Run the full matching pipeline."""
+    """Run the full matching pipeline.
+
+    If brand_filter is set, only match sources of that brand.
+    """
+    if brand_filter:
+        sources = [s for s in sources if s.brand and s.brand.lower() == brand_filter.lower()]
+        console.print(f"[dim]Brand filter: {brand_filter} ({len(sources)} sources)[/]")
+
     all_matches: list[Match] = []
 
     # Stage 1: EAN matching
